@@ -129,11 +129,10 @@ export const styles = StyleSheet.create({
         borderTopColor: 'white'
     },
     info_container: {
-        position: 'absolute',
         height: 100,
         width: width * 4/5,
         left: width/10,
-        bottom: 50,
+        marginTop: 20,
         backgroundColor: 'rgba(241,241,241,0.8)',
         borderRadius: 20,
         padding: 20,
@@ -143,7 +142,6 @@ export const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 10,
-
     },
     info_info:{
         flex:1,
@@ -153,10 +151,100 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '700',
         color: Colors.dark,
+        marginBottom: 5,
     },
     info_info_desc: {
         fontSize: 14,
         fontWeight: '700',
         color: Colors.text
     },
+
+    info_analytics:{
+        width: width * 4/5,
+        left: width/10,
+        marginTop: 30,
+    },
+    info_analytics_item:{
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection:'row',
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    info_analytics_item_type:{
+        fontWeight: '700',
+        color: Colors.darker,
+        marginLeft: 10
+    },
+    info_analytics_item_figure:{
+        fontWeight: '700',
+        color: Colors.text,
+        opacity:0.6
+    },
+    info_analytics_protein_per:{
+        flex:2,
+        height: 5,
+        backgroundColor: "#9EB386",
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4,
+    },
+    info_analytics_carbs_per:{
+        flex:0.5,
+        height: 5,
+        backgroundColor: "#F4E3A9"
+    },
+    info_analytics_fat_per:{
+        flex:1,
+        height: 5,
+        backgroundColor:  "#F0A2A3",
+        borderTopRightRadius: 4,
+        borderBottomRightRadius: 4,
+    },
+    info_analytics_item_left:{
+        display:'flex',
+        flexDirection:  'row'
+    },
+    info_analytics_item_color_protein:{
+        alignItems: 'center',
+        width: 20,
+        height: 20,
+        backgroundColor: "#9EB386",
+        borderRadius: 4,
+    },
+    info_analytics_item_color_carbs:{
+        alignItems: 'center',
+        width: 20,
+        height: 20,
+        backgroundColor: "#F4E3A9",
+        borderRadius: 4,
+    },
+    info_analytics_item_color_fat:{
+        alignItems: 'center',
+        width: 20,
+        height: 20,
+        backgroundColor: "#F0A2A3",
+        borderRadius: 4,
+    },
+    info_search_container:{
+        marginTop: 20,
+        height: 100,
+        width: width * 4/5,
+        left: width/10,
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        borderRadius: 20,
+        padding: 20,
+        flexDirection:'row'
+    },
+    image_sorry:{
+        width: width*4/5,
+        height: width*4/5,
+        left: width/10,
+        top: 20,
+    },
+    text_sorry:{
+        textAlign:'center',
+        marginTop: 25,
+        fontSize: 25,
+        fontWeight:'700'
+    }
 });

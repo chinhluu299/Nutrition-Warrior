@@ -6,6 +6,7 @@ import SplashScreen from './screens/splashscreen';
 import * as Font from 'expo-font';
 import MyAnalyticsScreen from './screens/myanalyticscreen';
 import HomeScreen from './screens/homescreen';
+import SurveyScreen from './screens/surveyscreen';
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
       {/* <ScanScreen /> */}
       {/* <SplashScreen/> */}
       {/* <MyAnalyticsScreen/> */}
-      <HomeScreen/>
+      {/* <HomeScreen/> */}
+      <SurveyScreen/>
     </View>
   );
 }
