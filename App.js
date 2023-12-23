@@ -9,6 +9,7 @@ import HomeScreen from "./screens/homescreen";
 import SurveyScreen from "./screens/surveyscreen";
 import { NavigationContainer, StackRouter } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SearchScreen from "./screens/searchscreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,11 @@ export default function App() {
         <Stack.Screen
           name="Scan"
           component={ScanScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
