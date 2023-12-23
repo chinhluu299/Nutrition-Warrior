@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   Button,
   Image,
+  Touchable,
+  ActivityIndicator,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
@@ -31,8 +33,10 @@ import {
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { Colors } from "../../resources/Colors";
+import FoodScanComponent from "../../components/FoodScanComponent";
+import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 
-export default ScanScreen = () => {
+export default ScanScreen = ({ navigation }) => {
   const [animation] = useState(new Animated.Value(0));
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -41,6 +45,9 @@ export default ScanScreen = () => {
   const height = Dimensions.get("window").height;
   const bottomSheetModalRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [result, setResult] = useState(null);
+  const [isBusy, setIsBust] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
 
   const snapPoints = ["25%", "55%", "75%"];
 
@@ -78,6 +85,10 @@ export default ScanScreen = () => {
       })
     ).start();
   };
+  const openSearchFood = () => {
+    //result == null ? setResult(1) : setResult(null);
+    navigation.navigate("Search");
+  };
 
   const translateY = animation.interpolate({
     inputRange: [0, 1],
@@ -93,6 +104,7 @@ export default ScanScreen = () => {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
           <View style={styles.container}>
+            <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
             <Camera style={styles.camera} type={cameraType} ref={cameraRef}>
               <View style={styles.controls}>
                 <TouchableOpacity style={styles.back_control}>
@@ -109,7 +121,9 @@ export default ScanScreen = () => {
                 </TouchableOpacity>
               </View>
               <View style={styles.scanning_block}>
-                <Text style={styles.scanning_text}>Scanning...</Text>
+                {isScanning && (
+                  <Text style={styles.scanning_text}>Scanning...</Text>
+                )}
               </View>
               <View style={styles.scan}>
                 <View style={styles.scan_top_left}></View>
@@ -127,6 +141,7 @@ export default ScanScreen = () => {
                 </Animated.View>
               </View>
               <View style={styles.info_container}>
+                {/* Button test de show dialog */}
                 <Button
                   title="Test"
                   onPress={handlePresentModal}
@@ -139,29 +154,34 @@ export default ScanScreen = () => {
                   backgroundStyle={{ borderRadius: 50 }}
                   onDismiss={() => setIsOpen(false)}
                 >
-                  <View style={styles.container}>
-                    <Image
-                      style={styles.image_sorry}
-                      source={require("../../assets/sorry.jpg")}
-                      resizeMode="stretch"
-                    />
-                    <Text style={styles.text_sorry}>We can't find it</Text>
-                    <View
-                      style={[
-                        { backgroundColor: "#D5D2D2" },
-                        styles.info_search_container,
-                      ]}
-                    >
-                      <MaterialCommunityIcons
-                        size={60}
-                        name="search-web"
-                        color={Colors.secondary}
-                      ></MaterialCommunityIcons>
-                      <View style={styles.info_info}>
-                        <Text>Search for a food</Text>
-                      </View>
+                  {result != null ? (
+                    <FoodScanComponent />
+                  ) : (
+                    <View style={styles.container}>
+                      <Image
+                        style={styles.image_sorry}
+                        source={require("../../assets/sorry.jpg")}
+                        resizeMode="stretch"
+                      />
+                      <Text style={styles.text_sorry}>We can't find it</Text>
+                      <TouchableOpacity
+                        style={[
+                          { backgroundColor: "#D5D2D2" },
+                          styles.info_search_container,
+                        ]}
+                        onPress={openSearchFood}
+                      >
+                        <MaterialCommunityIcons
+                          size={60}
+                          name="search-web"
+                          color={Colors.secondary}
+                        ></MaterialCommunityIcons>
+                        <View style={styles.info_info}>
+                          <Text>Search for a food</Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
-                  </View>
+                  )}
                 </BottomSheetModal>
               </View>
             </Camera>
@@ -173,54 +193,54 @@ export default ScanScreen = () => {
 };
 {
   /* <View style={styles.container}>
-                    <View style={styles.info_container}>
-                      <Image source={require('../../assets/demo/burger.jpeg')} style={styles.info_image} resizeMode='stretch'></Image>
-                      <View style={styles.info_info}>
-                        <Text style={styles.info_info_head}>Fast Food</Text>
-                        <Text style={styles.info_info_desc}>Kebab Burgers Maxi</Text>
-                      </View>
-                    </View>
-                    <View style={styles.info_analytics}>
-                      <View style={styles.info_analytics_item}>
-                        <View style={styles.info_analytics_protein_per}></View>
-                        <View style={styles.info_analytics_carbs_per}></View>
-                        <View style={styles.info_analytics_fat_per}></View>
-                      </View>
-                      <View style={styles.info_analytics_item}>
-                        <View style={styles.info_analytics_item_left}>
-                          <View style={styles.info_analytics_item_color_protein}></View>
-                          <Text style={styles.info_analytics_item_type}>Protein</Text>
-                        </View>
-                        <Text style={styles.info_analytics_item_figure}>35g</Text>
-                      </View>
-                      <View style={styles.info_analytics_item}>
-                        <View style={styles.info_analytics_item_left}>
-                          <View style={styles.info_analytics_item_color_carbs}></View>
-                          <Text style={styles.info_analytics_item_type}>Carbs</Text>
-                        </View>
-                        <Text style={styles.info_analytics_item_figure}>20g</Text>
-                      </View>
-                      <View style={styles.info_analytics_item}>
-                        <View style={styles.info_analytics_item_left}>
-                          <View style={styles.info_analytics_item_color_fat}></View>
-                          <Text style={styles.info_analytics_item_type}>Fat</Text>
-                        </View>
-                        <Text style={styles.info_analytics_item_figure}>30g</Text>
-                      </View>
-                      <View style={styles.info_analytics_item}>
-                        <View style={styles.info_analytics_item_left}>
-                          <MaterialCommunityIcons name="fire-circle" size={20} color={"#FF4D00"} />
-                          <Text style={styles.info_analytics_item_type}>Calories</Text>
-                        </View>
-                        <Text style={styles.info_analytics_item_figure}>225Kcal</Text>
-                      </View>
-                    </View>
-                    <View style={[{backgroundColor:"#D5D2D2"},styles.info_search_container]}>
-                      <MaterialCommunityIcons size={60} name="search-web" color={Colors.secondary}></MaterialCommunityIcons>
-                      <View style={styles.info_info}>
-                        <Text style={{color:Colors.primary}}>This is not what you want? </Text>
-                        <Text style={{color:"#FFFFFF"}}>Search here</Text>
-                      </View>
-                    </View>
-                  </View> */
+      <View style={styles.info_container}>
+        <Image source={require('../../assets/demo/burger.jpeg')} style={styles.info_image} resizeMode='stretch'></Image>
+        <View style={styles.info_info}>
+          <Text style={styles.info_info_head}>Fast Food</Text>
+          <Text style={styles.info_info_desc}>Kebab Burgers Maxi</Text>
+        </View>
+      </View>
+      <View style={styles.info_analytics}>
+        <View style={styles.info_analytics_item}>
+          <View style={styles.info_analytics_protein_per}></View>
+          <View style={styles.info_analytics_carbs_per}></View>
+          <View style={styles.info_analytics_fat_per}></View>
+        </View>
+        <View style={styles.info_analytics_item}>
+          <View style={styles.info_analytics_item_left}>
+            <View style={styles.info_analytics_item_color_protein}></View>
+            <Text style={styles.info_analytics_item_type}>Protein</Text>
+          </View>
+          <Text style={styles.info_analytics_item_figure}>35g</Text>
+        </View>
+        <View style={styles.info_analytics_item}>
+          <View style={styles.info_analytics_item_left}>
+            <View style={styles.info_analytics_item_color_carbs}></View>
+            <Text style={styles.info_analytics_item_type}>Carbs</Text>
+          </View>
+          <Text style={styles.info_analytics_item_figure}>20g</Text>
+        </View>
+        <View style={styles.info_analytics_item}>
+          <View style={styles.info_analytics_item_left}>
+            <View style={styles.info_analytics_item_color_fat}></View>
+            <Text style={styles.info_analytics_item_type}>Fat</Text>
+          </View>
+          <Text style={styles.info_analytics_item_figure}>30g</Text>
+        </View>
+        <View style={styles.info_analytics_item}>
+          <View style={styles.info_analytics_item_left}>
+            <MaterialCommunityIcons name="fire-circle" size={20} color={"#FF4D00"} />
+            <Text style={styles.info_analytics_item_type}>Calories</Text>
+          </View>
+          <Text style={styles.info_analytics_item_figure}>225Kcal</Text>
+        </View>
+      </View>
+      <View style={[{backgroundColor:"#D5D2D2"},styles.info_search_container]}>
+        <MaterialCommunityIcons size={60} name="search-web" color={Colors.secondary}></MaterialCommunityIcons>
+        <View style={styles.info_info}>
+          <Text style={{color:Colors.primary}}>This is not what you want? </Text>
+          <Text style={{color:"#FFFFFF"}}>Search here</Text>
+        </View>
+      </View>
+    </View> */
 }
