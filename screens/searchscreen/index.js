@@ -40,7 +40,7 @@ const SearchScreen = ({ navigation }) => {
     } catch (err) {
       setResult(null);
       Toast.show({
-        type: "info",
+        type: "error",
         text1: err.message,
       });
     }
