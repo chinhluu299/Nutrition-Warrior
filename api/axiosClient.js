@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://nutrition-warrior.onrender.com/api",
+  baseURL: "https://nutrition-warrior.onrender.com/api", //host
+  //baseURL: "http://127.0.0.1:8000/api", //local
   headers: {
     "Content-Type": "application/json",
   },
