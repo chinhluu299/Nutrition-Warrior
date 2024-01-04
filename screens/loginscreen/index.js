@@ -39,7 +39,7 @@ const LoginScreen = () => {
     loadFonts();
   }, []);
   const submitHandle = async (e) => {
-    if (!isValidEmail || password.length < 1) {
+    if (email.length < 1 || !isValidEmail || password.length < 1) {
       Toast.show({
         type: "info",
         text1: "Please check your email and password",
@@ -88,8 +88,11 @@ const LoginScreen = () => {
 
     setTimeoutId(newTimeout);
   };
-  const toRegister = () => {
+  const goRegister = () => {
     navigation.navigate("Register", {}, { reset: true });
+  };
+  const goForgotPassword = () => {
+    navigation.navigate("ForgotPassword", {}, { reset: true });
   };
   if (fontLoaded) {
     return (
@@ -143,7 +146,10 @@ const LoginScreen = () => {
                 <Text style={styles.text_remember_me}>Remember me</Text>
               </View>
               <View>
-                <Text style={styles.text_forgot_password}>
+                <Text
+                  style={styles.text_forgot_password}
+                  onPress={goForgotPassword}
+                >
                   Forgot password ?
                 </Text>
               </View>
@@ -159,7 +165,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
           <View style={styles.register}>
             <Text style={styles.register_text_1}>New Member?</Text>
-            <Text style={styles.register_text_2} onPress={(e) => toRegister()}>
+            <Text style={styles.register_text_2} onPress={(e) => goRegister()}>
               Register now
             </Text>
           </View>
