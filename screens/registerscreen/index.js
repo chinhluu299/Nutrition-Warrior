@@ -8,9 +8,9 @@ import { Colors } from "../../resources/Colors";
 import Toast from "react-native-toast-message";
 import authApi from "../../api/authApi";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
-import { useNavigation } from "@react-navigation/native";
+//import { useNavigation } from "@react-navigation/native";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ const RegisterScreen = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isBusy, setIsBusy] = useState(false);
 
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
   const loadFonts = async () => {
     await Font.loadAsync({

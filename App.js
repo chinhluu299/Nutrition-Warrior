@@ -12,13 +12,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SearchScreen from "./screens/searchscreen";
 import LoginScreen from "./screens/loginscreen";
 import RegisterScreen from "./screens/registerscreen";
+import ForgotPasswordScreen from "./screens/forgotpassword";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Register">
+      <Stack.Navigator initialRouteName="ForgotPassword">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -27,6 +28,11 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
