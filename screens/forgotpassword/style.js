@@ -26,8 +26,13 @@ export const styles = StyleSheet.create({
   },
   content_2: {
     flex: 1,
+    alignItems: "center",
+  },
+  otp_container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: screenWidth - 50,
+    marginBottom: 20,
   },
   otp: {
     width: 64,
@@ -93,5 +98,9 @@ export const styles = StyleSheet.create({
   register_text_2: {
     fontWeight: "600",
     color: Colors.secondary,
+  },
+  resend: {
+    color: Colors.dark,
+    fontWeight: "bold",
   },
 });

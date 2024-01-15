@@ -13,13 +13,17 @@ import SearchScreen from "./screens/searchscreen";
 import LoginScreen from "./screens/loginscreen";
 import RegisterScreen from "./screens/registerscreen";
 import ForgotPasswordScreen from "./screens/forgotpassword";
+import ExerciseScreen from "./screens/exercisescreen";
+import ExerciseListScreen from "./screens/exerciselistscreen";
+import ExerciseDetailScreen from "./screens/exercisedetailscreen";
+import BottomNavigation from "./navigation/BottomNavigation";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ForgotPassword">
+      <Stack.Navigator initialRouteName="MainScreen">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -41,8 +45,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Home"
-          component={HomeScreen}
+          name="MainScreen"
+          component={BottomNavigation}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -58,6 +62,21 @@ export default function App() {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Exercise"
+          component={ExerciseScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ExerciseDetail"
+          component={ExerciseDetailScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ExerciseList"
+          component={ExerciseListScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

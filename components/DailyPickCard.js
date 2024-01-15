@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   right_card: {
     width: 150,
-    backgroundColor: "blue",
+    backgroundColor: Colors.primary,
     overflow: "hidden",
   },
   image: {
