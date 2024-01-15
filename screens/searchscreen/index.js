@@ -23,9 +23,11 @@ const SearchScreen = ({ navigation }) => {
   const [autoComplete, setAutoComplete] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSearch = async (input = "") => {
     try {
-      const res = await foodApi.searchFood(keyword);
+      const res = input
+        ? await foodApi.searchFood(input)
+        : await foodApi.searchFood(keyword);
       if (res.status === 200) {
         const data = res.data;
         if (!data.parsed) {
@@ -48,12 +50,12 @@ const SearchScreen = ({ navigation }) => {
 
   const reSearch = async (text) => {
     setKeyword(text);
-    await searchAction();
+    await searchAction(text);
   };
 
-  const searchAction = async () => {
+  const searchAction = async (text = "") => {
     setIsBusy(true);
-    await handleSearch();
+    await handleSearch(text);
     setIsBusy(false);
   };
 
@@ -128,7 +130,6 @@ const SearchScreen = ({ navigation }) => {
               </ScrollView>
             </View>
             {result.map((element, index) => {
-              console.log(element.food.image);
               return (
                 <View key={index} style={styles.food_container}>
                   <Image

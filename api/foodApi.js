@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const url = "/food/";
+const url = "/foods/";
 const foodApi = {
   searchFood: (keyword) => {
     const response = axiosClient.get(`${url}search/${keyword}`);
