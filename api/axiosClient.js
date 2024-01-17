@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../app/store";
 
 const axiosClient = axios.create({
   baseURL: "https://nutrition-warrior.onrender.com/api", //host
@@ -7,18 +8,20 @@ const axiosClient = axios.create({
     "Content-Type": "application/json",
   },
 });
-// axiosClient.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("accessToken");
-//     if (token) {
-//       config.headers["Authorization"] = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+axiosClient.interceptors.request.use(
+  (config) => {
+    const state = store.getState();
+    const token = state.rootReducer.auth.accessToken;
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // axiosClient.interceptors.response.use(
 //   (res) => {
 //     return res;

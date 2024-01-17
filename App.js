@@ -17,75 +17,81 @@ import ExerciseScreen from "./screens/exercisescreen";
 import ExerciseListScreen from "./screens/exerciselistscreen";
 import ExerciseDetailScreen from "./screens/exercisedetailscreen";
 import BottomNavigation from "./navigation/BottomNavigation";
+import { Provider } from "react-redux";
+import store from "./app/store";
+import ProfileScreen from "./screens/profilescreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="MainScreen">
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPasswordScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MainScreen"
-          component={BottomNavigation}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Survey"
-          component={SurveyScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Scan"
-          component={ScanScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Exercise"
-          component={ExerciseScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ExerciseDetail"
-          component={ExerciseDetailScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ExerciseList"
-          component={ExerciseListScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Analytic"
-          component={MyAnalyticsScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="MainScreen">
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MainScreen"
+            component={BottomNavigation}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Survey"
+            component={SurveyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Scan"
+            component={ScanScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Exercise"
+            component={ExerciseScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ExerciseDetail"
+            component={ExerciseDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ExerciseList"
+            component={ExerciseListScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Analytic"
+            component={MyAnalyticsScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

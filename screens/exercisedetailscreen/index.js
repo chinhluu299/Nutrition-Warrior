@@ -14,7 +14,6 @@ const ExerciseDetailScreen = ({ route }) => {
   const navigation = useNavigation();
   useEffect(() => {
     setContent(data);
-    console.log(data.instructions);
   }, []);
   return (
     <View style={styles.container}>
