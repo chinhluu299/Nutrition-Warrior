@@ -11,13 +11,14 @@ import { Colors } from "../resources/Colors";
 import ExerciseScreen from "../screens/exercisescreen";
 import ScanScreen from "../screens/scanscreen";
 import { View, TouchableOpacity } from "react-native";
+import ProfileScreen from "../screens/profilescreen";
 
 //Screen names
 const homeName = "Home";
 const analyticName = "Analytics";
 const exerciseName = "Exercise";
-const searchName = "Search";
 const scanName = "Scan";
+const profileName = "Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -63,8 +64,8 @@ function BottomNavigation() {
             iconName = focused ? "barbell" : "barbell-outline";
           } else if (rn === analyticName) {
             iconName = focused ? "analytics" : "analytics-outline";
-          } else if (rn === searchName) {
-            iconName = focused ? "search" : "search-outline";
+          } else if (rn === profileName) {
+            iconName = focused ? "person" : "person-outline";
           } else if (rn === scanName) {
             iconName = focused ? "scan" : "scan-outline";
           }
@@ -112,8 +113,8 @@ function BottomNavigation() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name={searchName}
-        component={SearchScreen}
+        name={profileName}
+        component={ProfileScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

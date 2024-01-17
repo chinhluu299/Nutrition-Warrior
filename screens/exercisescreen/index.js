@@ -41,7 +41,9 @@ const ExerciseScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.background_title_text}>EXERCISES</Text>
-
+      <View style={styles.circle_1}></View>
+      <View style={styles.circle_2}></View>
+      <View style={styles.circle_3}></View>
       <FlatList
         style={styles.list}
         data={data}

@@ -7,7 +7,6 @@ const authApi = {
       `${url}login/`,
       JSON.stringify(data)
     );
-    console.log(response);
     return response;
   },
   register: async (data) => {
@@ -33,6 +32,10 @@ const authApi = {
       `${url}change-password`,
       JSON.stringify(data)
     );
+    return response;
+  },
+  updateProfile: async (id, formData) => {
+    const response = await axiosClient.post(`${url}update/${id}`, formData);
     return response;
   },
 };
