@@ -25,6 +25,9 @@ const SearchScreen = ({ navigation }) => {
 
   const handleSearch = async (input = "") => {
     try {
+      console.log("====================================");
+      console.log("data: ", input);
+      console.log("====================================");
       const res = input
         ? await foodApi.searchFood(input)
         : await foodApi.searchFood(keyword);
