@@ -6,6 +6,36 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginRight: 8,
+    paddingHorizontal: 8,
+    borderRadius: 20,
+  },
+
+  searchButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: "blue",
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  searchButtonText: {
+    color: "white",
+  },
   container: {
     flex: 1,
   },
