@@ -30,7 +30,6 @@ const HomeScreen = () => {
   const [user, setUser] = useState({});
   useEffect(() => {
     setUser(userInfo);
-    console.log(userInfo);
     loadFonts();
   }, []);
   if (fontLoaded && user) {

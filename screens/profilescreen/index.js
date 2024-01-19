@@ -20,13 +20,25 @@ const ProfileScreen = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [showDate, setShowDate] = useState(false);
-  const [name, setName] = useState(userInfo.name);
-  const [email, setEmail] = useState(userInfo.email);
-  const [phone, setPhone] = useState(userInfo.phone);
-  const [gender, setGender] = useState(userInfo.gender);
-  const [picture, setPicture] = useState(userInfo.profile_picture);
-  const [dob, setDob] = useState(userInfo.date_of_birth);
-  const [address, setAddress] = useState(userInfo.address);
+  const [name, setName] = useState(userInfo.name == null ? "" : userInfo.name);
+  const [email, setEmail] = useState(
+    userInfo.email == null ? "" : userInfo.email
+  );
+  const [phone, setPhone] = useState(
+    userInfo.phone == null ? "" : userInfo.phone
+  );
+  const [gender, setGender] = useState(
+    userInfo.gender == null ? "" : userInfo.gender
+  );
+  const [picture, setPicture] = useState(
+    userInfo.profile_picture == null ? "" : userInfo.profile_picture
+  );
+  const [dob, setDob] = useState(
+    userInfo.date_of_birth == null ? "" : userInfo.date_of_birth
+  );
+  const [address, setAddress] = useState(
+    userInfo.address == null ? "" : userInfo.address
+  );
   const [isBusy, setIsBusy] = useState(false);
 
   const loadFonts = async () => {
@@ -88,8 +100,11 @@ const ProfileScreen = () => {
       form.append("picture", picture);
       form.append("gender", gender);
       form.append("date_of_birth", dob);
+      form.append("_method", "put");
+      //console.log(form);
 
       const res = await authApi.updateProfile(userInfo.id, form);
+      console.log(res);
       if (res.status == 200) {
         const data = res.data;
         if (data.success) {
@@ -123,9 +138,12 @@ const ProfileScreen = () => {
   if (fontLoaded) {
     return (
       <View style={styles.background}>
-        <Toast position="top" topOffset={30} />
+        <Toast position="top" topOffset={30} style={{ zIndex: 10 }} />
         <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
-        <TouchableOpacity onPress={(e) => setIsEdit(!isEdit)}>
+        <TouchableOpacity
+          onPress={(e) => setIsEdit(!isEdit)}
+          style={{ zIndex: 2 }}
+        >
           <Ionicons name="pencil-sharp" size={20} style={styles.edit} />
         </TouchableOpacity>
         {isEdit && (
@@ -207,7 +225,7 @@ const ProfileScreen = () => {
                 editable={isEdit}
                 onPress={(e) => (isEdit ? setShowDate(true) : "")}
               >
-                {dob == "" ? "Date of Birth" : dob}
+                {dob != "" ? dob : "Date of Birth"}
               </Text>
               {showDate && (
                 <DateTimePicker

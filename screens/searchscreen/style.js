@@ -97,8 +97,16 @@ export const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
+  add_food: {
+    position: "absolute",
+    top: 200 - 40 / 2,
+    borderRadius: 100,
+  },
+  image_border: {
+    elevation: 10,
+  },
   food_label: {
-    marginTop: 5,
+    marginTop: 10,
     fontSize: 16,
     fontWeight: "600",
   },
