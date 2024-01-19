@@ -15,12 +15,16 @@ import Toast from "react-native-toast-message";
 import { styles } from "./styles";
 import { Colors } from "../../resources/Colors";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
 
 const DiaryScreen = ({ route }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const [exerciseData, setExerciseData] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [foodItems, setFoodItems] = useState([]);
+
+  const userData = useSelector((state) => state.rootReducer.user);
 
   const goToPreviousDay = () => {
     const previousDay = new Date(selectedDate);
@@ -35,38 +39,34 @@ const DiaryScreen = ({ route }) => {
   };
 
   const handleDateChange = (event, newDate) => {
-    setShowDatePicker(Platform.OS === "ios"); // Close the picker on iOS
+    setShowDatePicker(Platform.OS === "ios");
     if (newDate !== undefined) {
       setSelectedDate(newDate);
-      // Add logic to fetch data for the selected date
-      // You can call your API or update state accordingly
     }
   };
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      const data = await exerciseApi.fetchDataForDate(selectedDate);
-      setExerciseData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Failed to fetch data. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const fetchData = () => {
+    const dailyLogs = userData.daily_logs;
+
+    const selectedDayLog = dailyLogs.find((log) => {
+      const logDate = new Date(log.date);
+      return (
+        logDate.getDate() === selectedDate.getDate() &&
+        logDate.getMonth() === selectedDate.getMonth() &&
+        logDate.getFullYear() === selectedDate.getFullYear()
+      );
+    });
+
+    setFoodItems(selectedDayLog ? selectedDayLog.foods : []);
   };
 
   useEffect(() => {
     fetchData();
-  }, [selectedDate]);
+    console.log(userData);
+  }, [selectedDate, userData]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={goToPreviousDay}>
           <Ionicons name="chevron-back" style={styles.icon} />
@@ -75,7 +75,7 @@ const DiaryScreen = ({ route }) => {
           <Text
             style={{ color: Colors.darker, fontWeight: "800", fontSize: 18 }}
           >
-            {selectedDate.toDateString()}
+            {format(selectedDate, "MMMM d, yyyy")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={goToNextDay}>
@@ -83,7 +83,6 @@ const DiaryScreen = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Date Picker */}
       {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
@@ -92,53 +91,67 @@ const DiaryScreen = ({ route }) => {
           onChange={handleDateChange}
         />
       )}
+
       <ScrollView style={{ flex: 1 }}>
-        {/* Breakfast Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Breakfast</Text>
+          {foodItems &&
+          foodItems.breakfast &&
+          foodItems.breakfast.length > 0 ? (
+            foodItems.breakfast.map((food, index) => (
+              <View key={index} style={styles.foodItem}>
+                <Text>{food.name}</Text>
+                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+              </View>
+            ))
+          ) : (
+            <Text>No breakfast items</Text>
+          )}
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity>
-          {/* Add Breakfast content here */}
         </View>
 
-        {/* Lunch Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Lunch</Text>
+
+          {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
+            foodItems.lunch.map((food, index) => (
+              <View key={index} style={styles.foodItem}>
+                <Text>{food.name}</Text>
+                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+              </View>
+            ))
+          ) : (
+            <Text>No lunch items</Text>
+          )}
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity>
-          {/* Add Lunch content here */}
         </View>
 
-        {/* Dinner Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Dinner</Text>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
-          {/* Add Dinner content here */}
-        </View>
 
-        {/* Snacks Section */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Snacks</Text>
+          {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
+            foodItems.dinner.map((food, index) => (
+              <View key={index} style={styles.foodItem}>
+                <Text>{food.name}</Text>
+                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+              </View>
+            ))
+          ) : (
+            <Text>No dinner items</Text>
+          )}
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity>
-          {/* Add Snacks content here */}
         </View>
       </ScrollView>
-      {/* Loading indicator */}
+
       {isLoading && <ActivityIndicatorLoadingPage />}
 
-      {/* Rest of your DiaryScreen content */}
-      <View style={{ flex: 1 }}>
-        {exerciseData && (
-          // Render your exercise data here using exerciseData
-          <Text>{exerciseData}</Text>
-        )}
-      </View>
+      <View style={{ flex: 1 }}></View>
     </SafeAreaView>
   );
 };
