@@ -7,9 +7,12 @@ import ProgressKcalItem from "../../components/ProgressKcalItem";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../resources/Colors";
 import DailyPickCard from "../../components/DailyPickCard";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const userInfo = useSelector((state) => state.rootReducer.user);
+
   const loadFonts = async () => {
     await Font.loadAsync({
       "Inter-SemiBold": require("../../assets/fonts/Inter-SemiBold.ttf"),
@@ -25,6 +28,7 @@ const HomeScreen = () => {
     setFontLoaded(true);
   };
   useEffect(() => {
+    console.log(userInfo);
     loadFonts();
   }, []);
   if (fontLoaded) {

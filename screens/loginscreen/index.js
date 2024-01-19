@@ -9,6 +9,7 @@ import authApi from "../../api/authApi";
 import Toast from "react-native-toast-message";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 const LoginScreen = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -18,6 +19,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
   const [isBusy, setIsBusy] = useState(false);
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -55,7 +57,14 @@ const LoginScreen = () => {
 
       if (res.status == 200) {
         //save state
-        navigation.navigate("Home");
+        setIsBusy(false);
+        if (res.data.success) {
+          dispatch({
+            type: "UPDATE_USER",
+            payload: res.data.data,
+          });
+          navigation.navigate("MainScreen", {}, { reset: true });
+        }
         return;
       } else {
         Toast.show({

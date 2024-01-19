@@ -42,6 +42,20 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 10,
   },
+  result: {
+    marginTop: 40,
+  },
+  value: {
+    fontSize: 46,
+    textAlign: "center",
+    color: Colors.secondary,
+    fontWeight: "600",
+    marginBottom: 10,
+  },
+  slider: {
+    width: width - 40,
+    height: 100,
+  },
   question_detail_choose: {
     marginTop: 10,
     paddingTop: 15,
