@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import * as Font from "expo-font";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./style";
@@ -27,11 +27,13 @@ const HomeScreen = () => {
     });
     setFontLoaded(true);
   };
+  const [user, setUser] = useState({});
   useEffect(() => {
+    setUser(userInfo);
     console.log(userInfo);
     loadFonts();
   }, []);
-  if (fontLoaded) {
+  if (fontLoaded && user) {
     return (
       <View style={styles.background}>
         <View style={styles.timestamp}>
@@ -43,9 +45,21 @@ const HomeScreen = () => {
           </View>
           <View style={styles.content}>
             <View style={styles.daily_kcal_left_detail}>
-              <ProgressKcalItem title={"Fat"} target={100} current={50} />
-              <ProgressKcalItem title={"Carbs"} target={100} current={60} />
-              <ProgressKcalItem title={"Protein"} target={100} current={10} />
+              <ProgressKcalItem
+                title={"Fat"}
+                target={user.daily_logs[0].daily_fat_goal}
+                current={user.daily_logs[0].fat_remain}
+              />
+              <ProgressKcalItem
+                title={"Carbs"}
+                target={user.daily_logs[0].daily_carb_goal}
+                current={user.daily_logs[0].carb_remain}
+              />
+              <ProgressKcalItem
+                title={"Protein"}
+                target={user.daily_logs[0].daily_protein_goal}
+                current={user.daily_logs[0].protein_remain}
+              />
             </View>
             <View style={styles.daily_action}>
               <TouchableOpacity style={styles.daily_action_item}>

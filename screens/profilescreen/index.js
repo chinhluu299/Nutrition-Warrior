@@ -11,20 +11,23 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import authApi from "../../api/authApi";
 import Toast from "react-native-toast-message";
 import * as ImagePicker from "expo-image-picker";
+import { useSelector } from "react-redux";
+import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 
 const ProfileScreen = () => {
+  const userInfo = useSelector((state) => state.rootReducer.user);
+
   const [fontLoaded, setFontLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [showDate, setShowDate] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
-  const [picture, setPicture] = useState(null);
-  const [dob, setDob] = useState("Date of Birth");
-  const [address, setAddress] = useState("");
-
-  const id = "123";
+  const [name, setName] = useState(userInfo.name);
+  const [email, setEmail] = useState(userInfo.email);
+  const [phone, setPhone] = useState(userInfo.phone);
+  const [gender, setGender] = useState(userInfo.gender);
+  const [picture, setPicture] = useState(userInfo.profile_picture);
+  const [dob, setDob] = useState(userInfo.date_of_birth);
+  const [address, setAddress] = useState(userInfo.address);
+  const [isBusy, setIsBusy] = useState(false);
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -76,6 +79,7 @@ const ProfileScreen = () => {
   };
 
   const saveUpdate = async () => {
+    setIsBusy(true);
     try {
       const form = new FormData();
       form.append("name", name);
@@ -85,7 +89,7 @@ const ProfileScreen = () => {
       form.append("gender", gender);
       form.append("date_of_birth", dob);
 
-      const res = await authApi.updateProfile(id, form);
+      const res = await authApi.updateProfile(userInfo.id, form);
       if (res.status == 200) {
         const data = res.data;
         if (data.success) {
@@ -100,18 +104,27 @@ const ProfileScreen = () => {
             text1: data.message,
           });
         }
+        setIsBusy(false);
+      } else {
+        Toast.show({
+          type: "error",
+          text1: data.message,
+        });
       }
+      setIsBusy(false);
     } catch (error) {
       Toast.show({
         type: "error",
         text1: error.message,
       });
+      setIsBusy(false);
     }
   };
   if (fontLoaded) {
     return (
       <View style={styles.background}>
-        <Toast position="bottom" bottomOffset={30} />
+        <Toast position="top" topOffset={30} />
+        <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
         <TouchableOpacity onPress={(e) => setIsEdit(!isEdit)}>
           <Ionicons name="pencil-sharp" size={20} style={styles.edit} />
         </TouchableOpacity>
@@ -133,7 +146,7 @@ const ProfileScreen = () => {
                 <Ionicons name="pencil-sharp" size={30} />
               </TouchableOpacity>
             )}
-            {picture == null ? (
+            {picture == null || picture == "" ? (
               <Image
                 source={require("../../assets/adaptive-icon.png")}
                 style={styles.avatar}
@@ -194,7 +207,7 @@ const ProfileScreen = () => {
                 editable={isEdit}
                 onPress={(e) => (isEdit ? setShowDate(true) : "")}
               >
-                {dob}
+                {dob == "" ? "Date of Birth" : dob}
               </Text>
               {showDate && (
                 <DateTimePicker
