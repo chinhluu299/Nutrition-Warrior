@@ -12,14 +12,14 @@ import ExerciseScreen from "../screens/exercisescreen";
 import ScanScreen from "../screens/scanscreen";
 import { View, TouchableOpacity } from "react-native";
 import ProfileScreen from "../screens/profilescreen";
-
+import DiaryScreen from "../screens/diary";
 //Screen names
 const homeName = "Home";
 const analyticName = "Analytics";
 const exerciseName = "Exercise";
 const scanName = "Scan";
 const profileName = "Profile";
-
+const diaryName = "Diary";
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress }) => (
@@ -60,6 +60,8 @@ function BottomNavigation() {
 
           if (rn === homeName) {
             iconName = focused ? "home" : "home-outline";
+          } else if (rn === diaryName) {
+            iconName = focused ? "book" : "book-outline";
           } else if (rn === exerciseName) {
             iconName = focused ? "barbell" : "barbell-outline";
           } else if (rn === analyticName) {
@@ -92,6 +94,11 @@ function BottomNavigation() {
       <Tab.Screen
         name={homeName}
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={diaryName}
+        component={DiaryScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen

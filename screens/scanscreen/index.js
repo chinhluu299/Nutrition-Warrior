@@ -35,6 +35,9 @@ import {
 import { Colors } from "../../resources/Colors";
 import FoodScanComponent from "../../components/FoodScanComponent";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
+import detectionApi from "../../api/detectionApi";
+import { ImageManipulator } from "expo-image-manipulator";
+const setTimeout = global.setTimeout;
 
 export default ScanScreen = ({ navigation }) => {
   const [animation] = useState(new Animated.Value(0));
@@ -46,10 +49,50 @@ export default ScanScreen = ({ navigation }) => {
   const bottomSheetModalRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [result, setResult] = useState(null);
-  const [isBusy, setIsBust] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null);
 
   const snapPoints = ["25%", "55%", "75%"];
+
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      const options = { quality: 0.5, base64: true, skipProcessing: true };
+      const data = await cameraRef.current.takePictureAsync(options);
+      const source = data.uri;
+      if (source) {
+        console.log("picture source", source);
+        setCapturedImage(source);
+        setIsScanning(true);
+        console.log("====================================");
+        console.log(1);
+        console.log("====================================");
+        await callObjectDetectionApi(data);
+      }
+    }
+    // console.log("====================================");
+    // console.log(1);
+    // console.log("====================================");
+    // if (cameraRef.current) {
+    //   const photo = await cameraRef.current.takePictureAsync({
+    //     quality: 0.7, // 0 to 1
+    //   });
+    //   console.log("====================================");
+    //   console.log(2);
+    //   console.log("====================================");
+    //   let processedImage = await ImageManipulator.manipulateAsync(
+    //     photo.uri,
+    //     [{ resize: { width: 640 } }],
+    //     { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+    //   );
+    //   console.log("====================================");
+    //   console.log(3);
+    //   console.log("====================================");
+    //   setCapturedImage(processedImage);
+    //   setIsScanning(true);
+
+    //   await callObjectDetectionApi(processedImage);
+  };
 
   function handlePresentModal() {
     bottomSheetModalRef.current?.present();
@@ -57,12 +100,52 @@ export default ScanScreen = ({ navigation }) => {
       setIsOpen(true);
     }, 100);
   }
+  const callObjectDetectionApi = async (imageData) => {
+    try {
+      const response = await detectionApi.detectFood({
+        image: {
+          uri: imageData.uri,
+          type: "image/jpeg",
+          name: "captured_image.jpg",
+        },
+      });
+      console.log("ok nhe ban toi oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+      console.log(response);
+      console.log("====================================");
+      console.log("xxx");
+      console.log("====================================");
+      if (response.data.success) {
+        console.log(response.data);
+        if (
+          response.data.detected_objects &&
+          response.data.detected_objects.length > 0
+        ) {
+          console.log("Detected objects:", response.data.detected_objects);
+        } else {
+          console.log("No objects detected.");
+          handlePresentModal();
+        }
+      } else {
+        console.error(response.data.message);
+      }
+
+      setIsScanning(false);
+    } catch (error) {
+      console.error(error.message);
+      setIsScanning(false);
+    }
+  };
 
   useEffect(() => {
     getPermissionAsync();
     startAnimation();
-  }, []);
-
+    console.log("Start animation");
+  });
+  const onCameraReady = () => {
+    setTimeout(async () => {
+      await takePicture();
+    }, 2000);
+  };
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -105,7 +188,12 @@ export default ScanScreen = ({ navigation }) => {
         <BottomSheetModalProvider>
           <View style={styles.container}>
             <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
-            <Camera style={styles.camera} type={cameraType} ref={cameraRef}>
+            <Camera
+              style={styles.camera}
+              type={cameraType}
+              ref={cameraRef}
+              onCameraReady={onCameraReady}
+            >
               <View style={styles.controls}>
                 <TouchableOpacity style={styles.back_control}>
                   <Ionicons
@@ -145,6 +233,11 @@ export default ScanScreen = ({ navigation }) => {
                 <Button
                   title="Test"
                   onPress={handlePresentModal}
+                  style={{ flex: 1 }}
+                />
+                <Button
+                  title="Re-run"
+                  onPress={takePicture}
                   style={{ flex: 1 }}
                 />
                 <BottomSheetModal
