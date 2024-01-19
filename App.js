@@ -34,7 +34,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName={
-            userInfo.first_login == false ? "MainScreen" : "Splash"
+            userInfo.first_login == true ? "MainScreen" : "Splash"
           }
         >
           <Stack.Screen
