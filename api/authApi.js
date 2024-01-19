@@ -4,9 +4,10 @@ const url = "/auth/";
 const authApi = {
   login: async (data) => {
     const response = await axiosClient.post(
-      `${url}login/`,
+      `${url}login`,
       JSON.stringify(data)
     );
+    console.log(response);
     return response;
   },
   register: async (data) => {

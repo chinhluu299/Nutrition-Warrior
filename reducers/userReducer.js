@@ -41,8 +41,6 @@ export default function userReducer(state = initialState, action) {
         height: action.payload.height,
         current_weight: action.payload.current_weight,
       };
-
-
     default:
       return state;
   }

@@ -20,6 +20,8 @@ import BottomNavigation from "./navigation/BottomNavigation";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import ProfileScreen from "./screens/profilescreen";
+import TdeeScreen from "./screens/tdeescreen";
+import MacroScreen from "./screens/macroscreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,10 +29,16 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="MainScreen">
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Splash"
             component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Macro"
+            component={MacroScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -63,7 +71,6 @@ export default function App() {
             component={ScanScreen}
             options={{ headerShown: false }}
           />
-
           <Stack.Screen
             name="Search"
             component={SearchScreen}
@@ -87,6 +94,11 @@ export default function App() {
           <Stack.Screen
             name="Analytic"
             component={MyAnalyticsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Tdee"
+            component={TdeeScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

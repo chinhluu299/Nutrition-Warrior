@@ -8,19 +8,57 @@ import {
 } from "react-native";
 import { styles } from "./style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
+import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
+import macroApi from "../../api/macroApi";
+import { useNavigation } from "@react-navigation/native";
 
-const SurveyScreen = ({ navigation }) => {
+const SurveyScreen = () => {
   // const [surveys, setSurveys] = useState([]);
-
+  const navigation = useNavigation();
   const [step, setStep] = useState(0);
-  const [choose, setChoose] = useState([]);
   const [selected, setSelected] = useState(-1);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(0);
+
+  const [sex, setSex] = useState("");
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [active, setActive] = useState("");
+  const [overweight, setOverWeight] = useState("");
+  const [goal, setGoal] = useState("");
+
+  const [isBusy, setIsBusy] = useState(false);
 
   const handleChange = (text) => {
     // Allow only numbers
     const numericValue = text.replace(/[^0-9]/g, "");
     setInputValue(numericValue);
+    setStateReturn(parseInt(text));
+  };
+
+  const setStateReturn = (value) => {
+    switch (step) {
+      case 0:
+        setSex(value);
+        break;
+      case 1:
+        setHeight(value);
+        break;
+      case 2:
+        setWeight(value);
+        break;
+      case 3:
+        setActive(value);
+        break;
+      case 4:
+        setOverWeight(value);
+        break;
+      case 5:
+        setGoal(value);
+        break;
+      default:
+        break;
+    }
   };
   const surveys = [
     {
@@ -30,48 +68,107 @@ const SurveyScreen = ({ navigation }) => {
     {
       question: "What is your height?",
       answer: [""],
-      unit: "kg",
+      unit: "cm",
     },
     {
       question: "What is your weight?",
       answer: [""],
-      unit: "cm",
-    },
-    {
-      question: "How often do you exercise?",
-      answer: [
-        "0 sessions/week",
-        "1-3 sessions/week",
-        "4-6 sessions/week",
-        "7+ sessions/week",
-      ],
+      unit: "kg",
     },
     {
       question: "How active are you?",
-      answer: ["Mostly sedentary", "Moderately active", "Very Active"],
+      answer: ["Less Active", "Not Sure", "More Active"],
     },
+    {
+      question: "Are you overweight?",
+      answer: ["Yes", "No"],
+    },
+    {
+      question: "What is your goal?",
+      answer: ["Lose Fat", "Gain Muscle", "Maintain"],
+    },
+    // {
+    //   question: "How much protein per kilogram of body weight for daily?",
+    //   answer: [""],
+    //   unit: "gram",
+    // },
   ];
   const NextQuestionHandle = () => {
     if (step < surveys.length - 1) {
-      setStep(step + 1);
-      setSelected(-1);
+      if (
+        selected >= 0 ||
+        (surveys[step].unit != null && inputValue.length > 0)
+      ) {
+        setStep(step + 1);
+        setSelected(-1);
+        setInputValue("");
+      }
     } else {
-      navigation.navigate("Home");
+      CalculateTdee();
+      //navigation.navigate("Home");
+    }
+  };
+  const CalculateTdee = async () => {
+    setIsBusy(true);
+    try {
+      const res = await macroApi.getTdeeMethod1({
+        gender: sex,
+        height: height,
+        weight: weight,
+        activity_level: active,
+      });
+      if (res.status == 200) {
+        const data = res.data;
+        setIsBusy(false);
+
+        if (data) {
+          console.log(data);
+          navigation.navigate(
+            "Tdee",
+            {
+              data: {
+                gender: sex,
+                height: height,
+                weight: weight,
+                activity_level: active,
+                overweight: overweight,
+                goal: goal,
+              },
+              tdee: data.tdee,
+            },
+            { reset: true }
+          );
+        }
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Can not calculate TDEE",
+        });
+        setIsBusy(false);
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error.message,
+      });
+      setIsBusy(false);
     }
   };
   const PreviousQuestionHandle = () => {
     if (step > 0) {
       setStep(step - 1);
       setSelected(-1);
+      setInputValue("");
     }
   };
-  const ChangeSelection = (index) => {
+  const ChangeSelection = (value, index) => {
     setSelected(index);
-    console.log(index);
-    console.log(selected);
+    setStateReturn(value);
   };
   return (
     <View style={styles.container}>
+      <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
+
       <View style={styles.questions}>
         {surveys.map((value, index) => {
           if (step == index) {
@@ -81,6 +178,7 @@ const SurveyScreen = ({ navigation }) => {
           }
         })}
       </View>
+      <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
       <View style={styles.question_detail}>
         {
           <View>
@@ -97,7 +195,7 @@ const SurveyScreen = ({ navigation }) => {
                         ? styles.question_detail_choose_active
                         : styles.question_detail_choose
                     }
-                    onPress={() => ChangeSelection(index)}
+                    onPress={() => ChangeSelection(value, index)}
                   >
                     <Text>{value}</Text>
                   </TouchableOpacity>
