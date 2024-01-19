@@ -120,7 +120,12 @@ export default ScanScreen = ({ navigation }) => {
           response.data.detected_objects &&
           response.data.detected_objects.length > 0
         ) {
+          console.log("====================================");
+          console.log("====================================");
           console.log("Detected objects:", response.data.detected_objects);
+          navigation.navigate("Search", {
+            detectedObjects: response.data.detected_objects,
+          });
         } else {
           console.log("No objects detected.");
           handlePresentModal();
@@ -178,6 +183,21 @@ export default ScanScreen = ({ navigation }) => {
     outputRange: [(width * 4) / 5, 0],
   });
   //
+  const renderCameraButton = () => {
+    if (!isScanning) {
+      return (
+        <TouchableOpacity
+          style={styles.captureButton}
+          onPress={takePicture}
+          disabled={isScanning}
+        >
+          <Ionicons name="camera" size={50} color="white" />
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  };
   if (hasPermission === null) {
     return <View />;
   } else if (hasPermission === false) {
@@ -228,55 +248,43 @@ export default ScanScreen = ({ navigation }) => {
                   />
                 </Animated.View>
               </View>
-              <View style={styles.info_container}>
-                {/* Button test de show dialog */}
-                <Button
-                  title="Test"
-                  onPress={handlePresentModal}
-                  style={{ flex: 1 }}
-                />
-                <Button
-                  title="Re-run"
-                  onPress={takePicture}
-                  style={{ flex: 1 }}
-                />
-                <BottomSheetModal
-                  ref={bottomSheetModalRef}
-                  index={1}
-                  snapPoints={snapPoints}
-                  backgroundStyle={{ borderRadius: 50 }}
-                  onDismiss={() => setIsOpen(false)}
-                >
-                  {result != null ? (
-                    <FoodScanComponent />
-                  ) : (
-                    <View style={styles.container}>
-                      <Image
-                        style={styles.image_sorry}
-                        source={require("../../assets/sorry.jpg")}
-                        resizeMode="stretch"
-                      />
-                      <Text style={styles.text_sorry}>We can't find it</Text>
-                      <TouchableOpacity
-                        style={[
-                          { backgroundColor: "#D5D2D2" },
-                          styles.info_search_container,
-                        ]}
-                        onPress={openSearchFood}
-                      >
-                        <MaterialCommunityIcons
-                          size={60}
-                          name="search-web"
-                          color={Colors.secondary}
-                        ></MaterialCommunityIcons>
-                        <View style={styles.info_info}>
-                          <Text>Search for a food</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                </BottomSheetModal>
-              </View>
+              {renderCameraButton()}
+              <BottomSheetModal
+                ref={bottomSheetModalRef}
+                index={1}
+                snapPoints={snapPoints}
+                backgroundStyle={{ borderRadius: 50 }}
+                onDismiss={() => setIsOpen(false)}
+              >
+                {result != null ? (
+                  <FoodScanComponent />
+                ) : (
+                  <View style={styles.container}>
+                    <Image
+                      style={styles.image_sorry}
+                      source={require("../../assets/sorry.jpg")}
+                      resizeMode="stretch"
+                    />
+                    <Text style={styles.text_sorry}>We can't find it</Text>
+                    <TouchableOpacity
+                      style={[
+                        { backgroundColor: "#D5D2D2" },
+                        styles.info_search_container,
+                      ]}
+                      onPress={openSearchFood}
+                    >
+                      <MaterialCommunityIcons
+                        size={60}
+                        name="search-web"
+                        color={Colors.secondary}
+                      ></MaterialCommunityIcons>
+                      <View style={styles.info_info}>
+                        <Text>Search for a food</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </BottomSheetModal>
             </Camera>
           </View>
         </BottomSheetModalProvider>
