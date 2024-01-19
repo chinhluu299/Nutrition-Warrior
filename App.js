@@ -25,17 +25,18 @@ import MacroScreen from "./screens/macroscreen";
 
 const Stack = createNativeStackNavigator();
 
+const userInfo = store.getState().rootReducer.user;
+
 export default function App() {
+  console.log(userInfo);
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Splash"
-            component={SplashScreen}
-            options={{ headerShown: false }}
-          />
-
+        <Stack.Navigator
+          initialRouteName={
+            userInfo.first_login == false ? "MainScreen" : "Splash"
+          }
+        >
           <Stack.Screen
             name="Macro"
             component={MacroScreen}
@@ -46,6 +47,12 @@ export default function App() {
             component={LoginScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+
           <Stack.Screen
             name="ForgotPassword"
             component={ForgotPasswordScreen}

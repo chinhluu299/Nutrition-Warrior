@@ -16,5 +16,12 @@ const macroApi = {
     );
     return response;
   },
+  updateMacro: (data, id) => {
+    const response = axiosClient.put(
+      `${url}update-expenditure/${id}`,
+      JSON.stringify(data)
+    );
+    return response;
+  },
 };
 export default macroApi;

@@ -14,6 +14,8 @@ import macroApi from "../../api/macroApi";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
 import { Colors } from "../../resources/Colors";
+import { useDispatch } from "react-redux";
+import store from "../../app/store";
 
 const MacroScreen = ({ route }) => {
   const { data, tdee } = route.params;
@@ -42,6 +44,7 @@ const MacroScreen = ({ route }) => {
     },
   ];
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [step, setStep] = useState(0);
 
   const [proteinPerKg, setProteinPerKg] = useState(0);
@@ -141,7 +144,58 @@ const MacroScreen = ({ route }) => {
       CalculateMacro();
     }
   };
+  const UpdateUser = async (value) => {
+    setIsBusy(true);
+    console.log(store.getState().rootReducer.user);
+    try {
+      const res = await macroApi.updateMacro(
+        {
+          tdee: tdee,
+          goal: data.goal,
+          caloric_intake_goal: value.caloric_intake_goal,
+          daily_protein_goal: value.daily_protein_goal,
+          daily_fat_goal: value.daily_fat_goal,
+          daily_carb_goal: value.daily_carb_goal,
+        },
+        store.getState().rootReducer.user.id
+      );
+      if (res.status == 200) {
+        setIsBusy(false);
+        Toast.show({
+          text1: "Expenditure updated successfully",
+          type: "success",
+        });
+        dispatch({
+          type: "UPDATE_USER_MACRO",
+          payload: {
+            tdee: tdee,
+            goal: data.goal,
+            caloric_intake_goal: value.caloric_intake_goal,
+            daily_protein_goal: value.daily_protein_goal,
+            daily_fat_goal: value.daily_fat_goal,
+            daily_carb_goal: value.daily_carb_goal,
+            first_login: new Date().toString(),
+          },
+        });
+        navigation.navigate("MainScreen", {}, { reset: false });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Can not calculate Macro",
+        });
+        setIsBusy(false);
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error.message,
+      });
+      console.log(error);
+      setIsBusy(false);
+    }
+  };
   const CalculateMacro = async () => {
+    setIsBusy(true);
     try {
       const res = await macroApi.getMacro({
         goal: data.goal,
@@ -157,9 +211,9 @@ const MacroScreen = ({ route }) => {
       });
       console.log(res);
       if (res.status == 200) {
-        const data = res.data;
-        if (data) {
-          console.log(data);
+        const value = res.data;
+        if (value) {
+          await UpdateUser(value);
           //update user
           //65a1853d8019b802626d5de7
         }

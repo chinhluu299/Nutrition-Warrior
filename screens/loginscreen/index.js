@@ -59,11 +59,16 @@ const LoginScreen = () => {
         //save state
         setIsBusy(false);
         if (res.data.success) {
+          console.log(res.data);
           dispatch({
             type: "UPDATE_USER",
             payload: res.data.data,
           });
-          navigation.navigate("MainScreen", {}, { reset: true });
+          if (res.data.data.first_login != null) {
+            navigation.navigate("MainScreen", {}, { reset: true });
+          } else {
+            navigation.navigate("Survey", {}, { reset: true });
+          }
         }
         return;
       } else {

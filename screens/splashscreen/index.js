@@ -30,7 +30,7 @@ const SplashScreen = ({ navigation }) => {
     loadFonts();
   }, []);
   const OnNextStep = () => {
-    navigation.navigate("Survey");
+    navigation.navigate("Login", {}, { reset: true });
   };
   if (fontLoaded) {
     return (

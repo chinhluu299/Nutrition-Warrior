@@ -36,7 +36,8 @@ const authApi = {
     return response;
   },
   updateProfile: async (id, formData) => {
-    const response = await axiosClient.post(`${url}update/${id}`, formData);
+    const response = await axiosClient.put(`${url}update/${id}`, formData);
+    console.log(response);
     return response;
   },
 };
