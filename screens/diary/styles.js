@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
+    margin: 20,
   },
   icon: {
     color: "white", // Set your desired icon color

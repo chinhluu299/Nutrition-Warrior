@@ -9,6 +9,33 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  modalContainer: {
+    backgroundColor: "#FFF",
+    padding: 20,
+  },
+  modal_caption: {
+    marginTop: 20,
+    marginBottom: 10,
+    color: Colors.darker,
+    fontWeight: "600",
+  },
+  submit_add: {
+    borderRadius: 5,
+    marginTop: 20,
+    width: 100,
+    height: 30,
+    textAlign: "center",
+    backgroundColor: Colors.primary,
+    pading: 10,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  number_serving: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 16,
+  },
   search: {
     margin: 25,
     padding: 5,
