@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,13 +17,21 @@ import Toast from "react-native-toast-message";
 import foodApi from "../../api/foodApi";
 import FoodNutrient from "../../components/FoodNutrient";
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation, route }) => {
   const [keyword, setKeyword] = useState("");
   const [result, setResult] = useState(null);
   const [hint, setHint] = useState("");
   const [autoComplete, setAutoComplete] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
+  useEffect(() => {
+    const detectedObjects = route.params?.detectedObjects;
 
+    if (detectedObjects && detectedObjects.length > 0) {
+      const searchTerm = detectedObjects[0][1];
+      setKeyword(searchTerm);
+      searchAction(searchTerm);
+    }
+  }, [route.params]);
   const checkHints = () => {};
   const handleAddFood = async (input = "") => {};
   const handleSearch = async (input = "") => {
