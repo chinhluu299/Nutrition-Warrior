@@ -20,6 +20,7 @@ const exerciseName = "Exercise";
 const scanName = "Scan";
 const profileName = "Profile";
 const diaryName = "Diary";
+const searchName = "Search";
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress }) => (
@@ -68,6 +69,8 @@ function BottomNavigation() {
             iconName = focused ? "analytics" : "analytics-outline";
           } else if (rn === profileName) {
             iconName = focused ? "person" : "person-outline";
+          } else if (rn === searchName) {
+            iconName = focused ? "search" : "search-outline";
           } else if (rn === scanName) {
             iconName = focused ? "scan" : "scan-outline";
           }
@@ -117,6 +120,11 @@ function BottomNavigation() {
       <Tab.Screen
         name={analyticName}
         component={MyAnalyticsScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={searchName}
+        component={SearchScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen

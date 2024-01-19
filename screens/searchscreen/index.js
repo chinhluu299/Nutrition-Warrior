@@ -20,14 +20,17 @@ import FoodNutrient from "../../components/FoodNutrient";
 const SearchScreen = ({ navigation }) => {
   const [keyword, setKeyword] = useState("");
   const [result, setResult] = useState(null);
+  const [hint, setHint] = useState("");
   const [autoComplete, setAutoComplete] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
 
+  const checkHints = () => {};
+  const handleAddFood = async (input = "") => {};
   const handleSearch = async (input = "") => {
     try {
-      console.log("====================================");
-      console.log("data: ", input);
-      console.log("====================================");
+      // console.log("====================================");
+      // console.log("data: ", input);
+      // console.log("====================================");
       const res = input
         ? await foodApi.searchFood(input)
         : await foodApi.searchFood(keyword);
@@ -37,6 +40,7 @@ const SearchScreen = ({ navigation }) => {
           setResult(false);
         } else {
           setResult(data.parsed);
+          setHint(data.hints);
         }
         setAutoComplete(data.auto_complete);
       } else {
@@ -84,7 +88,7 @@ const SearchScreen = ({ navigation }) => {
           size={30}
           name="magnify"
           color={Colors.secondary}
-          onPress={searchAction}
+          onPress={(e) => searchAction()}
         ></MaterialCommunityIcons>
         <TextInput
           placeholder="Search here..."
@@ -135,13 +139,26 @@ const SearchScreen = ({ navigation }) => {
             {result.map((element, index) => {
               return (
                 <View key={index} style={styles.food_container}>
-                  <Image
-                    style={styles.food_image}
-                    source={{
-                      uri: element.food.image,
-                    }}
-                    resizeMode="cover"
-                  />
+                  <View style={styles.image_border}>
+                    <Image
+                      style={styles.food_image}
+                      source={{
+                        uri: element.food.image,
+                      }}
+                      resizeMode="cover"
+                    />
+                  </View>
+
+                  <TouchableOpacity
+                    style={styles.add_food}
+                    onPress={(e) => handleAddFood(element)}
+                  >
+                    <Ionicons
+                      name="add-circle"
+                      size={50}
+                      color={Colors.secondary}
+                    />
+                  </TouchableOpacity>
                   <Text style={styles.food_label}>{element.food.label}</Text>
                   <View style={styles.food_nutrient}>
                     <FoodNutrient
