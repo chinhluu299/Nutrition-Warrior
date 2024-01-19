@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NutritionWarrior",
-    "slug": "nutritionwarrior",
+    "slug": "nutrition-warrior",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -19,17 +21,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nutriwarrior"
+      "package": "com.nutriwarrior",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "73729584-17f6-4600-902b-7a9dbf0dc864"
+        "projectId": "b43593d4-25b9-4a20-8149-c07317c6a119"
       }
     },
-    "owner": "kisihuyetma97",
+    "owner": "uit-duo",
     "plugins": [
       [
         "expo-image-picker",
