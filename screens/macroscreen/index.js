@@ -174,7 +174,7 @@ const MacroScreen = ({ route }) => {
             daily_protein_goal: value.daily_protein_goal,
             daily_fat_goal: value.daily_fat_goal,
             daily_carb_goal: value.daily_carb_goal,
-            first_login: new Date().toString(),
+            first_login: true,
           },
         });
         navigation.navigate("MainScreen", {}, { reset: false });
