@@ -73,6 +73,16 @@ const SearchScreen = ({ navigation, route }) => {
     }
   }, [route.params]);
 
+  useEffect(() => {
+    const detectedObjects = route.params?.detectedObjects;
+
+    if (detectedObjects && detectedObjects.length > 0) {
+      const searchTerm = detectedObjects[0][1];
+      setKeyword(searchTerm);
+      searchAction(searchTerm);
+    }
+  }, [route.params]);
+
   const handleSearch = async (input = "") => {
     try {
       // console.log("====================================");
