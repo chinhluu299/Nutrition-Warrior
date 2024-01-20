@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,7 +22,7 @@ import DropdownComponent from "../../components/Dropdown";
 import dialyLogApi from "../../api/logApi";
 import { useDispatch, useSelector } from "react-redux";
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation, route }) => {
   const [keyword, setKeyword] = useState("");
   const [result, setResult] = useState(null);
   //const [hints, setHints] = useState("");
@@ -63,6 +63,16 @@ const SearchScreen = ({ navigation }) => {
     setSelectedFood(input);
     setModalVisible(true);
   };
+  useEffect(() => {
+    const detectedObjects = route.params?.detectedObjects;
+
+    if (detectedObjects && detectedObjects.length > 0) {
+      const searchTerm = detectedObjects[0][1];
+      setKeyword(searchTerm);
+      searchAction(searchTerm);
+    }
+  }, [route.params]);
+
   const handleSearch = async (input = "") => {
     try {
       // console.log("====================================");

@@ -5,6 +5,14 @@ import { Colors } from "../../resources/Colors";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
+  captureButton: {
+    position: "absolute",
+    bottom: 20,
+    alignSelf: "center",
+    // backgroundColor: "#4CAF50",
+    borderRadius: 50,
+    padding: 15,
+  },
   container: {
     flex: 1,
   },

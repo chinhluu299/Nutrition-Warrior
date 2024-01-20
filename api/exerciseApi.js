@@ -36,5 +36,9 @@ const exerciseApi = {
     const response = axiosClient.get(`${url}get-target-list/`);
     return response;
   },
+  getExercisesByName: (keyword) => {
+    const response = axiosClient.get(`${url}get-exercises-by-name/${keyword}`);
+    return response;
+  },
 };
 export default exerciseApi;
