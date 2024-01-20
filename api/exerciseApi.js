@@ -40,5 +40,12 @@ const exerciseApi = {
     const response = axiosClient.get(`${url}get-exercises-by-name/${keyword}`);
     return response;
   },
+  addExerciseToDailyLog: (userId, exerciseData) => {
+    const response = axiosClient.post(
+      `${url}add-exercise-to-daily-log/${userId}`,
+      exerciseData
+    );
+    return response;
+  },
 };
 export default exerciseApi;

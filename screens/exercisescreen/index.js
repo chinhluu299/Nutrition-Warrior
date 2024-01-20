@@ -61,7 +61,6 @@ const ExerciseScreen = () => {
     <View style={styles.container}>
       <Text style={styles.background_title_text}>Search</Text>
 
-      {/* Search UI Container */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -74,7 +73,6 @@ const ExerciseScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Display filtered data or default data */}
       {filteredData.length > 0 ? (
         <FlatList
           style={styles.list}

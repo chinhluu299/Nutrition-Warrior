@@ -22,6 +22,14 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case "UPDATE_USER_DAILY_LOG":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          daily_logs: action.payload.dailyLogs,
+        },
+      };
     case "UPDATE_USER":
       return {
         ...state,

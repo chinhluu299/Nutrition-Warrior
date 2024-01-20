@@ -49,6 +49,12 @@ const LoginScreen = () => {
       return;
     }
     try {
+      dispatch({
+        type: "LOGOUT",
+      });
+      dispatch({
+        type: "CLEAR_USER",
+      });
       setIsBusy(true);
       var res = await authApi.login({
         email: email,
