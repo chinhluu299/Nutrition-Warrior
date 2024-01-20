@@ -6,6 +6,77 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
+  setContainer: {
+    marginTop: 8,
+    padding: 8,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "#ddd",
+  },
+  setInfo: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  foodItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lighter,
+  },
+
+  foodLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  foodDetails: {
+    fontSize: 14,
+    color: Colors.dark,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  exerciseItem: {
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 16,
+    borderRadius: 8,
+  },
+  exerciseName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  exerciseDetail: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  setContainer: {
+    marginTop: 8,
+  },
+  setNumber: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  noExercisesText: {
+    fontSize: 16,
+    fontStyle: "italic",
+  },
+  exerciseItem: {
+    padding: 10,
+    backgroundColor: Colors.lighter,
+    borderRadius: 8,
+    marginVertical: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

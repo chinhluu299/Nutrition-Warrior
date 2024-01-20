@@ -25,7 +25,6 @@ const DiaryScreen = ({ route }) => {
   const [foodItems, setFoodItems] = useState([]);
 
   const userData = useSelector((state) => state.rootReducer.user);
-
   const goToPreviousDay = () => {
     const previousDay = new Date(selectedDate);
     previousDay.setDate(selectedDate.getDate() - 1);
@@ -49,16 +48,31 @@ const DiaryScreen = ({ route }) => {
     const dailyLogs = userData.daily_logs;
 
     const selectedDayLog = dailyLogs.find((log) => {
-      const logDate = new Date(log.date);
-
-      return (
-        logDate.getDate() === selectedDate.getDate() &&
-        logDate.getMonth() === selectedDate.getMonth() &&
-        logDate.getFullYear() === selectedDate.getFullYear()
-      );
+      const logDateFirst10 = log.date.substring(0, 10);
+      const selectedDateFirst10 = selectedDate.toISOString().substring(0, 10);
+      if (logDateFirst10 === selectedDateFirst10) {
+        console.log("====================================");
+        console.log("equal");
+        console.log("====================================");
+      }
+      // Compare using string representation
+      return logDateFirst10 === selectedDateFirst10;
+      // if (logDate === selectedDate) {
+      //   console.log("====================================");
+      //   console.log(true);
+      //   console.log("====================================");
+      // }
+      // return (
+      //   logDate.getDate() === selectedDate.getDate() &&
+      //   logDate.getMonth() === selectedDate.getMonth() &&
+      //   logDate.getFullYear() === selectedDate.getFullYear()
+      // );
     });
+    console.log(selectedDayLog);
 
-    setFoodItems(selectedDayLog ? selectedDayLog.foods : []);
+    setExerciseData(selectedDayLog ? selectedDayLog.exercise_data : []);
+    setFoodItems(selectedDayLog ? selectedDayLog : []);
+    console.log(selectedDayLog.breakfast.length);
   };
 
   useEffect(() => {
@@ -93,7 +107,7 @@ const DiaryScreen = ({ route }) => {
         />
       )}
 
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1.5 }}>
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Breakfast</Text>
           {foodItems &&
@@ -101,8 +115,10 @@ const DiaryScreen = ({ route }) => {
           foodItems.breakfast.length > 0 ? (
             foodItems.breakfast.map((food, index) => (
               <View key={index} style={styles.foodItem}>
-                <Text>{food.name}</Text>
-                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+                <Text style={styles.foodLabel}>{food.label}</Text>
+                <Text style={styles.foodDetails}>
+                  {food.nutrients.ENERC_KCAL} kcal
+                </Text>
               </View>
             ))
           ) : (
@@ -119,7 +135,7 @@ const DiaryScreen = ({ route }) => {
           {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
             foodItems.lunch.map((food, index) => (
               <View key={index} style={styles.foodItem}>
-                <Text>{food.name}</Text>
+                <Text>{food.label}</Text>
                 <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
               </View>
             ))
@@ -137,7 +153,7 @@ const DiaryScreen = ({ route }) => {
           {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
             foodItems.dinner.map((food, index) => (
               <View key={index} style={styles.foodItem}>
-                <Text>{food.name}</Text>
+                <Text>{food.label}</Text>
                 <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
               </View>
             ))
@@ -147,6 +163,31 @@ const DiaryScreen = ({ route }) => {
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Exercises</Text>
+          {exerciseData && exerciseData.length > 0 ? (
+            exerciseData.map((exerciseEntry, index) => (
+              <View key={index} style={styles.exerciseItem}>
+                <Text style={styles.exerciseName}>
+                  {exerciseEntry.exercise.name}
+                </Text>
+
+                {/* Display details for each set */}
+                {exerciseEntry.sets.map((set, setIndex) => (
+                  <View key={setIndex} style={styles.setContainer}>
+                    <Text style={styles.setInfo}>Set {setIndex + 1}</Text>
+                    <Text style={styles.setInfo}>Reps: {set.reps}</Text>
+                    <Text style={styles.setInfo}>
+                      Duration: {set.duration} seconds
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noExercisesText}>No exercises available</Text>
+          )}
         </View>
       </ScrollView>
 

@@ -7,11 +7,15 @@ import { useNavigation } from "@react-navigation/native";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import exerciseApi from "../../api/exerciseApi";
 import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
+import ExerciseInputModal from "../../components/ExerciseInputModal";
 
 const ExerciseDetailScreen = ({ route }) => {
   const { data } = route.params;
+  const [isModalVisible, setModalVisible] = useState(false);
   const [content, setContent] = useState({});
   const navigation = useNavigation();
+
   useEffect(() => {
     setContent(data);
   }, []);
@@ -73,6 +77,19 @@ const ExerciseDetailScreen = ({ route }) => {
             })}
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Ionicons name="add" style={styles.floatingButtonIcon} />
+      </TouchableOpacity>
+
+      {/* Exercise Input Modal */}
+      <ExerciseInputModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        data={content}
+      />
     </View>
   );
 };
