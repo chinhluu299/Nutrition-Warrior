@@ -28,7 +28,6 @@ const Stack = createNativeStackNavigator();
 const userInfo = store.getState().rootReducer.user;
 
 export default function App() {
-  console.log(userInfo);
   return (
     <Provider store={store}>
       <NavigationContainer>

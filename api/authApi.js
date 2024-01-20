@@ -7,7 +7,7 @@ const authApi = {
       `${url}login`,
       JSON.stringify(data)
     );
-    console.log(response);
+    // console.log(response);
     return response;
   },
   register: async (data) => {

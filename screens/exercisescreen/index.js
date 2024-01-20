@@ -27,7 +27,7 @@ const ExerciseScreen = () => {
       console.log("====================================");
       const response = await exerciseApi.getExercisesByName(searchText);
       if (response.data.success) {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setFilteredData(response.data.data);
       }
     } catch (error) {

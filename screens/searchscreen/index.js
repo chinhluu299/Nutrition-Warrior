@@ -192,27 +192,27 @@ const SearchScreen = ({ navigation, route }) => {
         new Date().toISOString(),
         dataReq
       );
-      if (res.status == 200) {
+      if (res.status == 201) {
         dispatch({
           type: "UPDATE_USER",
-          payload: res.data,
+          payload: res.data.data,
         });
         setIsBusy(false);
         toggleModal();
         Toast.show({
           type: "success",
-          message: "Add food successfully",
+          text1: "Add food successfully",
         });
       } else {
         Toast.show({
           type: "error",
-          message: "Can not add this food",
+          text1: "Can not add this food",
         });
       }
     } catch (error) {
       Toast.show({
         type: "error",
-        message: error.message,
+        text1: error.message,
       });
       console.log(error);
     }

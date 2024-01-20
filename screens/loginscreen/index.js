@@ -59,7 +59,6 @@ const LoginScreen = () => {
         //save state
         setIsBusy(false);
         if (res.data.success) {
-          console.log(res.data);
           dispatch({
             type: "UPDATE_USER",
             payload: res.data.data,
