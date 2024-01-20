@@ -104,7 +104,7 @@ const ProfileScreen = () => {
       //console.log(form);
 
       const res = await authApi.updateProfile(userInfo.id, form);
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         const data = res.data;
         if (data.success) {

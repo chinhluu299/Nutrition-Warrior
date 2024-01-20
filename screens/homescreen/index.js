@@ -40,26 +40,53 @@ const HomeScreen = () => {
         </View>
         <View style={styles.container}>
           <View style={styles.daily_kcal_left}>
-            <ProgressKcal target={1700} current={1000} />
+            <ProgressKcal
+              target={user.daily_logs[0].caloric_intake_goal}
+              current={user.daily_logs[0].caloric_intake}
+            />
           </View>
           <View style={styles.content}>
             <View style={styles.daily_kcal_left_detail}>
               <ProgressKcalItem
                 title={"Fat"}
                 target={user.daily_logs[0].daily_fat_goal}
-                current={user.daily_logs[0].fat_remain}
+                current={user.daily_logs[0].fat_intake}
               />
               <ProgressKcalItem
                 title={"Carbs"}
                 target={user.daily_logs[0].daily_carb_goal}
-                current={user.daily_logs[0].carb_remain}
+                current={user.daily_logs[0].carb_intake}
               />
               <ProgressKcalItem
                 title={"Protein"}
                 target={user.daily_logs[0].daily_protein_goal}
-                current={user.daily_logs[0].protein_remain}
+                current={user.daily_logs[0].protein_intake}
               />
             </View>
+            {/* <View style={styles.daily_kcal_left}>
+            <ProgressKcal
+              target={"1700"}
+              current={"895"}
+            />
+          </View>
+          <View style={styles.content}>
+            <View style={styles.daily_kcal_left_detail}>
+              <ProgressKcalItem
+                title={"Fat"}
+                target={"5"}
+                current={"2.1"}
+              />
+              <ProgressKcalItem
+                title={"Carbs"}
+                target={"127"}
+                current={"27.6"}
+              />
+              <ProgressKcalItem
+                title={"Protein"}
+                target={"5"}
+                current={"2.1"}
+              /> */}
+            {/* </View> */}
             <View style={styles.daily_action}>
               <TouchableOpacity style={styles.daily_action_item}>
                 <MaterialCommunityIcons

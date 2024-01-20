@@ -7,7 +7,6 @@ const dialyLogApi = {
       `${url}add-food/${userId}/${date}`,
       JSON.stringify(data)
     );
-    console.log(response);
     return response;
   },
 };

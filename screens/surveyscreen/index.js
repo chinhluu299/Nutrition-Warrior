@@ -122,7 +122,6 @@ const SurveyScreen = () => {
         setIsBusy(false);
 
         if (data) {
-          console.log(data);
           navigation.navigate(
             "Tdee",
             {

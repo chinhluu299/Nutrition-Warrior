@@ -146,7 +146,6 @@ const MacroScreen = ({ route }) => {
   };
   const UpdateUser = async (value) => {
     setIsBusy(true);
-    console.log(store.getState().rootReducer.user);
     try {
       const res = await macroApi.updateMacro(
         {
@@ -209,7 +208,7 @@ const MacroScreen = ({ route }) => {
         daily_fat_percentage: dailyFat,
         tdee: tdee,
       });
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         const value = res.data;
         if (value) {

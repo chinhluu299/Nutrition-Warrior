@@ -10,11 +10,9 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const ProgressKcal = ({ target, current }) => {
-  const left = target - current;
-
   const data = {
-    labels: ["Kcal"], // optional
-    data: [current / target],
+    labels: ["Kcal"], // optional parseFloat(target) == 0 ? 1 : parseFloat(current) / parseFloat(target)
+    data: target == 0 ? [1] : [parseFloat(current) / parseFloat(target)],
   };
 
   const chartConfig = {
@@ -38,7 +36,9 @@ const ProgressKcal = ({ target, current }) => {
         hideLegend={true}
       ></ProgressChart>
       <View style={styles.content}>
-        <Text style={styles.content_number}>{left}</Text>
+        <Text style={styles.content_number}>
+          {parseFloat(target) - parseFloat(current)}
+        </Text>
         <Text style={styles.content_text}>Kcal Left</Text>
       </View>
     </View>

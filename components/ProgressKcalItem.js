@@ -30,7 +30,7 @@ export const ProgressKcalItem = ({ title, target, current }) => {
         style={styles.progress_bar}
       />
       <Text style={styles.detail}>
-        {parseFloat(target) - parseFloat(current)}g left
+        {(parseFloat(target) - parseFloat(current)).toFixed(1)}g left
       </Text>
     </View>
   );

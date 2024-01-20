@@ -50,6 +50,7 @@ const DiaryScreen = ({ route }) => {
 
     const selectedDayLog = dailyLogs.find((log) => {
       const logDate = new Date(log.date);
+
       return (
         logDate.getDate() === selectedDate.getDate() &&
         logDate.getMonth() === selectedDate.getMonth() &&
@@ -62,7 +63,7 @@ const DiaryScreen = ({ route }) => {
 
   useEffect(() => {
     fetchData();
-    console.log(userData);
+    // console.log(userData);
   }, [selectedDate, userData]);
 
   return (
