@@ -66,13 +66,7 @@ const MyAnalyticsScreen = () => {
           </ScrollView>
         </View>
         <View style={{ flex: 1 }}>
-          <KcalPieChart
-            breakfast={100}
-            lunch={200}
-            dinner={150}
-            supper={160}
-            snack={200}
-          />
+          <KcalPieChart breakfast={100} lunch={200} dinner={150} />
         </View>
       </View>
     );

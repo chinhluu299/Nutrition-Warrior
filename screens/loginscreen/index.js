@@ -69,7 +69,11 @@ const LoginScreen = () => {
             type: "UPDATE_USER",
             payload: res.data.data,
           });
-          if (res.data.data.first_login != null) {
+          console.log("====================================");
+          console.log("fdasafsd");
+          console.log("====================================");
+          console.log(res.data.data.first_login);
+          if (res.data.data.first_login == false) {
             navigation.navigate("MainScreen", {}, { reset: true });
           } else {
             navigation.navigate("Survey", {}, { reset: true });

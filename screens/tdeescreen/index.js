@@ -58,7 +58,7 @@ const TdeeScreen = ({ route }) => {
           <Text style={styles.heading}>Total Daily Energy Expenditure</Text>
           {isEdit == false ? (
             <View>
-              <Text style={styles.heading_name}>{tdee}</Text>
+              <Text style={styles.heading_name}>{tdee.toFixed(2)}</Text>
               <Text
                 style={styles.description}
                 onPress={(e) => setIsEdit(!isEdit)}

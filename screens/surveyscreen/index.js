@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Touchable,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import { styles } from "./style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -12,6 +13,8 @@ import Toast from "react-native-toast-message";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import macroApi from "../../api/macroApi";
 import { useNavigation } from "@react-navigation/native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SurveyScreen = () => {
   // const [surveys, setSurveys] = useState([]);
@@ -165,77 +168,84 @@ const SurveyScreen = () => {
     setStateReturn(value);
   };
   return (
-    <View style={styles.container}>
-      <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <View style={styles.container}>
+        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
 
-      <View style={styles.questions}>
-        {surveys.map((value, index) => {
-          if (step == index) {
-            return <View key={index} style={styles.step_active}></View>;
-          } else {
-            return <View key={index} style={styles.step_nonactive}></View>;
-          }
-        })}
-      </View>
-      <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
-      <View style={styles.question_detail}>
-        {
-          <View>
-            <Text style={styles.question_detail_question}>
-              {surveys[step].question}
-            </Text>
+        <View style={styles.questions}>
+          {surveys.map((value, index) => {
+            if (step == index) {
+              return <View key={index} style={styles.step_active}></View>;
+            } else {
+              return <View key={index} style={styles.step_nonactive}></View>;
+            }
+          })}
+        </View>
+        <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
+        <View style={styles.question_detail}>
+          {
             <View>
-              {surveys[step].answer.length > 1 ? (
-                surveys[step].answer.map((value, index) => (
-                  <TouchableOpacity
-                    key={step + "_" + index}
-                    style={
-                      selected == index
-                        ? styles.question_detail_choose_active
-                        : styles.question_detail_choose
+              <Text style={styles.question_detail_question}>
+                {surveys[step].question}
+              </Text>
+              <View>
+                {surveys[step].answer.length > 1 ? (
+                  surveys[step].answer.map((value, index) => (
+                    <TouchableOpacity
+                      key={step + "_" + index}
+                      style={
+                        selected == index
+                          ? styles.question_detail_choose_active
+                          : styles.question_detail_choose
+                      }
+                      onPress={() => ChangeSelection(value, index)}
+                    >
+                      <Text>{value}</Text>
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <TextInput
+                    style={styles.question_detail_input}
+                    value={inputValue}
+                    onChangeText={handleChange}
+                    keyboardType="numeric"
+                    placeholder={
+                      "Enter a number ( " + surveys[step].unit + " )"
                     }
-                    onPress={() => ChangeSelection(value, index)}
-                  >
-                    <Text>{value}</Text>
-                  </TouchableOpacity>
-                ))
-              ) : (
-                <TextInput
-                  style={styles.question_detail_input}
-                  value={inputValue}
-                  onChangeText={handleChange}
-                  keyboardType="numeric"
-                  placeholder={"Enter a number ( " + surveys[step].unit + " )"}
-                />
-              )}
+                  />
+                )}
+              </View>
             </View>
-          </View>
-        }
+          }
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.back_button}
+            onPress={PreviousQuestionHandle}
+          >
+            <MaterialCommunityIcons
+              style={styles.back_button_icon}
+              color={"#FFFFFF"}
+              name="arrow-left"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.next_button}
+            onPress={NextQuestionHandle}
+          >
+            <Text style={styles.next_step}>Next</Text>
+            <MaterialCommunityIcons
+              style={styles.back_button_icon}
+              color={"#FFFFFF"}
+              name="arrow-right"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.buttons}>
-        <TouchableOpacity
-          style={styles.back_button}
-          onPress={PreviousQuestionHandle}
-        >
-          <MaterialCommunityIcons
-            style={styles.back_button_icon}
-            color={"#FFFFFF"}
-            name="arrow-left"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.next_button}
-          onPress={NextQuestionHandle}
-        >
-          <Text style={styles.next_step}>Next</Text>
-          <MaterialCommunityIcons
-            style={styles.back_button_icon}
-            color={"#FFFFFF"}
-            name="arrow-right"
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

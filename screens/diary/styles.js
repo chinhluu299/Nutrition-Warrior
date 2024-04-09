@@ -6,6 +6,19 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
+  tableHeader: {
+    height: 40,
+    backgroundColor: "#f1f8ff",
+  },
+
+  tableHeaderText: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+
+  tableRowText: {
+    textAlign: "center",
+  },
   setContainer: {
     marginTop: 8,
     padding: 8,

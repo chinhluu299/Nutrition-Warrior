@@ -45,9 +45,12 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
         exerciseData
       );
       if (response.data.success) {
+        console.log("===================dsadfasdf=================");
+        console.log(response.data.data);
+        console.log("====================================");
         dispatch({
-          type: "UPDATE_USER_DAILY_LOG",
-          payload: response.data.data.daily_logs,
+          type: "UPDATE_USER",
+          payload: response.data.data,
         });
       }
       Toast.show({
