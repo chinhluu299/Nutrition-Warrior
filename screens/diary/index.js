@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import { Table, Row, Rows } from "react-native-table-component";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
@@ -16,6 +17,7 @@ import { styles } from "./styles";
 import { Colors } from "../../resources/Colors";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const DiaryScreen = ({ route }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -23,7 +25,15 @@ const DiaryScreen = ({ route }) => {
   const [exerciseData, setExerciseData] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [foodItems, setFoodItems] = useState([]);
+  const navigation = useNavigation();
 
+  const handleExerciseItemPress = (exerciseEntry) => {
+    navigation.navigate(
+      "ExerciseDetail",
+      { data: exerciseEntry },
+      { reset: true }
+    );
+  };
   const userData = useSelector((state) => state.rootReducer.user);
   const goToPreviousDay = () => {
     const previousDay = new Date(selectedDate);
@@ -72,7 +82,6 @@ const DiaryScreen = ({ route }) => {
 
     setExerciseData(selectedDayLog ? selectedDayLog.exercise_data : []);
     setFoodItems(selectedDayLog ? selectedDayLog : []);
-    console.log(selectedDayLog.breakfast.length);
   };
 
   useEffect(() => {
@@ -168,25 +177,39 @@ const DiaryScreen = ({ route }) => {
           <Text style={styles.sectionTitle}>Exercises</Text>
           {exerciseData && exerciseData.length > 0 ? (
             exerciseData.map((exerciseEntry, index) => (
-              <View key={index} style={styles.exerciseItem}>
+              <TouchableOpacity
+                key={index}
+                style={styles.exerciseItemContainer}
+                onPress={() => handleExerciseItemPress(exerciseEntry.exercise)}
+              >
                 <Text style={styles.exerciseName}>
-                  {exerciseEntry.exercise.name}
+                  {exerciseEntry.exercise.name.charAt(0).toUpperCase() +
+                    exerciseEntry.exercise.name.slice(1)}
                 </Text>
-
-                {/* Display details for each set */}
-                {exerciseEntry.sets.map((set, setIndex) => (
-                  <View key={setIndex} style={styles.setContainer}>
-                    <Text style={styles.setInfo}>Set {setIndex + 1}</Text>
-                    <Text style={styles.setInfo}>Reps: {set.reps}</Text>
-                    <Text style={styles.setInfo}>
-                      Duration: {set.duration} seconds
-                    </Text>
-                  </View>
-                ))}
-              </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  {exerciseEntry.sets.map((set, setIndex) => (
+                    <View key={setIndex} style={styles.setContainer}>
+                      <Text style={styles.setInfo}>Set {setIndex + 1}</Text>
+                      <Table
+                        borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}
+                      >
+                        <Row
+                          data={["Reps", "Duration"]}
+                          style={styles.tableHeader}
+                          textStyle={styles.tableHeaderText}
+                        />
+                        <Rows
+                          data={[[set.reps, `${set.duration} seconds`]]}
+                          textStyle={styles.tableRowText}
+                        />
+                      </Table>
+                    </View>
+                  ))}
+                </ScrollView>
+              </TouchableOpacity>
             ))
           ) : (
-            <Text style={styles.noExercisesText}>No exercises available</Text>
+            <Text style={styles.noItemsText}>No exercises available</Text>
           )}
         </View>
       </ScrollView>

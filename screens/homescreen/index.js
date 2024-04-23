@@ -31,7 +31,7 @@ const HomeScreen = () => {
   useEffect(() => {
     setUser(userInfo);
     loadFonts();
-  }, []);
+  }, [userInfo]);
   if (fontLoaded && user) {
     return (
       <View style={styles.background}>
@@ -41,7 +41,7 @@ const HomeScreen = () => {
         <View style={styles.container}>
           <View style={styles.daily_kcal_left}>
             <ProgressKcal
-              target={user.daily_logs[0].caloric_intake_goal}
+              target={user.daily_logs[0]?.caloric_intake_goal}
               current={user.daily_logs[0].caloric_intake}
             />
           </View>

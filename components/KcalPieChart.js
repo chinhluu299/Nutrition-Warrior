@@ -11,29 +11,14 @@ const screenHeight = Dimensions.get("window").height;
 const widthAndHeight = 280;
 const widthAndHeight2 = widthAndHeight - 37;
 
-const KcalPieChart = ({ breakfast, lunch, dinner, supper, snack }) => {
-  const total = breakfast + lunch + dinner + supper + snack;
-  const space = total / 9 / 10;
-  const series = [
-    breakfast,
-    space,
-    lunch,
-    space,
-    dinner,
-    space,
-    supper,
-    space,
-    snack,
-    space,
-  ];
+const KcalPieChart = ({ breakfast, lunch, dinner }) => {
+  const total = breakfast + lunch + dinner;
+  const space = total / 6 / 10; // Adjust as needed
+  const series = [breakfast, space, lunch, space, dinner, space];
   const sliceColor = [
     Colors.pie_color5,
     "transparent",
-    Colors.pie_color4,
-    "transparent",
     Colors.pie_color3,
-    "transparent",
-    Colors.pie_color2,
     "transparent",
     Colors.pie_color1,
     "transparent",
@@ -102,32 +87,6 @@ const KcalPieChart = ({ breakfast, lunch, dinner, supper, snack }) => {
           <Text style={styles.figure_item_kcal}>{dinner} Kcal</Text>
           <Text style={styles.figure_item_percent}>
             {Math.round((dinner / total) * 100)}%
-          </Text>
-        </View>
-        <View style={styles.figure_item}>
-          <View
-            style={[
-              { backgroundColor: Colors.pie_color2 },
-              styles.figure_item_color,
-            ]}
-          ></View>
-          <Text style={styles.figure_item_text}>Supper</Text>
-          <Text style={styles.figure_item_kcal}>{supper} Kcal</Text>
-          <Text style={styles.figure_item_percent}>
-            {Math.round((supper / total) * 100)}%
-          </Text>
-        </View>
-        <View style={styles.figure_item}>
-          <View
-            style={[
-              { backgroundColor: Colors.pie_color1 },
-              styles.figure_item_color,
-            ]}
-          ></View>
-          <Text style={styles.figure_item_text}>Snack</Text>
-          <Text style={styles.figure_item_kcal}>1000 Kcal</Text>
-          <Text style={styles.figure_item_percent}>
-            {Math.round((breakfast / total) * 100)}%
           </Text>
         </View>
       </View>

@@ -37,7 +37,7 @@ const ProgressKcal = ({ target, current }) => {
       ></ProgressChart>
       <View style={styles.content}>
         <Text style={styles.content_number}>
-          {parseFloat(target) - parseFloat(current)}
+          {(parseFloat(target) - parseFloat(current)).toFixed(2)}
         </Text>
         <Text style={styles.content_text}>Kcal Left</Text>
       </View>

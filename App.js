@@ -22,7 +22,7 @@ import store from "./app/store";
 import ProfileScreen from "./screens/profilescreen";
 import TdeeScreen from "./screens/tdeescreen";
 import MacroScreen from "./screens/macroscreen";
-
+// import MessageScreen from "./screens/MessageScreen";
 const Stack = createNativeStackNavigator();
 
 const userInfo = store.getState().rootReducer.user;
@@ -32,10 +32,19 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName={
+          //   // userInfo.first_login == false ? "MainScreen" : "Splash"
+          //   "Message"
+          // }
           initialRouteName={
-            userInfo.first_login == true ? "MainScreen" : "Splash"
+            userInfo.first_login == false ? "MainScreen" : "Splash"
           }
         >
+          {/* <Stack.Screen
+            name="Message"
+            component={MessageScreen}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="Macro"
             component={MacroScreen}

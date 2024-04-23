@@ -10,7 +10,7 @@ const initialState = {
   date_of_birth: "",
   daily_logs: [],
   goal: "",
-  first_login: false,
+  first_login: true,
   caloric_intake_goal: "0",
   daily_protein_goal: "0",
   daily_carb_goal: "0",
