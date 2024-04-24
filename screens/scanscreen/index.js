@@ -64,9 +64,6 @@ export default ScanScreen = ({ navigation }) => {
         console.log("picture source", source);
         setCapturedImage(source);
         setIsScanning(true);
-        console.log("====================================");
-        console.log(1);
-        console.log("====================================");
         await callObjectDetectionApi(data);
       }
     }
@@ -109,20 +106,12 @@ export default ScanScreen = ({ navigation }) => {
           name: "captured_image.jpg",
         },
       });
-      console.log("ok nhe ban toi oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-      console.log(response);
-      console.log("====================================");
-      console.log("xxx");
-      console.log("====================================");
       if (response.data.success) {
         console.log(response.data);
         if (
           response.data.detected_objects &&
           response.data.detected_objects.length > 0
         ) {
-          console.log("====================================");
-          console.log("====================================");
-          console.log("Detected objects:", response.data.detected_objects);
           navigation.navigate("Search", {
             detectedObjects: response.data.detected_objects,
           });

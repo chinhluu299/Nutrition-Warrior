@@ -123,8 +123,6 @@ const RegisterScreen = ({ navigation }) => {
   if (fontLoaded) {
     return (
       <View style={styles.container}>
-        <Toast position="top" topOffset={30} />
-        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
         <View style={styles.header}>
           <Text style={styles.title_main}>Get Started</Text>
           <Text style={styles.title_extra}>by creating a free account</Text>
@@ -214,6 +212,8 @@ const RegisterScreen = ({ navigation }) => {
             </Text>
           </View>
         </View>
+        <Toast position="top" topOffset={30} />
+        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
       </View>
     );
   } else {
