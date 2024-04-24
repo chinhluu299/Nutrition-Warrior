@@ -120,8 +120,6 @@ const LoginScreen = () => {
   if (fontLoaded) {
     return (
       <View style={styles.container}>
-        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
-        <Toast position="top" topOffset={30} />
         <View style={styles.header}>
           <Text style={styles.title_main}>Welcome back</Text>
           <Text style={styles.title_extra}>Sign in to access your account</Text>
@@ -193,6 +191,8 @@ const LoginScreen = () => {
             </Text>
           </View>
         </View>
+        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
+        <Toast position="top" topOffset={30} />
       </View>
     );
   } else {

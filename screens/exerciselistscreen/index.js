@@ -56,7 +56,6 @@ const ExerciseListScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Toast position="bottom" bottomOffset={30} />
       <View>
         <TouchableOpacity
           style={styles.back_control}
@@ -85,6 +84,7 @@ const ExerciseListScreen = ({ route }) => {
           )}
         />
       )}
+      <Toast position="bottom" bottomOffset={30} />
     </View>
   );
 };

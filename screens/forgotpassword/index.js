@@ -176,8 +176,6 @@ const ForgotPasswordScreen = () => {
   if (fontLoaded) {
     return step == 1 ? (
       <View style={styles.container}>
-        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
-        <Toast position="top" topOffset={30} />
         <View style={styles.header}>
           <Text style={styles.title_main}>Forgot password</Text>
           <Text style={styles.title_extra}>Provide your account's email</Text>
@@ -351,6 +349,8 @@ const ForgotPasswordScreen = () => {
             </Text>
           </View>
         </View>
+        <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
+        <Toast position="top" topOffset={30} />
       </View>
     );
   } else {

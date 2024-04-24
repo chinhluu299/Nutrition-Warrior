@@ -21,7 +21,6 @@ const ExerciseDetailScreen = ({ route }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <Toast position="bottom" bottomOffset={30} />
       <View>
         <TouchableOpacity
           style={styles.back_control}
@@ -90,6 +89,8 @@ const ExerciseDetailScreen = ({ route }) => {
         onClose={() => setModalVisible(false)}
         data={content}
       />
+
+      <Toast position="bottom" bottomOffset={30} />
     </View>
   );
 };

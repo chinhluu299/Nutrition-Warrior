@@ -138,8 +138,6 @@ const ProfileScreen = () => {
   if (fontLoaded) {
     return (
       <View style={styles.background}>
-        <Toast position="top" topOffset={30} style={{ zIndex: 10 }} />
-        <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
         <TouchableOpacity
           onPress={(e) => setIsEdit(!isEdit)}
           style={{ zIndex: 2 }}
@@ -240,6 +238,8 @@ const ProfileScreen = () => {
             </View>
           </View>
         </View>
+        <Toast position="top" topOffset={30} style={{ zIndex: 10 }} />
+        <ActivityIndicatorLoadingPage isBusy={isBusy} type={1} />
       </View>
     );
   } else {
