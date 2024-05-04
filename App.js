@@ -22,7 +22,10 @@ import store from "./app/store";
 import ProfileScreen from "./screens/profilescreen";
 import TdeeScreen from "./screens/tdeescreen";
 import MacroScreen from "./screens/macroscreen";
-// import MessageScreen from "./screens/MessageScreen";
+import MessageScreen from "./screens/MessageScreen";
+import StoryScreen from "./screens/storyscreen";
+import ChatScreen from "./screens/chatscreen";
+import UpstoryScreen from "./screens/upstoryscreen";
 const Stack = createNativeStackNavigator();
 
 const userInfo = store.getState().rootReducer.user;
@@ -32,20 +35,40 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          // initialRouteName={
-          //   // userInfo.first_login == false ? "MainScreen" : "Splash"
-          //   "Message"
-          // }
-          initialRouteName={
-            userInfo.first_login == false ? "MainScreen" : "Splash"
-          }
+        // initialRouteName={
+        //   // userInfo.first_login == false ? "MainScreen" : "Splash"
+        //   "Message"
+        // }
+        // initialRouteName={
+        //   userInfo.first_login == false ? "MainScreen" : "Splash"
+        // }
         >
+          <Stack.Screen
+            name="UpStory"
+            component={UpstoryScreen}
+            options={{ headerShown: false }}
+          />
+          {/* <Stack.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MessageScreen"
+            component={MessageScreen}
+            options={{ headerShown: false }}
+          /> */}
+          {/* <Stack.Screen
+            name="Story"
+            component={StoryScreen}
+            options={{ headerShown: false }}
+          /> */}
           {/* <Stack.Screen
             name="Message"
             component={MessageScreen}
             options={{ headerShown: false }}
           /> */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Macro"
             component={MacroScreen}
             options={{ headerShown: false }}
@@ -115,7 +138,7 @@ export default function App() {
             name="Tdee"
             component={TdeeScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
