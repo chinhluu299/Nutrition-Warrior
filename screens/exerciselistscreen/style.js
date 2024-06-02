@@ -37,5 +37,6 @@ export const styles = StyleSheet.create({
   back_control_icon: {
     fontSize: 20,
     fontWeight: "800",
+    
   },
 });

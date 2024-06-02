@@ -7,7 +7,7 @@ const exerciseApi = {
     return response;
   },
   getExercisesByName: (keyword) => {
-    const response = axiosClient.get(`${url}get-exercises-by-name/${keyword}`);
+    const response = axiosClient.get(`${url}get-exercises-by-name/${keyword}/`);
     return response;
   },
   getExercisesByBodyPart: (keyword) => {

@@ -6,50 +6,139 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Modal,
+  Pressable,
 } from "react-native";
 import { styles } from "./style";
 import { ExerciseColletionsBodyPart } from "../../static/ExerciseCollections";
 import ExerciseCollectionItem from "../../components/ExerciseCollectionItem";
 import { useNavigation } from "@react-navigation/native";
 import exerciseApi from "../../api/exerciseApi";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Back from "../../components/Back";
+import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
+import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
+import ExerciseCompact from "../../components/ExerciseCompact";
 
 const ExerciseScreen = () => {
   const [data, setData] = useState(ExerciseColletionsBodyPart);
+  const [myEx, setMyEx] = useState([]);
   const navigation = useNavigation();
-  const [type, setType] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+  const [tabSelected, setTabSelected] = useState(0);
+
+  const handleStartPractice = () => {
+    navigation.navigate("DoExercise", { data: myEx, reset: true });
+  };
 
   const handleSearch = async () => {
+    setIsBusy(true);
+    setModalVisible(false);
     try {
       console.log("====================================");
       console.log(searchText);
       console.log("====================================");
+
       const response = await exerciseApi.getExercisesByName(searchText);
-      if (response.data.success) {
+      if (response.data.success && response.data.data.length > 0) {
         // console.log(response.data.data);
         setFilteredData(response.data.data);
+        setSearch(true);
+      } else {
+        setSearch(false);
+        setFilteredData([]);
+        Toast.show({
+          type: "info",
+          text1: "Not found",
+        });
       }
     } catch (error) {
-      console.error(error.message);
+      setFilteredData([]);
+      Toast.show({
+        type: "error",
+        text1: error.message,
+      });
     }
+
+    setIsBusy(false);
   };
+  const onPressExCompact = (data) => {
+    navigation.navigate(
+      "ExerciseDetail",
+      { data: data.exercise_data },
+      { reset: true }
+    );
+  };
+  // const dailyLog = useSelector((state) => state.rootReducer.user.daily_logs);
+  const daiLog = [
+    {
+      exercise_data: {
+        bodyPart: "back",
+        equipment: "cable",
+        gifUrl: "https://v2.exercisedb.io/image/I4XMjCBFhqaGoJ",
+        id: "0007",
+        instructions: [
+          "Sit on the cable machine with your back straight and feet flat on the ground.",
+          "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.",
+          "Lean back slightly and pull the handles towards your chest, squeezing your shoulder blades together.",
+          "Pause for a moment at the peak of the movement, then slowly release the handles back to the starting position.",
+          "Repeat for the desired number of repetitions.",
+        ],
+        name: "alternate lateral pulldown",
+        secondaryMuscles: ["biceps", "rhomboids"],
+        target: "lats",
+      },
+      sets: [
+        {
+          reps: 10,
+          duration: 30,
+        },
+        {
+          reps: 8,
+          duration: 30,
+        },
+      ],
+    },
+    {
+      exercise_data: {
+        bodyPart: "back",
+        equipment: "leverage machine",
+        gifUrl: "https://v2.exercisedb.io/image/Js4jXbAEKYW8jz",
+        id: "0015",
+        instructions: [
+          "Adjust the machine to your desired weight and height.",
+          "Place your hands on the parallel bars with a close grip, palms facing each other.",
+          "Hang from the bars with your arms fully extended and your feet off the ground.",
+          "Engage your back muscles and pull your body up towards the bars, keeping your elbows close to your body.",
+          "Continue pulling until your chin is above the bars.",
+          "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
+          "Repeat for the desired number of repetitions.",
+        ],
+        name: "assisted parallel close grip pull-up",
+        secondaryMuscles: ["biceps", "forearms"],
+        target: "lats",
+      },
+      sets: [
+        {
+          reps: 8,
+          duration: 40,
+        },
+        {
+          reps: 6,
+          duration: 60,
+        },
+      ],
+    },
+  ];
   useEffect(() => {
     //co the phan thanh nhieu loai
-    switch (type) {
-      case 1:
-        setData(ExerciseColletionsBodyPart);
-        break;
-      case 2:
-        setData(ExerciseColletionsBodyPart);
-        break;
-      case 3:
-        setData(ExerciseColletionsBodyPart);
-        break;
-      default:
-        break;
-    }
-  }, [type]);
+    setMyEx(daiLog);
+  }, []);
 
   const onPressHandleSearchItem = (item) => {
     navigation.navigate("ExerciseDetail", { data: item }, { reset: true });
@@ -57,23 +146,55 @@ const ExerciseScreen = () => {
   const onPressHandle = (title) => {
     navigation.navigate("ExerciseList", { title: title }, { reset: true });
   };
+  const handlePress = () => {
+    setModalVisible(false);
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.background_title_text}>Search</Text>
+      <ActivityIndicatorLoadingPage type={1} isBusy={isBusy} />
+      <Modal transparent={true} visible={modalVisible} animationType="fade">
+        <Pressable style={styles.modalContainer} onPress={handlePress}>
+          <View style={styles.modalContent}>
+            {/* <Text style={styles.background_title_text}>Search</Text> */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search exercises..."
+                value={searchText}
+                onChangeText={(text) => setSearchText(text)}
+              />
+              <TouchableOpacity
+                style={styles.searchButton}
+                onPress={handleSearch}
+              >
+                <Ionicons
+                  style={styles.searchButtonText}
+                  name="search-circle"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
 
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search exercises..."
-          value={searchText}
-          onChangeText={(text) => setSearchText(text)}
-        />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text style={styles.searchButtonText}>Search</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => {
+          setModalVisible(true);
+          setSearchText("");
+        }}
+      >
+        <Ionicons name="search" style={styles.floatingButtonIcon} />
+      </TouchableOpacity>
+      {search && <Back backEvent={() => setSearch(false)} />}
+      <Text style={styles.background_title_text}>
+        {search ? "SEARCH EX" : "EXERCISES"}
+      </Text>
+      {/* <View style={styles.circle_1}></View>
+      <View style={styles.circle_2}></View>
+      <View style={styles.circle_3}></View> */}
 
-      {filteredData.length > 0 ? (
+      {filteredData.length > 0 && search ? (
         <FlatList
           style={styles.list}
           data={filteredData}
@@ -83,28 +204,80 @@ const ExerciseScreen = () => {
             <ExerciseCollectionItem
               image={{ uri: item.gifUrl }}
               title={item.name}
+              type={2}
               press={() => onPressHandleSearchItem(item)}
             />
           )}
         />
-      ) : null}
-      <Text style={styles.background_title_text}>EXERCISES</Text>
-      <View style={styles.circle_1}></View>
-      <View style={styles.circle_2}></View>
-      <View style={styles.circle_3}></View>
-      <FlatList
-        style={styles.list}
-        data={data}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <ExerciseCollectionItem
-            image={item.image}
-            title={item.title}
-            press={() => onPressHandle(item.title)}
-          />
-        )}
-      />
+      ) : (
+        <View style={styles.list}>
+          <View style={styles.tab}>
+            <Pressable
+              onPress={() => setTabSelected(0)}
+              style={
+                tabSelected === 0 ? styles.tabItemSelected : styles.tabItem
+              }
+            >
+              <Text style={tabSelected === 0 && { fontWeight: "600" }}>
+                Exercises
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setTabSelected(1)}
+              style={
+                tabSelected === 1 ? styles.tabItemSelected : styles.tabItem
+              }
+            >
+              <Text style={tabSelected === 1 && { fontWeight: "600" }}>
+                My List
+              </Text>
+            </Pressable>
+          </View>
+          {tabSelected === 0 ? (
+            <FlatList
+              style={styles.list}
+              data={data}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <ExerciseCollectionItem
+                  image={item.image}
+                  title={item.title}
+                  press={() => onPressHandle(item.title)}
+                />
+              )}
+            />
+          ) : (
+            <FlatList
+              style={styles.list}
+              data={daiLog}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <ExerciseCompact
+                  image={{ uri: item.exercise_data.gifUrl }}
+                  title={item.exercise_data.name}
+                  sets={item.sets}
+                  press={() => onPressExCompact(item)}
+                />
+              )}
+            />
+          )}
+          {tabSelected === 1 && (
+            <TouchableOpacity
+              style={styles.floatingButton_2}
+              onPress={handleStartPractice}
+            >
+              <MaterialCommunityIcons
+                name="weight-lifter"
+                style={styles.floatingButtonIcon_2}
+              />
+              <Text style={styles.floatingButtonText_2}>Time to start</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
+      <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
     </View>
   );
 };

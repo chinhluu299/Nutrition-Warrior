@@ -26,6 +26,9 @@ import MessageScreen from "./screens/MessageScreen";
 import StoryScreen from "./screens/storyscreen";
 import ChatScreen from "./screens/chatscreen";
 import UpstoryScreen from "./screens/upstoryscreen";
+import EmptyScreen from "./screens/emptyscreen";
+import DoExerciseScreen from "./screens/doexercise";
+
 const Stack = createNativeStackNavigator();
 
 const userInfo = store.getState().rootReducer.user;
@@ -43,11 +46,16 @@ export default function App() {
         //   userInfo.first_login == false ? "MainScreen" : "Splash"
         // }
         >
-          <Stack.Screen
+          {/* <Stack.Screen
+            name="EmptyScreen"
+            component={EmptyScreen}
+            options={{ headerShown: false }}
+          /> */}
+          {/* <Stack.Screen
             name="UpStory"
             component={UpstoryScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
           {/* <Stack.Screen
             name="Chat"
             component={ChatScreen}
@@ -113,7 +121,7 @@ export default function App() {
             name="Search"
             component={SearchScreen}
             options={{ headerShown: false }}
-          />
+        />*/}
           <Stack.Screen
             name="Exercise"
             component={ExerciseScreen}
@@ -129,6 +137,12 @@ export default function App() {
             component={ExerciseListScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="DoExercise"
+            component={DoExerciseScreen}
+            options={{ headerShown: false }}
+          />
+          {/*
           <Stack.Screen
             name="Analytic"
             component={MyAnalyticsScreen}

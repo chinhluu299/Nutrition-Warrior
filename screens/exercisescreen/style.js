@@ -6,12 +6,33 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
+  floatingButton: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    //backgroundColor: Colors.dark,
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 10,
+    zIndex: 10,
+    //opacity: 0.8,
+  },
+  floatingButtonIcon: {
+    fontSize: 20,
+    //color: "#FFF",
+    color: Colors.dark,
+    fontWeight: "600",
+  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
     marginBottom: 16,
+    marginTop: 16,
   },
 
   searchInput: {
@@ -19,22 +40,18 @@ export const styles = StyleSheet.create({
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    marginRight: 8,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     borderRadius: 20,
   },
 
   searchButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "blue",
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
+    position: "absolute",
+    right: 20,
   },
 
   searchButtonText: {
-    color: "white",
+    color: "#000",
+    fontSize: 40,
   },
   container: {
     flex: 1,
@@ -81,4 +98,58 @@ export const styles = StyleSheet.create({
     position: "absolute",
     zIndex: -1,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 10,
+    width: "90%",
+  },
+  tab: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabItem: {
+    padding: 16,
+    width: 0.45 * width,
+    alignItems: "center",
+  },
+  tabItemSelected: {
+    padding: 16,
+    width: 0.45 * width,
+    alignItems: "center",
+    borderBottomWidth: 2,
+  },
+  floatingButton_2: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: Colors.darker,
+    borderRadius: 50,
+    display: "flex",
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 3,
+  },
+  floatingButtonIcon_2: {
+    fontSize: 30,
+    color: "#FFF",
+    fontWeight: "600",
+  },
+  floatingButtonText_2:{
+    color: "#FFF",
+    marginLeft:5,
+    fontSize: 16,
+    fontWeight: "600",
+  }
 });

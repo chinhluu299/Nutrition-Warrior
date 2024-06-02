@@ -6,22 +6,25 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import exerciseApi from "../api/exerciseApi";
 import Toast from "react-native-toast-message";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const ExerciseInputModal = ({ visible, onClose, data }) => {
   const dispatch = useDispatch();
+
   const [exerciseSets, setExerciseSets] = useState([
-    { id: 1, reps: "8", duration: "0" },
+    { id: 1, reps: "8", duration: "30" },
   ]);
 
   const handleAddRow = () => {
     const newRow = {
       id: exerciseSets.length + 1,
       reps: "8",
-      duration: "0",
+      duration: "30",
     };
     setExerciseSets([...exerciseSets, newRow]);
   };
@@ -64,7 +67,7 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
     }
   };
 
-  const styles = {
+  const styles = StyleSheet.create({
     modalContainer: {
       flex: 1,
       justifyContent: "center",
@@ -75,12 +78,12 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
       backgroundColor: "white",
       padding: 20,
       borderRadius: 10,
-      width: "80%",
+      width: "90%",
     },
     modalTitle: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: "bold",
-      marginBottom: 10,
+      marginBottom: 16,
     },
     input: {
       height: 40,
@@ -90,9 +93,9 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
       padding: 10,
     },
     addButton: {
-      backgroundColor: "#3498db",
+      backgroundColor: "#000",
       padding: 10,
-      borderRadius: 5,
+      marginBottom: 5,
       alignItems: "center",
     },
     addButtonText: {
@@ -104,7 +107,8 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
       alignItems: "center",
     },
     closeButtonText: {
-      color: "#3498db",
+      //color: "#3498db",
+      color: "#000",
       fontWeight: "bold",
     },
     rowContainer: {
@@ -121,26 +125,35 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
       padding: 10,
     },
     addRowButton: {
-      backgroundColor: "#27ae60",
+      //backgroundColor: "#27ae60",
+      backgroundColor: "gray",
       padding: 10,
-      borderRadius: 5,
+      marginBottom: 5,
       alignItems: "center",
+      marginTop: 20,
     },
     addRowButtonText: {
       color: "white",
       fontWeight: "bold",
     },
-  };
+    icon: {
+      fontSize: 16,
+
+      verticalAlign: "middle",
+    },
+  });
 
   return (
     <Modal transparent={true} visible={visible} animationType="slide">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Add Exercise Set</Text>
+          <Text style={styles.modalTitle}>Add Exercise</Text>
           <ScrollView>
             {exerciseSets.map((row) => (
               <View key={row.id} style={styles.rowContainer}>
-                <Text>{row.id}</Text>
+                {/* 
+                <Text>{row.id}</Text> */}
+                <FontAwesome5 name="dumbbell" style={styles.icon} />
                 <TextInput
                   style={styles.rowInput}
                   placeholder="Reps"
@@ -152,6 +165,7 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
                     setExerciseSets(updatedSets);
                   }}
                 />
+                <FontAwesome5 name="clock" style={styles.icon} />
                 <TextInput
                   style={styles.rowInput}
                   placeholder="Duration (seconds)"
@@ -167,7 +181,7 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
             ))}
           </ScrollView>
           <TouchableOpacity style={styles.addRowButton} onPress={handleAddRow}>
-            <Text style={styles.addRowButtonText}>Add Row</Text>
+            <Text style={styles.addRowButtonText}>Add Set</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.addButton}
@@ -175,7 +189,13 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
           >
             <Text style={styles.addButtonText}>Add Exercise</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              setExerciseSets([{ id: 1, reps: "8", duration: "30" }]);
+              return onClose();
+            }}
+          >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>

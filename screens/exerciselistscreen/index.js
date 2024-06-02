@@ -63,7 +63,10 @@ const ExerciseListScreen = ({ route }) => {
             navigation.goBack();
           }}
         >
-          <Ionicons name="arrow-back" style={styles.back_control_icon} />
+          <Ionicons
+            name="arrow-back"
+            style={styles.back_control_icon}
+          />
         </TouchableOpacity>
         <Text style={styles.background_title_text}>{title}</Text>
       </View>

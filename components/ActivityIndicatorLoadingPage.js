@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flex: 1,
   },
   background: {
     position: "absolute",
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
     height: screenHeight,
     backgroundColor: "black",
     opacity: 0.75,
+    flex: 1,
   },
   background_2: {
     position: "absolute",
