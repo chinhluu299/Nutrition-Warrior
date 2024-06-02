@@ -55,8 +55,7 @@ const DoExerciseScreen = ({ route }) => {
     setSetSelect(0);
   }, [selected]);
 
-  const triggerConfetti = () => {
-    
+  const triggerConfetti = () => {  
     confettiRef.current?.reset();
     confettiRef.current?.play();
   }
@@ -75,7 +74,10 @@ const DoExerciseScreen = ({ route }) => {
       }, 1000)
     );
   };
-
+  const endHandler = () => {
+    //update
+    navigation.goBack();
+  }
   const speak = async () => {};
   const startHandler = () => {
     setStarted(true);
@@ -97,7 +99,7 @@ const DoExerciseScreen = ({ route }) => {
       setCompleted(true);
       setTimeout(() => {
         triggerConfetti();
-      }, 1000); 
+      }, 200); 
     }
      
   };
@@ -216,25 +218,27 @@ const DoExerciseScreen = ({ route }) => {
           </TouchableOpacity>
         </View>
       )}
-      {completed && <View></View>}
-      <LottieView
-        ref={confettiRef}
-        source={require("../../assets/congrat2.json")}
-        autoPlay
-        loop
-        style={styles.lottie}
-        //resizeMode="cover"
-        onAnimationFinish={() => console.log("Animation Finished!")}
-        onAnimationLoaded={() => console.log("Animation Loaded!")}
-      />
-      <Button
-        title="Play Animation"
-        onPress={() => confettiRef.current.play()}
-      />
-      <Button
-        title="Reset Animation"
-        onPress={() => confettiRef.current.reset()}
-      />
+      {completed && (
+        <LottieView
+          ref={confettiRef}
+          source={require("../../assets/congrat2.json")}
+          // autoPlay
+          loop={true}
+          style={styles.lottie}
+          resizeMode="cover"
+        />
+      )}
+      {completed && (
+        <View style={styles.congrats_container}>
+          <View style={styles.congrats_card}>
+            <Text style={styles.congrats_title}>Congratulations</Text>
+            <Text style={styles.congrats_text}>
+              Congratulations on completing your daily exercise.
+            </Text>
+            <Button title="Continue" onPress={endHandler}/>
+          </View>
+        </View>
+      )}
       <Toast position="bottom" bottomOffset={30} />
     </View>
   );

@@ -225,10 +225,38 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    width: 200,
-    height: 200,
-    //backgroundColor: "#eee",
     zIndex: 1000,
-   //pointerEvents: "none",
+    pointerEvents: "none",
   },
+  congrats_container: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  congrats_card: {
+    alignItems: "center",
+    width: 0.7 * width,
+    paddingVertical: 24,
+    paddingHorizontal: 18,
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+    elevation: 10,
+    borderWidth: 2,
+  },
+  congrats_title:{
+    fontSize: 24,
+    fontWeight: "600",
+    marginBottom: 14
+  },
+  congrats_text:{
+    fontSize: 16,
+    fontWeight: "400",
+    marginBottom: 14,
+    textAlign:'center'
+  }
 });
