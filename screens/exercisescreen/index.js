@@ -70,12 +70,12 @@ const ExerciseScreen = () => {
   const onPressExCompact = (data) => {
     navigation.navigate(
       "ExerciseDetail",
-      { data: data.exercise_data },
+      { data: data.exercise },
       { reset: true }
     );
   };
-  // const dailyLog = useSelector((state) => state.rootReducer.user.daily_logs);
-  const daiLog = [
+  const daiLog = useSelector((state) => state.rootReducer.user.daily_logs);
+  const daiLogTest = [
     {
       exercise_data: {
         bodyPart: "back",
@@ -137,7 +137,20 @@ const ExerciseScreen = () => {
   ];
   useEffect(() => {
     //co the phan thanh nhieu loai
-    setMyEx(daiLog);
+    const selectedDayLog = daiLog.find((log) => {
+      const logDateFirst10 = log.date.substring(0, 10);
+      const selectedDateFirst10 = new Date().toISOString().substring(0, 10);
+      if (logDateFirst10 === selectedDateFirst10) {
+        console.log("====================================");
+        console.log("equal");
+        console.log("====================================");
+      }
+      return logDateFirst10 === selectedDateFirst10;
+     
+    });
+    setMyEx(selectedDayLog.exercise_data);
+    console.log(selectedDayLog.exercise_data);
+    
   }, []);
 
   const onPressHandleSearchItem = (item) => {
@@ -186,7 +199,12 @@ const ExerciseScreen = () => {
       >
         <Ionicons name="search" style={styles.floatingButtonIcon} />
       </TouchableOpacity>
-      {search && <Back backEvent={() => setSearch(false)} />}
+      {search ? (
+        <Back backEvent={() => setSearch(false)} />
+      ) : (
+        <Back backEvent={() => navigation.goBack()} />
+      )}
+
       <Text style={styles.background_title_text}>
         {search ? "SEARCH EX" : "EXERCISES"}
       </Text>
@@ -250,13 +268,13 @@ const ExerciseScreen = () => {
           ) : (
             <FlatList
               style={styles.list}
-              data={daiLog}
+              data={myEx}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <ExerciseCompact
-                  image={{ uri: item.exercise_data.gifUrl }}
-                  title={item.exercise_data.name}
+                  image={{ uri: item.exercise.gifUrl }}
+                  title={item.exercise.name}
                   sets={item.sets}
                   press={() => onPressExCompact(item)}
                 />

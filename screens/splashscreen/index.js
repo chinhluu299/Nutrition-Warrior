@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import { styles } from "./style";
 import * as Font from "expo-font";
+import { useSelector } from "react-redux";
 
 const SplashScreen = ({ navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const userInfo = useSelector((state) => state.rootReducer.user);
+
   const loadFonts = async () => {
     await Font.loadAsync({
       "Inter-SemiBold": require("../../assets/fonts/Inter-SemiBold.ttf"),
@@ -30,7 +33,14 @@ const SplashScreen = ({ navigation }) => {
     loadFonts();
   }, []);
   const OnNextStep = () => {
-    navigation.navigate("Login", {}, { reset: true });
+    console.log(userInfo)
+    if(userInfo.id)
+      if(!userInfo.first_login)
+        navigation.navigate("MainScreen", {}, { reset: true });
+      else
+        navigation.navigate("Survey", {}, {reset: true});
+    else
+      navigation.navigate("Login", {}, { reset: true });
   };
   if (fontLoaded) {
     return (
@@ -43,7 +53,9 @@ const SplashScreen = ({ navigation }) => {
         <View style={styles.content}>
           <Text style={styles.heading}>Welcome to</Text>
           <Text style={styles.heading_name}>Nutrition Warrior</Text>
-          <Text style={styles.description}>Welcome to Nutrition Warrior</Text>
+          <Text style={styles.description}>
+            Are you ready to change yourself?
+          </Text>
         </View>
         <View>
           <TouchableOpacity style={styles.button_next} onPress={OnNextStep}>

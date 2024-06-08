@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { format } from "date-fns";
 import {
   View,
   Text,
@@ -21,6 +22,11 @@ import Modal from "react-native-modal";
 import DropdownComponent from "../../components/Dropdown";
 import dialyLogApi from "../../api/logApi";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const SearchScreen = ({ navigation, route }) => {
   const [keyword, setKeyword] = useState("");
@@ -31,10 +37,21 @@ const SearchScreen = ({ navigation, route }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedFood, setSelectedFood] = useState(null);
   const [timeEat, setTimeEat] = useState("breakfast");
-  const [numberServing, setNumberServing] = useState(1);
+  const [numberServing, setNumberServing] = useState(0);
   const userInfo = useSelector((state) => state.rootReducer.user);
-  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints = ["25%", "55%", "75%"];
+
+  const dispatch = useDispatch();
+  const handlePresentModal = () => {
+    bottomSheetModalRef.current?.present();
+    setTimeout(() => {
+      setIsOpen(true);
+    }, 100);
+    
+  };
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -61,17 +78,18 @@ const SearchScreen = ({ navigation, route }) => {
   };
   const handleAddFood = async (input = "") => {
     setSelectedFood(input);
-    setModalVisible(true);
+    //setModalVisible(true);
+    handlePresentModal();
   };
-  useEffect(() => {
-    const detectedObjects = route.params?.detectedObjects;
+  // useEffect(() => {
+  //   const detectedObjects = route.params?.detectedObjects;
 
-    if (detectedObjects && detectedObjects.length > 0) {
-      const searchTerm = detectedObjects[0][1];
-      setKeyword(searchTerm);
-      searchAction(searchTerm);
-    }
-  }, [route.params]);
+  //   if (detectedObjects && detectedObjects.length > 0) {
+  //     const searchTerm = detectedObjects[0][1];
+  //     setKeyword(searchTerm);
+  //     searchAction(searchTerm);
+  //   }
+  // }, [route.params]);
 
   useEffect(() => {
     const detectedObjects = route.params?.detectedObjects;
@@ -111,6 +129,7 @@ const SearchScreen = ({ navigation, route }) => {
         text1: err.message,
       });
     }
+    console.log(result);
   };
 
   const reSearch = async (text) => {
@@ -159,6 +178,15 @@ const SearchScreen = ({ navigation, route }) => {
     return formattedDate;
   };
   const submitAddFood = async () => {
+    if (!numberServing || numberServing < 1 || timeEat.length <= 0) {
+      Toast.show({
+        type: "error",
+        text1: "Number serving is not valid value",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+      return
+    }
     setIsBusy(true);
     try {
       const dataReq = {
@@ -169,16 +197,16 @@ const SearchScreen = ({ navigation, route }) => {
           knownAs: selectedFood.food.knownAs,
           nutrients: {
             ENERC_KCAL: (
-              selectedFood.food.nutrients.ENERC_KCAL * numberServing
+              selectedFood.food.nutrients.ENERC_KCAL ? selectedFood.food.nutrients.ENERC_KCAL * numberServing : 0
             ).toFixed(1),
             PROCNT: (
-              selectedFood.food.nutrients.PROCNT * numberServing
+              selectedFood.food.nutrients.PROCNT ? selectedFood.food.nutrients.PROCNT * numberServing : 0
             ).toFixed(1),
-            FAT: (selectedFood.food.nutrients.FAT * numberServing).toFixed(1),
+            FAT: (selectedFood.food.nutrients.FAT ? selectedFood.food.nutrients.FAT * numberServing : 0).toFixed(1),
             CHOCDF: (
-              selectedFood.food.nutrients.CHOCDF * numberServing
+              selectedFood.food.nutrients.CHOCDF ? selectedFood.food.nutrients.CHOCDF * numberServing : 0
             ).toFixed(1),
-            FIBTG: (selectedFood.food.nutrients.FIBTG * numberServing).toFixed(
+            FIBTG: (selectedFood.food.nutrients.FIBTG ? selectedFood.food.nutrients.FIBTG * numberServing: 0).toFixed(
               1
             ),
           },
@@ -187,9 +215,10 @@ const SearchScreen = ({ navigation, route }) => {
           image: selectedFood.food.image,
         },
       };
+      console.log(dataReq);
       const res = await dialyLogApi.addFood(
         userInfo.id,
-        new Date().toISOString(),
+        format(new Date(), 'yyyy-MM-dd'),
         dataReq
       );
       if (res.status == 201) {
@@ -199,6 +228,7 @@ const SearchScreen = ({ navigation, route }) => {
         });
         setIsBusy(false);
         toggleModal();
+        bottomSheetModalRef.current?.close();
         Toast.show({
           type: "success",
           text1: "Add food successfully",
@@ -218,9 +248,143 @@ const SearchScreen = ({ navigation, route }) => {
     }
   };
   return (
-    <View style={styles.container}>
-      <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
-        <View style={styles.modalContainer}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider style={styles.container}>
+        <View style={styles.controls}>
+          <TouchableOpacity style={styles.back_control} onPress={goBack}>
+            <Ionicons name="arrow-back" style={styles.back_control_icon} />
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.title}>FOOD SEARCH</Text>
+          </View>
+        </View>
+        <View style={styles.search}>
+          <MaterialCommunityIcons
+            size={30}
+            name="magnify"
+            color={Colors.secondary}
+            onPress={(e) => searchAction()}
+          ></MaterialCommunityIcons>
+          <TextInput
+            placeholder="Search here..."
+            style={styles.search_input}
+            value={keyword}
+            onChangeText={(text) => setKeyword(text)}
+          />
+        </View>
+
+        {isBusy && (
+          <View style={styles.result}>
+            <ActivityIndicator
+              size="larger"
+              animating={isBusy}
+              color={Colors.secondary}
+            />
+          </View>
+        )}
+        {!isBusy &&
+          (result == null ? (
+            <></>
+          ) : !result ? (
+            <View style={styles.result}>
+              <Text>Sorry! Not Found</Text>
+            </View>
+          ) : (
+            <ScrollView
+              style={styles.result_data}
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.result_overview}>
+                <Text style={styles.number_result}>{result.length} result</Text>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {autoComplete.map((element, index) => (
+                    <Text
+                      style={styles.hint_keyword}
+                      onPress={(e) => reSearch(element)}
+                      key={index}
+                    >
+                      {element}
+                    </Text>
+                  ))}
+                </ScrollView>
+              </View>
+              {result.map((element, index) => {
+                return (
+                  <View key={index} style={styles.food_container}>
+                    <View style={styles.image_border}>
+                      <Image
+                        style={styles.food_image}
+                        source={{
+                          uri: element.food.image,
+                        }}
+                        resizeMode="cover"
+                      />
+                    </View>
+
+                    <TouchableOpacity
+                      style={styles.add_food}
+                      onPress={(e) => handleAddFood(element)}
+                    >
+                      <MaterialCommunityIcons
+                        name="plus"
+                        size={40}
+                        color={Colors.text_white}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.food_label}>{element.food.label}</Text>
+                    <Text>
+                      Serving size:{" "}
+                      {element.serving ? element.serving + "g" : "Ambiguous"}
+                    </Text>
+                    <View style={styles.food_nutrient}>
+                      <FoodNutrient
+                        protein={
+                          element.food.nutrients.PROCNT
+                            ? element.food.nutrients.PROCNT
+                            : 0
+                        }
+                        carb={
+                          element.food.nutrients.CHOCDF
+                            ? element.food.nutrients.CHOCDF
+                            : 0
+                        }
+                        fiber={
+                          element.food.nutrients.FIBTG
+                            ? element.food.nutrients.FIBTG
+                            : 0
+                        }
+                        fat={
+                          element.food.nutrients.FAT
+                            ? element.food.nutrients.FAT
+                            : 0
+                        }
+                        kcal={
+                          element.food.nutrients.ENERC_KCAL
+                            ? element.food.nutrients.ENERC_KCAL
+                            : 0
+                        }
+                      />
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          ))}
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={2}
+          snapPoints={snapPoints}
+          backgroundStyle={{
+            borderRadius: 50,
+            borderWidth: 2,
+            borderColor: "gray",
+          }}
+          onDismiss={() => setIsOpen(false)}
+          style={styles.bottomSheetStyle}
+        >
           <Text style={styles.modal_caption}>Select meal</Text>
           <DropdownComponent
             data={eats}
@@ -235,152 +399,64 @@ const SearchScreen = ({ navigation, route }) => {
             keyboardType="numeric"
             placeholder={"Enter a number serving"}
           />
-          <View>
-            <Text>You will add:</Text>
-            <Text>
-              {numberServing && selectedFood
-                ? (selectedFood.food.nutrients.PROCNT * numberServing).toFixed(
-                    1
-                  )
-                : 0}
-              g Protein
-            </Text>
-            <Text>
-              {numberServing && selectedFood
-                ? (selectedFood.food.nutrients.FIBTG * numberServing).toFixed(1)
-                : 0}
-              g Fiber
-            </Text>
-            <Text>
-              {numberServing && selectedFood
-                ? (selectedFood.food.nutrients.CHOCDF * numberServing).toFixed(
-                    1
-                  )
-                : 0}
-              g Carbs
-            </Text>
-            <Text>
-              {numberServing && selectedFood
-                ? (selectedFood.food.nutrients.FAT * numberServing).toFixed(1)
-                : 0}
-              g Fat
-            </Text>
-            <Text>
-              {numberServing && selectedFood
-                ? (
-                    selectedFood.food.nutrients.ENERC_KCAL * numberServing
-                  ).toFixed(1)
-                : 0}
-              g kcal
-            </Text>
-          </View>
-          <TouchableOpacity style={styles.submit_add} onPress={submitAddFood}>
-            <Text>ADD</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-      <Toast position="bottom" bottomOffset={20} />
-      <View style={styles.controls}>
-        <TouchableOpacity style={styles.back_control} onPress={goBack}>
-          <Ionicons name="arrow-back" style={styles.back_control_icon} />
-        </TouchableOpacity>
-        <View>
-          <Text style={styles.title}>FOOD SEARCH</Text>
-        </View>
-      </View>
-      <View style={styles.search}>
-        <MaterialCommunityIcons
-          size={30}
-          name="magnify"
-          color={Colors.secondary}
-          onPress={(e) => searchAction()}
-        ></MaterialCommunityIcons>
-        <TextInput
-          placeholder="Search here..."
-          style={styles.search_input}
-          value={keyword}
-          onChangeText={(text) => setKeyword(text)}
-        />
-      </View>
-
-      {isBusy && (
-        <View style={styles.result}>
-          <ActivityIndicator
-            size="larger"
-            animating={isBusy}
-            color={Colors.secondary}
-          />
-        </View>
-      )}
-      {!isBusy &&
-        (result == null ? (
-          <></>
-        ) : !result ? (
-          <View style={styles.result}>
-            <Text>Sorry! Not Found</Text>
-          </View>
-        ) : (
-          <ScrollView
-            style={styles.result_data}
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.result_overview}>
-              <Text style={styles.number_result}>{result.length} result</Text>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
+          <View style={styles.calculated}>
+            <Image
+              source={require("../../assets/instructor/smile-unscreen.gif")}
+              resizeMode="contain"
+              style={styles.calculated_image}
+            />
+            <View style={styles.calculated_message}>
+              <Text style={{ fontStyle: "italic" }}>You will add:</Text>
+              <Text style={{ color: Colors.orange }}>
+                {numberServing && selectedFood
+                  ? (
+                      selectedFood.food.nutrients.PROCNT * numberServing
+                    ).toFixed(1)
+                  : 0}
+                g Protein
+              </Text>
+              <Text style={{ color: Colors.green }}>
+                {numberServing && selectedFood
+                  ? (selectedFood.food.nutrients.FIBTG * numberServing).toFixed(
+                      1
+                    )
+                  : 0}
+                g Fiber
+              </Text>
+              <Text style={{ color: Colors.brown }}>
+                {numberServing && selectedFood
+                  ? (
+                      selectedFood.food.nutrients.CHOCDF * numberServing
+                    ).toFixed(1)
+                  : 0}
+                g Carbs
+              </Text>
+              <Text style={{ color: Colors.yellow }}>
+                {numberServing && selectedFood
+                  ? (selectedFood.food.nutrients.FAT * numberServing).toFixed(1)
+                  : 0}
+                g Fat
+              </Text>
+              <Text style={{ color: Colors.red }}>
+                {numberServing && selectedFood
+                  ? (
+                      selectedFood.food.nutrients.ENERC_KCAL * numberServing
+                    ).toFixed(1)
+                  : 0}
+                g kcal
+              </Text>
+              <TouchableOpacity
+                style={styles.submit_add}
+                onPress={submitAddFood}
               >
-                {autoComplete.map((element, index) => (
-                  <Text
-                    style={styles.hint_keyword}
-                    onPress={(e) => reSearch(element)}
-                    key={index}
-                  >
-                    {element}
-                  </Text>
-                ))}
-              </ScrollView>
+                <Text style={{ color: "#FFF", fontWeight: "600" }}>ADD</Text>
+              </TouchableOpacity>
             </View>
-            {result.map((element, index) => {
-              return (
-                <View key={index} style={styles.food_container}>
-                  <View style={styles.image_border}>
-                    <Image
-                      style={styles.food_image}
-                      source={{
-                        uri: element.food.image,
-                      }}
-                      resizeMode="cover"
-                    />
-                  </View>
-
-                  <TouchableOpacity
-                    style={styles.add_food}
-                    onPress={(e) => handleAddFood(element)}
-                  >
-                    <Ionicons
-                      name="add-circle"
-                      size={50}
-                      color={Colors.secondary}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.food_label}>{element.food.label}</Text>
-                  <Text>Serving size: {element.serving}g</Text>
-                  <View style={styles.food_nutrient}>
-                    <FoodNutrient
-                      protein={element.food.nutrients.PROCNT}
-                      carb={element.food.nutrients.CHOCDF}
-                      fiber={element.food.nutrients.FIBTG}
-                      fat={element.food.nutrients.FAT}
-                      kcal={element.food.nutrients.ENERC_KCAL}
-                    />
-                  </View>
-                </View>
-              );
-            })}
-          </ScrollView>
-        ))}
-    </View>
+          </View>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
+      <Toast position="bottom" bottomOffset={20} />
+    </GestureHandlerRootView>
   );
 };
 

@@ -67,28 +67,7 @@ export default ScanScreen = ({ navigation }) => {
         await callObjectDetectionApi(data);
       }
     }
-    // console.log("====================================");
-    // console.log(1);
-    // console.log("====================================");
-    // if (cameraRef.current) {
-    //   const photo = await cameraRef.current.takePictureAsync({
-    //     quality: 0.7, // 0 to 1
-    //   });
-    //   console.log("====================================");
-    //   console.log(2);
-    //   console.log("====================================");
-    //   let processedImage = await ImageManipulator.manipulateAsync(
-    //     photo.uri,
-    //     [{ resize: { width: 640 } }],
-    //     { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
-    //   );
-    //   console.log("====================================");
-    //   console.log(3);
-    //   console.log("====================================");
-    //   setCapturedImage(processedImage);
-    //   setIsScanning(true);
-
-    //   await callObjectDetectionApi(processedImage);
+    
   };
 
   function handlePresentModal() {
@@ -203,7 +182,7 @@ export default ScanScreen = ({ navigation }) => {
               ref={cameraRef}
               onCameraReady={onCameraReady}
             >
-              <View style={styles.controls}>
+              {/* <View style={styles.controls}>
                 <TouchableOpacity style={styles.back_control}>
                   <Ionicons
                     name="arrow-back"
@@ -216,7 +195,7 @@ export default ScanScreen = ({ navigation }) => {
                     style={styles.info_control_icon}
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View style={styles.scanning_block}>
                 {isScanning && (
                   <Text style={styles.scanning_text}>Scanning...</Text>

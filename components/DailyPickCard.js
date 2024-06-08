@@ -16,15 +16,17 @@ const DailyPickCard = ({ image, title, kcal }) => {
         </View>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.kcal}>
-          <FontAwesome5 name="fire-alt" size={18} color={Colors.secondary} />
+          <FontAwesome5 name="fire-alt" size={18} color={Colors.red} />
           <Text style={styles.kcal_text}>{kcal} Kcal</Text>
         </View>
       </View>
       <View style={styles.right_card}>
         <Image
           style={styles.image}
-          source={require("../assets/demo/test_image_1.jpg")}
-          resizeMode="center"
+          source={{
+            uri: image,
+          }}
+          resizeMode="contain"
         />
       </View>
     </View>
@@ -51,7 +53,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   image: {
-    flex: 1,
+    width: "100%",
+    height: "100%",
     alignSelf: "center",
   },
   label: {
@@ -64,8 +67,8 @@ const styles = StyleSheet.create({
   },
   label_text: {
     fontWeight: "800",
-    color: Colors.darker,
-    opacity: 0.7,
+    color: Colors.text_white,
+    //opacity: 0.7,
     fontSize: 12,
   },
   title: {

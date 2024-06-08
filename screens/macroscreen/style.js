@@ -56,6 +56,12 @@ export const styles = StyleSheet.create({
     width: width - 40,
     height: 100,
   },
+  description:{
+    fontSize: 16,
+    color:"gray",
+    lineHeight: 30,
+    textAlign: "justify"
+  },
   question_detail_choose: {
     marginTop: 10,
     paddingTop: 15,

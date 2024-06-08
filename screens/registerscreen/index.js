@@ -68,12 +68,14 @@ const RegisterScreen = ({ navigation }) => {
 
     try {
       setIsBusy(true);
+      console.log("==========");
       var res = await authApi.register({
         name: fullName,
         phone_number: phoneNumber,
         email: email,
         password: password,
       });
+      console.log(res)
       if (res.status == 201) {
         Toast.show({
           type: "success",

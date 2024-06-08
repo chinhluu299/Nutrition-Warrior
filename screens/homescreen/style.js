@@ -8,7 +8,9 @@ const screenHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: Colors.primary,
+    //backgroundColor: Colors.primary,
+    //backgroundColor: "#19EA83",
+    backgroundColor: "gray",
   },
   timestamp: {
     top: 40,

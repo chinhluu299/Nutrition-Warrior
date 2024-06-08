@@ -17,13 +17,13 @@ export const styles = StyleSheet.create({
     paddingTop: width + 400,
     marginStart: -250,
     marginTop: -width - 380,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.green,
     borderRadius: (width + 500) / 2,
   },
   background_title_text: {
     fontSize: 18,
     fontFamily: "Inter-Bold",
-    color: Colors.darker,
+    color: Colors.text_white,
   },
   timestamp_scroll: {
     width: width,
@@ -48,7 +48,8 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   timestamp_element_active: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.green,
+    
   },
   timestamp_text: {
     fontFamily: "Inter-Bold",

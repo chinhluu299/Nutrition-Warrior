@@ -6,5 +6,9 @@ const foodApi = {
     const response = axiosClient.get(`${url}search/${keyword}`);
     return response;
   },
+  randomFood: () => {
+    const response = axiosClient.get(`${url}random`);
+    return response;
+  }
 };
 export default foodApi;

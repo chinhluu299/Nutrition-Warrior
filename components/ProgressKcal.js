@@ -12,7 +12,7 @@ const screenHeight = Dimensions.get("window").height;
 const ProgressKcal = ({ target, current }) => {
   const data = {
     labels: ["Kcal"], // optional parseFloat(target) == 0 ? 1 : parseFloat(current) / parseFloat(target)
-    data: target == 0 ? [1] : [parseFloat(current) / parseFloat(target)],
+    data: target == 0 ? [1] : [(current/target)],
   };
 
   const chartConfig = {
@@ -20,7 +20,8 @@ const ProgressKcal = ({ target, current }) => {
     backgroundGradientFromOpacity: 1,
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 1,
-    color: (opacity = 1) => `rgba(57, 184, 120, 0.7)`,
+    //  color: (opacity = 1) => `rgba(57, 184, 120, 0.7)`,
+    color: (opacity = 1) => `rgba(0, 0, 0, 0.2)`,
   };
 
   return (
@@ -37,7 +38,9 @@ const ProgressKcal = ({ target, current }) => {
       ></ProgressChart>
       <View style={styles.content}>
         <Text style={styles.content_number}>
-          {(parseFloat(target) - parseFloat(current)).toFixed(2)}
+          {(target - current).toFixed(2) < 0
+            ? 0
+            : (target - current).toFixed(2)}
         </Text>
         <Text style={styles.content_text}>Kcal Left</Text>
       </View>

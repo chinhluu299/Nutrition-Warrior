@@ -28,6 +28,7 @@ import ChatScreen from "./screens/chatscreen";
 import UpstoryScreen from "./screens/upstoryscreen";
 import EmptyScreen from "./screens/emptyscreen";
 import DoExerciseScreen from "./screens/doexercise";
+import RecipeScreen from "./screens/foodrecipe";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,25 +39,24 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-        // initialRouteName={
-        //   // userInfo.first_login == false ? "MainScreen" : "Splash"
-        //   "Message"
-        // }
-        // initialRouteName={
-        //   userInfo.first_login == false ? "MainScreen" : "Splash"
-        // }
+          // initialRouteName={
+          //   "Exercise"
+          // }
+          initialRouteName={
+            userInfo.first_login == false ? "MainScreen" : "Splash"
+          }
         >
           {/* <Stack.Screen
             name="EmptyScreen"
             component={EmptyScreen}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          />  */}
+          <Stack.Screen
             name="UpStory"
             component={UpstoryScreen}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          />
+          <Stack.Screen
             name="Chat"
             component={ChatScreen}
             options={{ headerShown: false }}
@@ -65,18 +65,13 @@ export default function App() {
             name="MessageScreen"
             component={MessageScreen}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          />
+          <Stack.Screen
             name="Story"
             component={StoryScreen}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
-            name="Message"
-            component={MessageScreen}
-            options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          />
+          <Stack.Screen
             name="Macro"
             component={MacroScreen}
             options={{ headerShown: false }}
@@ -108,6 +103,11 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name="Recipe"
+            component={RecipeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="Survey"
             component={SurveyScreen}
             options={{ headerShown: false }}
@@ -121,11 +121,16 @@ export default function App() {
             name="Search"
             component={SearchScreen}
             options={{ headerShown: false }}
-        />*/}
+          />
           <Stack.Screen
             name="Exercise"
             component={ExerciseScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+              animationTypeForReplace: "push",
+              animation: "slide_from_right",
+            }}
           />
           <Stack.Screen
             name="ExerciseDetail"
@@ -142,7 +147,7 @@ export default function App() {
             component={DoExerciseScreen}
             options={{ headerShown: false }}
           />
-          {/*
+
           <Stack.Screen
             name="Analytic"
             component={MyAnalyticsScreen}
@@ -152,7 +157,7 @@ export default function App() {
             name="Tdee"
             component={TdeeScreen}
             options={{ headerShown: false }}
-          /> */}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -24,11 +24,15 @@ const MacroScreen = ({ route }) => {
       type: 1,
       question: "Daily protein / Kg ?(g)",
       range: [1.8, 2.7],
+      description:
+        "It’s important to eat enough protein if you want to gain and/or maintain muscle. Most studies suggest that 0.7–1 gram per pound(1.6–2.2 grams per kg) of lean mass are sufficient.",
     },
     {
       type: 2,
       question: "Deficit Percentage ?(%)",
       range: [5, 15],
+      description:
+        "For most people, a calorie deficit of 300–500 is sufficient to lose 0.5 kilograms (kg)Trusted Source (1.1 pounds) per week. However, this needs to be re-evaluated constantly, especially as you lose weight.",
     },
   ];
   const surveys_2 = [
@@ -36,11 +40,15 @@ const MacroScreen = ({ route }) => {
       type: 1,
       question: "Daily protein / Kg ?(g)",
       range: [1.6, 2.2],
+      description:
+        "It’s important to eat enough protein if you want to gain and/or maintain muscle. Most studies suggest that 0.7–1 gram per pound(1.6–2.2 grams per kg) of lean mass are sufficient.",
     },
     {
       type: 3,
       question: "Surplus Percentage ?(%)",
       range: [5, 15],
+      description:
+        "Your diet is essential to bulking the right way. Remember that just because a food is high in calories and will lead to a calorie surplus doesn’t mean that it’s great for muscle gain — or your overall health.",
     },
   ];
   const navigation = useNavigation();
@@ -58,8 +66,8 @@ const MacroScreen = ({ route }) => {
 
   const [isBusy, setIsBusy] = useState(false);
 
-  const setStateReturn = (value) => {
-    switch (step) {
+  const setStateReturn = (type,value) => {
+    switch (type) {
       case 1:
         setProteinPerKg(value);
         break;
@@ -93,11 +101,15 @@ const MacroScreen = ({ route }) => {
             type: 4,
             question: "Protein For OverWeight ?(g)",
             range: [10, 200],
+            description:
+              "To determine your daily protein intake for weight loss, aim for 30% of your total calorie intake or 0.7 to 1 g of protein per pound of body weight.",
           },
           {
             type: 5,
             question: "Daily Fat ?(%)",
             range: [20, 30],
+            description:
+              "A standard low fat diet contains about 30% — or less — of its calories from fat.",
           },
         ]);
       else
@@ -107,6 +119,8 @@ const MacroScreen = ({ route }) => {
             type: 5,
             question: "Daily Fat ?(%)",
             range: [20, 30],
+            description:
+              "A standard low fat diet contains about 30% — or less — of its calories from fat.",
           },
         ]);
     } else {
@@ -117,11 +131,15 @@ const MacroScreen = ({ route }) => {
             type: 4,
             question: "Protein For OverWeight ?(g)",
             range: [10, 200],
+            description:
+              "To determine your daily protein intake for weight loss, aim for 30% of your total calorie intake or 0.7 to 1 g of protein per pound of body weight.",
           },
           {
             type: 5,
             question: "Daily Fat ?(%)",
             range: [20, 30],
+            description:
+              "A standard low fat diet contains about 30% — or less — of its calories from fat.",
           },
         ]);
       else
@@ -131,15 +149,25 @@ const MacroScreen = ({ route }) => {
             type: 5,
             question: "Daily Fat ?(%)",
             range: [20, 30],
+            description:
+              "A standard low fat diet contains about 30% — or less — of its calories from fat.",
           },
         ]);
     }
   }, []);
 
+  useEffect(() => {
+    if (surveys.length > 0) {
+      setValue(surveys[step].range[0]);
+      setProteinPerKg(surveys[step].range[0]);
+    }
+  }, [surveys]);
+
   const NextQuestionHandle = async () => {
     if (step < surveys.length - 1 && value > -1) {
+      setValue(surveys[step + 1].range[0]);
+      setStateReturn(surveys[step + 1].type, surveys[step + 1].range[0]);
       setStep(step + 1);
-      setValue(-1);
     } else {
       CalculateMacro();
     }
@@ -196,7 +224,7 @@ const MacroScreen = ({ route }) => {
   const CalculateMacro = async () => {
     setIsBusy(true);
     try {
-      const res = await macroApi.getMacro({
+      const dataObj = {
         goal: data.goal,
         height: data.height,
         weight: data.weight,
@@ -207,7 +235,9 @@ const MacroScreen = ({ route }) => {
         surplus_percentage: surplusPercent,
         daily_fat_percentage: dailyFat,
         tdee: tdee,
-      });
+      };
+      console.log(dataObj);
+      const res = await macroApi.getMacro(dataObj);
       // console.log(res);
       if (res.status == 200) {
         const value = res.data;
@@ -234,8 +264,8 @@ const MacroScreen = ({ route }) => {
   };
   const PreviousQuestionHandle = async () => {
     if (step > 0) {
+      setValue(surveys[step - 1].range[0]);
       setStep(step - 1);
-      setValue(-1);
     }
   };
   const ChangeSelection = (value, index) => {
@@ -269,12 +299,17 @@ const MacroScreen = ({ route }) => {
                 maximumValue={surveys[step].range[1]}
                 minimumTrackTintColor={Colors.primary}
                 maximumTrackTintColor={Colors.light_gray_2}
+                trackStyle={{ height: 20 }}
                 value={value}
                 onValueChange={(value) => {
                   setValue(value);
-                  setStateReturn(value);
+                  setStateReturn(surveys[step].type,value);
                 }}
+                
               />
+              <Text style={styles.description}>
+                {surveys[step].description}
+              </Text>
             </View>
           </View>
         )}

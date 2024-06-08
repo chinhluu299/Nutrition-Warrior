@@ -57,7 +57,8 @@ export const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 25,
     paddingRight: 25,
-    backgroundColor: Colors.primary,
+    borderWidth: 3,
+
     borderRadius: 5,
   },
   question_detail_input: {

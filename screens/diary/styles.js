@@ -35,24 +35,21 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.lighter,
+    //borderBottomWidth: 1,
+    //borderBottomColor: Colors.lighter,
   },
 
   foodLabel: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "400",
+    color: Colors.dark
   },
 
   foodDetails: {
     fontSize: 14,
     color: Colors.dark,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
+
   exerciseItem: {
     marginBottom: 16,
     borderWidth: 1,
@@ -95,7 +92,8 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    margin: 20,
+    marginHorizontal: 20,
+    marginTop: 40,
   },
   icon: {
     color: "white", // Set your desired icon color
@@ -115,6 +113,12 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
     color: Colors.darker,
+    
+  },
+  titleContainer: {
+    display: "flex",
+    justifyContent:'flex-start',
+    flexDirection:'row'
   },
   addButton: {
     backgroundColor: Colors.primary,
@@ -124,7 +128,7 @@ export const styles = StyleSheet.create({
     marginTop: 8,
   },
   buttonText: {
-    color: Colors.white,
+    color: Colors.light_gray,
     fontWeight: "bold",
   },
 });

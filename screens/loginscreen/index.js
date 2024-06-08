@@ -72,7 +72,7 @@ const LoginScreen = () => {
           console.log("====================================");
           console.log("fdasafsd");
           console.log("====================================");
-          console.log(res.data.data.first_login);
+          console.log(res.data.data);
           if (res.data.data.first_login == false) {
             navigation.navigate("MainScreen", {}, { reset: true });
           } else {
@@ -90,7 +90,7 @@ const LoginScreen = () => {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: error.message,
+        text1: "Error: "+error.message,
       });
       setIsBusy(false);
     }

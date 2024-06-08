@@ -15,9 +15,10 @@ export const styles = StyleSheet.create({
   },
   modal_caption: {
     marginTop: 20,
-    marginBottom: 10,
+    //marginBottom: 10,
     color: Colors.darker,
     fontWeight: "600",
+    fontSize: 18,
   },
   submit_add: {
     borderRadius: 5,
@@ -35,6 +36,9 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    paddingVertical: 10,
   },
   search: {
     margin: 25,
@@ -68,7 +72,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     left: 0,
-    top: 30,
+    top: 40,
     width: width,
     height: 50,
     justifyContent: "center",
@@ -126,8 +130,10 @@ export const styles = StyleSheet.create({
   },
   add_food: {
     position: "absolute",
-    top: 200 - 40 / 2,
+    top: 200 - 30 / 2,
     borderRadius: 100,
+    backgroundColor: Colors.primary,
+    marginBottom: 10,
   },
   image_border: {
     elevation: 10,
@@ -140,4 +146,18 @@ export const styles = StyleSheet.create({
   food_nutrient: {
     width: (width * 4) / 5,
   },
+  bottomSheetStyle: {
+    paddingHorizontal: 40,
+  },
+  calculated: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  calculated_image: {
+    maxHeight: 400,
+    width: width * 0.5,
+  },
+  calculated_message:{
+    marginTop: 20,
+  }
 });

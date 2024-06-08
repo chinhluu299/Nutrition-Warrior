@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import exerciseApi from "../../api/exerciseApi";
@@ -56,29 +56,13 @@ const DiaryScreen = ({ route }) => {
 
   const fetchData = () => {
     const dailyLogs = userData.daily_logs;
-
+    const selectedDateFirst10 = format(selectedDate, "yyyy-MM-dd");
+    
     const selectedDayLog = dailyLogs.find((log) => {
       const logDateFirst10 = log.date.substring(0, 10);
-      const selectedDateFirst10 = selectedDate.toISOString().substring(0, 10);
-      if (logDateFirst10 === selectedDateFirst10) {
-        console.log("====================================");
-        console.log("equal");
-        console.log("====================================");
-      }
       // Compare using string representation
       return logDateFirst10 === selectedDateFirst10;
-      // if (logDate === selectedDate) {
-      //   console.log("====================================");
-      //   console.log(true);
-      //   console.log("====================================");
-      // }
-      // return (
-      //   logDate.getDate() === selectedDate.getDate() &&
-      //   logDate.getMonth() === selectedDate.getMonth() &&
-      //   logDate.getFullYear() === selectedDate.getFullYear()
-      // );
     });
-    console.log(selectedDayLog);
 
     setExerciseData(selectedDayLog ? selectedDayLog.exercise_data : []);
     setFoodItems(selectedDayLog ? selectedDayLog : []);
@@ -116,9 +100,17 @@ const DiaryScreen = ({ route }) => {
         />
       )}
 
-      <ScrollView style={{ flex: 1.5 }}>
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Breakfast</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.sectionTitle}>Breakfast</Text>
+            <MaterialIcons
+              name="free-breakfast"
+              size={24}
+              style={{ marginLeft: 10, color: Colors.red }}
+            />
+          </View>
+
           {foodItems &&
           foodItems.breakfast &&
           foodItems.breakfast.length > 0 ? (
@@ -133,48 +125,68 @@ const DiaryScreen = ({ route }) => {
           ) : (
             <Text>No breakfast items</Text>
           )}
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Lunch</Text>
-
+          <View style={styles.titleContainer}>
+            <Text style={styles.sectionTitle}>Lunch</Text>
+            <MaterialIcons
+              name="lunch-dining"
+              size={24}
+              style={{ marginLeft: 10, color: Colors.orange }}
+            />
+          </View>
           {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
             foodItems.lunch.map((food, index) => (
               <View key={index} style={styles.foodItem}>
-                <Text>{food.label}</Text>
+                <Text style={styles.foodLabel}>{food.label}</Text>
                 <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
               </View>
             ))
           ) : (
             <Text>No lunch items</Text>
           )}
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Dinner</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.sectionTitle}>Dinner</Text>
+            <MaterialCommunityIcons
+              name="food-apple"
+              size={24}
+              style={{ marginLeft: 10, color: Colors.green }}
+            />
+          </View>
 
           {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
             foodItems.dinner.map((food, index) => (
               <View key={index} style={styles.foodItem}>
-                <Text>{food.label}</Text>
+                <Text style={styles.foodLabel}>{food.label}</Text>
                 <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
               </View>
             ))
           ) : (
             <Text>No dinner items</Text>
           )}
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Exercises</Text>
+        {/* <View style={styles.sectionContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.sectionTitle}>Exercises</Text>
+            <FontAwesome5
+              name="dumbbell"
+              size={24}
+              style={{ marginLeft: 10, color: Colors.primary }}
+            />
+          </View>
           {exerciseData && exerciseData.length > 0 ? (
             exerciseData.map((exerciseEntry, index) => (
               <TouchableOpacity
@@ -211,12 +223,12 @@ const DiaryScreen = ({ route }) => {
           ) : (
             <Text style={styles.noItemsText}>No exercises available</Text>
           )}
-        </View>
+        </View> */}
       </ScrollView>
 
       {isLoading && <ActivityIndicatorLoadingPage />}
 
-      <View style={{ flex: 1 }}></View>
+      {/* <View style={{ flex: 1 }}></View> */}
     </SafeAreaView>
   );
 };

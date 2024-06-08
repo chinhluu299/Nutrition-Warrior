@@ -45,7 +45,7 @@ const CustomTabBarButton = ({ children, onPress }) => (
         elevation: 5,
       }}
     >
-      <Ionicons name="scan" size={30} style={{ color: Colors.darker }} />
+      <Ionicons name="scan" size={30} style={{ color: Colors.light_gray }} />
     </View>
   </TouchableOpacity>
 );
@@ -104,11 +104,11 @@ function BottomNavigation() {
         component={DiaryScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={exerciseName}
         component={ExerciseScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Tab.Screen
         name={scanName}
         component={ScanScreen}
@@ -122,11 +122,11 @@ function BottomNavigation() {
         component={MyAnalyticsScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={searchName}
         component={SearchScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Tab.Screen
         name={profileName}
         component={ProfileScreen}

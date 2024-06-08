@@ -69,5 +69,6 @@ export const styles = StyleSheet.create({
   text_next: {
     fontWeight: "700",
     fontFamily: "Inter-Black",
+    color:"#FFF"
   },
 });
