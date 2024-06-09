@@ -12,7 +12,7 @@ import {
 import { styles } from "./style";
 import { ExerciseColletionsBodyPart } from "../../static/ExerciseCollections";
 import ExerciseCollectionItem from "../../components/ExerciseCollectionItem";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import exerciseApi from "../../api/exerciseApi";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Back from "../../components/Back";
@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import ExerciseCompact from "../../components/ExerciseCompact";
 
 const ExerciseScreen = () => {
+  const isFocused = useIsFocused();
   const [data, setData] = useState(ExerciseColletionsBodyPart);
   const [myEx, setMyEx] = useState([]);
   const navigation = useNavigation();
@@ -146,12 +147,10 @@ const ExerciseScreen = () => {
         console.log("====================================");
       }
       return logDateFirst10 === selectedDateFirst10;
-     
     });
-    setMyEx(selectedDayLog.exercise_data);
-    console.log(selectedDayLog.exercise_data);
-    
-  }, []);
+    if (selectedDayLog) setMyEx(selectedDayLog.exercise_data);
+    else setMyEx(null);
+  }, [isFocused]);
 
   const onPressHandleSearchItem = (item) => {
     navigation.navigate("ExerciseDetail", { data: item }, { reset: true });

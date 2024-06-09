@@ -5,6 +5,13 @@ import Back from "../../components/Back";
 import { useNavigation } from "@react-navigation/native";
 import YouTubePlayer from "../../components/YoutubePlayer";
 
+const extractVideoId = (url) => {
+  const regExp =
+    /^.*(?:youtu\.be\/|v\/|\/u\/\w\/|embed\/|watch\?v=|&v=|watch\?.*&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[1].length === 11 ? match[1] : null;
+};
+
 const RecipeScreen = ({ route }) => {
   const { data } = route.params;
   const navigation = useNavigation();
@@ -100,7 +107,7 @@ const RecipeScreen = ({ route }) => {
             <Text style={styles.options_description_text}>
               Recipe For Video
             </Text>
-            <YouTubePlayer videoId={"D0bFRVH_EqU"} />
+            <YouTubePlayer videoId={extractVideoId(data.strYoutube)} />
           </View>
         )}
       </View>

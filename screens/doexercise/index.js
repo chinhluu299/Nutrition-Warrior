@@ -31,7 +31,7 @@ const DoExerciseScreen = ({ route }) => {
   const navigation = useNavigation();
   const confettiRef = useRef(null);
   const [content, setContent] = useState(data);
-  const [sets, setSets] = useState([]);
+  const [sets, setSets] = useState(data[0].sets);
   const [selected, setSelected] = useState(0);
   const [setSelect, setSetSelect] = useState(0);
   const [infoModalVisible, setInfoModalVisible] = useState("");
@@ -114,29 +114,27 @@ const DoExerciseScreen = ({ route }) => {
             <View style={styles.content_info}>
               <Text style={styles.content_info_title}>Target: </Text>
               <Text style={styles.content_info_value}>
-                {content[selected].exercise_data.target}
+                {content[selected].exercise.target}
               </Text>
             </View>
             <View style={styles.content_info}>
               <Text style={styles.content_info_title}>Target body part: </Text>
               <Text style={styles.content_info_value}>
-                {content[selected].exercise_data.bodyPart}
+                {content[selected].exercise.bodyPart}
               </Text>
             </View>
             <View style={styles.content_info}>
               <Text style={styles.content_info_title}>Equipment: </Text>
               <Text style={styles.content_info_value}>
-                {content[selected].exercise_data.equipment}
+                {content[selected].exercise.equipment}
               </Text>
             </View>
             <View style={styles.content_info}>
               <Text style={styles.content_info_title}>Secondary Muscles: </Text>
               <Text style={styles.content_info_value}>
-                {content[selected].exercise_data.secondaryMuscles &&
-                  content[selected].exercise_data.secondaryMuscles.map((v, i) =>
-                    i < content[selected].exercise_data.length - 1
-                      ? v + ", "
-                      : v
+                {content[selected].exercise.secondaryMuscles &&
+                  content[selected].exercise.secondaryMuscles.map((v, i) =>
+                    i < content[selected].exercise.length - 1 ? v + ", " : v
                   )}
               </Text>
             </View>
@@ -165,7 +163,7 @@ const DoExerciseScreen = ({ route }) => {
       <View style={styles.image_container}>
         <Image
           style={styles.image}
-          source={{ uri: content[selected].exercise_data.gifUrl }}
+          source={{ uri: content[selected].exercise.gifUrl }}
           resizeMode="contain"
         />
       </View>
@@ -235,7 +233,7 @@ const DoExerciseScreen = ({ route }) => {
             <Text style={styles.congrats_text}>
               Congratulations on completing your daily exercise.
             </Text>
-            <Button title="Continue" onPress={endHandler}/>
+            <Button title="Continue" onPress={endHandler} />
           </View>
         </View>
       )}
