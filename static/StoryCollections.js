@@ -1,4 +1,5 @@
 export const StoryColletions = [
+  //id: 1, image: require
   {
     id: 1,
     image: require("../static/story-1.jpeg"),

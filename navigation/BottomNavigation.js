@@ -13,6 +13,7 @@ import ScanScreen from "../screens/scanscreen";
 import { View, TouchableOpacity } from "react-native";
 import ProfileScreen from "../screens/profilescreen";
 import DiaryScreen from "../screens/diary";
+import StoryScreen from "../screens/storyscreen";
 //Screen names
 const homeName = "Home";
 const analyticName = "Analytics";
@@ -21,6 +22,7 @@ const scanName = "Scan";
 const profileName = "Profile";
 const diaryName = "Diary";
 const searchName = "Search";
+const socialName = "Social";
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress }) => (
@@ -73,6 +75,8 @@ function BottomNavigation() {
             iconName = focused ? "search" : "search-outline";
           } else if (rn === scanName) {
             iconName = focused ? "scan" : "scan-outline";
+          } else if (rn === socialName) {
+            iconName = focused ? "people" : "people-outline";
           }
 
           // You can return any component that you like here!
@@ -127,9 +131,14 @@ function BottomNavigation() {
         component={SearchScreen}
         options={{ headerShown: false }}
       /> */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name={profileName}
         component={ProfileScreen}
+        options={{ headerShown: false }}
+      /> */}
+      <Tab.Screen
+        name={socialName}
+        component={StoryScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

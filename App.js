@@ -52,6 +52,11 @@ export default function App() {
             options={{ headerShown: false }}
           />  */}
           <Stack.Screen
+            name="Story"
+            component={StoryScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="UpStory"
             component={UpstoryScreen}
             options={{ headerShown: false }}
@@ -66,12 +71,8 @@ export default function App() {
             component={MessageScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="Story"
-            component={StoryScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
+
+          {/* <Stack.Screen
             name="Macro"
             component={MacroScreen}
             options={{ headerShown: false }}
@@ -157,7 +158,7 @@ export default function App() {
             name="Tdee"
             component={TdeeScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

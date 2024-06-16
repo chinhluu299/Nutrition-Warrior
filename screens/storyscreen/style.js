@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
   },
+  
   content_comment_icon: {
     top: 22,
     left: (width * 11) / 12 - 40,

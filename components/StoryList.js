@@ -12,12 +12,11 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { CalculateDateAgo } from "../utils/dateUtils";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const StoryList = ({ stories, LoadMoreItem }) => {
-  const itemRef = useRef(null);
-
   return (
     <FlatList
       data={stories}
@@ -31,21 +30,26 @@ const StoryList = ({ stories, LoadMoreItem }) => {
         <View style={styles.content_item}>
           <View style={styles.content_image_video}>
             <Image
-              source={item.image}
+              source={{ uri: item.mediaLoaded }}
               resizeMode="cover"
               style={styles.content_image}
             />
+            <Text style={styles.content_image_content}>{item.content}</Text>
           </View>
           <View style={styles.content_author}>
             <View style={styles.content_author_1}>
               <Image
-                source={item.avatar}
+                source={item.author && item.author.photo}
                 resizeMode="cover"
                 style={styles.content_author_image}
               />
-              <Text style={styles.content_author_text}>{item.name}</Text>
+              <Text style={styles.content_author_text}>
+                {item.author && item.author.name}
+              </Text>
             </View>
-            <Text style={styles.content_author_2}>{item.timestamp} ago</Text>
+            <Text style={styles.content_author_2}>
+              {CalculateDateAgo(item.time)}
+            </Text>
           </View>
         </View>
       )}
@@ -69,6 +73,13 @@ const styles = StyleSheet.create({
   content_image: {
     width: (width * 5) / 6,
     height: (width * 5) / 6,
+    
+  },
+  content_image_content:{
+    zIndex: 100,
+    backgroundColor:"white",
+    
+
   },
   content_author: {
     top: 75,
@@ -76,11 +87,12 @@ const styles = StyleSheet.create({
     width: (width * 5) / 6,
     left: width / 12,
     borderRadius: 12,
-    backgroundColor: "lightgray",
+    backgroundColor: "#f5f5f5",
     padding: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    borderWidth: 2,
   },
   content_author_1: {
     alignItems: "center",

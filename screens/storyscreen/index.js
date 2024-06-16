@@ -4,12 +4,16 @@ import { styles } from "./style";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { StoryColletions } from "../../static/StoryCollections";
 import StoryList from "../../components/StoryList";
+import axiosClient from "../../api/axiosClient";
+import axios from "axios";
 
 const StoryScreen = ({ navigation }) => {
   const [comment, setComment] = useState("");
   const [current, setCurrent] = useState(1);
   const [stories, setStories] = useState([]);
+  const [offset, setOffset] = useState(0);
 
+  const fetch = 10;
   const nextHandle = () => {
     if (StoryColletions.length < current + 1) {
       setCurrent(current + 1);
@@ -25,9 +29,39 @@ const StoryScreen = ({ navigation }) => {
   const LoadMoreItem = () => {
     console.log("1111");
   };
+  const fetchStories = async () => {
+    try {
+      console.log("dang load");
+      console.log("chay lau vai l");
+      const res = await axios.post(
+        "https://8eb5-14-241-170-199.ngrok-free.app/api/v1/story/seek",
+        {
+          userId: "665c21d58dd162b8026b3763",
+        }
+      );
+      console.log("chay xong roio");
+      console.log(res);
 
+      if (res.status === 200) {
+        if (res.data.success) {
+          const data = res.data.data;
+          for (var val of data) {
+            const media = val.media;
+            val.mediaLoaded =
+              "https://8eb5-14-241-170-199.ngrok-free.app/api/v1/image/"+media;
+            
+          }
+          setStories(data);
+        }
+        console.log(res.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    setStories(StoryColletions);
+    //setStories(StoryColletions);
+    fetchStories();
   }, []);
 
   return (
