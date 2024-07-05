@@ -1,76 +1,67 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
 import { Chat } from "@flyerhq/react-native-chat-ui";
-
-// import { speak, isSpeakingAsync, stop } from "expo-speech";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-// import ChatBubble from "../ChatBubble";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-// import { types } from "react-native-document-picker";
+import { launchImageLibrary } from "react-native-image-picker";
+
 const user = {
   id: "user",
 };
 const bot = {
   id: "model",
 };
+
 const MessageScreen = () => {
   const [messages, setMessages] = useState([]);
-  const [formattedMessages, setFormattedMessages] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+
   const addMessage = (message) => {
     setMessages((prevMessages) => [message, ...prevMessages]);
   };
-  const addFormattedMessages = (formattedMessage) => {
-    setFormattedMessages((prevFormattedMessages) => [
-      formattedMessage,
-      ...prevFormattedMessages,
-    ]);
-  };
-  const API_KEY = "AIzaSyAQNTg3qa2OVVmNro0BymWduYen6N66XWg";
+
+  const API_KEY = "AIzaSyB-ZAPGcMZfqZPUHSi6oszgvWCiOAVWBsg";
+
   const createTrainPrompt = (userPrompt) => {
     let prompt =
-      'You are a chat assistant.\nYour name is Nout and was developed by the HuyChinh team.\nYour task is to respond to user requests.\nThe request will begin with the word "Prompt".\nPrompt: ' +
+      'You are a chat assistant.\nYour name is NutritionBot and was developed by the UIT HuyChinh team.\nYour task is to respond to user requests and you only respond to the requests about fitness, health, food.\nThe request will begin with the word "Prompt".\nPrompt: ' +
       userPrompt;
     return prompt;
   };
-  useEffect(() => {
-    if (formattedMessages.length > 0) {
-      if (formattedMessages[0].role == "user")
-        getResponseFromGemini(formattedMessages);
-    }
-  }, [formattedMessages]);
+
   const getResponseFromGemini = async (prompt) => {
     try {
-      console.log("Prompt: " + prompt);
+      if (chats.length == 0) {
+        const userPrompt = createTrainPrompt(prompt);
+        updatedChats = [
+          ...chats,
+          { role: "user", parts: [{ text: userPrompt }] },
+        ];
+        setChats(updatedChats);
+      } else {
+        updatedChats = [...chats, { role: "user", parts: [{ text: prompt }] }];
+        setChats(updatedChats);
+      }
+
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
-      // const result = await model.generateContent(prompt);
-      // console.log("Result: ", result);
-      // const response = result.response;
-      // const modelResponse = response.text();
-      let contents = prompt.map((item) => {
-        // Log the item before constructing the contents
-        console.log("Item:", item);
+      let contents = updatedChats.map((item) => {
         return {
           role: item.role,
           parts: item.parts.map((part) => ({ text: part.text })),
         };
       });
-      // console.log("contents: ", contents);
 
-      // if (contents.length <= 0) {
-      //   const promptMessage = "";
-      //   contents = createTrainPrompt(prompt);
-      //   console.log("oke");
-      // }
       const result = await model.generateContent({
         contents: contents,
       });
+
       const response = result.response;
-      const modelResponse = response.text();
-      if (modelResponse) {
-        console.log("Response: " + modelResponse);
+
+      if (response && response.text) {
+        const modelResponse = response.text();
+
         const newMessage = {
           author: bot,
           createdAt: Date.now(),
@@ -78,23 +69,17 @@ const MessageScreen = () => {
           text: modelResponse,
           type: "text",
         };
-        console.log("New message: " + newMessage);
+
         addMessage(newMessage);
-        addFormattedMessages(formatMessage(newMessage));
       }
     } catch (error) {
       console.error("Error calling Gemini Pro API: ", error);
-      console.error("Error response: ", error.response);
     }
   };
-  const formatMessage = (message) => {
-    return {
-      role: message.author.id,
-      parts: [{ text: message.text }],
-    };
-  };
+
   const handleSendPress = (message) => {
     try {
+      setIsTyping(true);
       const textMessage = {
         author: user,
         createdAt: Date.now(),
@@ -102,34 +87,50 @@ const MessageScreen = () => {
         text: message.text,
         type: "text",
       };
-      console.log(
-        "Text message: " +
-          textMessage.author +
-          " " +
-          textMessage.createdAt +
-          " " +
-          textMessage.text
-      );
-
       addMessage(textMessage);
-      addFormattedMessages(formatMessage(textMessage));
+      getResponseFromGemini(textMessage.text);
     } catch (error) {
       console.log(error);
       console.error(error.message);
     }
   };
+
+  const handleImageSelection = () => {
+    launchImageLibrary(
+      {
+        includeBase64: true,
+        maxWidth: 1440,
+        mediaType: "photo",
+        quality: 0.7,
+      },
+      ({ assets }) => {
+        const response = assets?.[0];
+
+        if (response?.base64) {
+          const imageMessage = {
+            author: user,
+            createdAt: Date.now(),
+            height: response.height,
+            id: uuidv4(),
+            name: response.fileName ?? response.uri?.split("/").pop() ?? "🖼",
+            size: response.fileSize ?? 0,
+            type: "image",
+            uri: `data:image/*;base64,${response.base64}`,
+            width: response.width,
+          };
+          addMessage(imageMessage);
+        }
+      }
+    );
+  };
   return (
     <Chat
       messages={messages}
-      // onAttachmentPress={handleAttachmentPress}
-      // onMessagePress={handleMessagePress}
-      // onPreviewDataFetched={handlePreviewDataFetched}
       onSendPress={handleSendPress}
       user={user}
-      // l10nOverride={{
-      //   emptyChatPlaceholder: "Chat with Nout",
-      // }}
+      onAttachmentPress={handleImageSelection}
     />
   );
 };
+
 export default MessageScreen;
