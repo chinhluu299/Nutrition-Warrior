@@ -3,9 +3,23 @@
     "version": ">= 5.4.0"
   },
   "build": {
+    "release": {
+      "android": {
+        "image": "default"
+      },
+      "ios": {
+        "image": "default"
+      }
+    },
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "image": "default"
+      },
+      "ios": {
+        "image": "default"
+      }
     },
     "preview": {
       "distribution": "internal"
