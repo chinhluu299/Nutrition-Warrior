@@ -28,8 +28,8 @@
           "data": [
             {
               "scheme": "https",
-              "host": "*.myapp.io",
-              "pathPrefix": "/records"
+              "host": "nw-service-linked.vercel.app",
+              "pathPrefix": "/links/"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]

@@ -5,7 +5,8 @@
   "build": {
     "release": {
       "android": {
-        "image": "default"
+        "image": "default",
+        "buildType": "apk"
       },
       "ios": {
         "image": "default"
@@ -13,7 +14,8 @@
     },
     "production": {
       "android": {
-        "image": "latest"
+        "image": "latest",
+        "buildType":"apk"
       },
       "ios": {
         "image": "latest"
@@ -31,8 +33,7 @@
     },
     "preview": {
       "distribution": "internal"
-    },
-   
+    }
   },
   "submit": {
     "production": {}

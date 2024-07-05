@@ -124,7 +124,17 @@ const LoginScreen = () => {
   };
   
   const logNotifyToken = async () => {
-   
+    try {
+      const res = await axios.post("");
+      if(res.status === 201){
+        console.log("update push token")
+      }
+    } catch (error) {
+       Toast.show({
+         type: "error",
+         text1: error.message,
+       });
+    }
   }
 
   if (fontLoaded) {
