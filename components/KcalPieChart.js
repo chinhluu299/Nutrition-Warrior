@@ -12,7 +12,7 @@ const widthAndHeight = 280;
 const widthAndHeight2 = widthAndHeight - 37;
 
 const KcalPieChart = ({ breakfast, lunch, dinner }) => {
-  const total = breakfast + lunch + dinner;
+  const total = breakfast + lunch + dinner || 1;
   const space = total / 6 / 10; // Adjust as needed
   const series = [breakfast, space, lunch, space, dinner, space];
   const sliceColor = [
@@ -45,7 +45,7 @@ const KcalPieChart = ({ breakfast, lunch, dinner }) => {
         />
         <View style={styles.circle_content}>
           <Ionicons name="fast-food" style={styles.circle_content_line_1} />
-          <Text style={styles.circle_content_line_2}>{total}</Text>
+          <Text style={styles.circle_content_line_2}>{total == 1 ? 0 : total}</Text>
           <Text style={styles.circle_content_line_3}>Kcal gained</Text>
         </View>
       </View>

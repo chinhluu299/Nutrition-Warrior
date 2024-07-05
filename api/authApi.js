@@ -36,9 +36,13 @@ const authApi = {
     return response;
   },
   updateProfile: async (id, formData) => {
-    const response = await axiosClient.post(`${url}update/${id}`, formData, {
+    const response = await axiosClient.put(`${url}update/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    return response;
+  },
+  updateHeightWeight: async (id, data) => {
+    const response = await axiosClient.put(`${url}updatehw/${id}`, data);
     return response;
   },
 };

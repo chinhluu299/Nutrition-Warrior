@@ -65,11 +65,11 @@ export const styles = StyleSheet.create({
   },
   text_forgot_password: {
     fontSize: 12,
-    color: Colors.secondary,
+    color: Colors.primary_2,
     fontWeight: "500",
   },
   button_submit: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
     padding: 14,
     borderRadius: 10,
   },
@@ -89,6 +89,6 @@ export const styles = StyleSheet.create({
   },
   register_text_2: {
     fontWeight: "600",
-    color: Colors.secondary,
+    color: Colors.primary_2,
   },
 });

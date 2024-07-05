@@ -121,24 +121,24 @@ function BottomNavigation() {
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={analyticName}
         component={MyAnalyticsScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       {/* <Tab.Screen
         name={searchName}
         component={SearchScreen}
         options={{ headerShown: false }}
       /> */}
-      {/* <Tab.Screen
-        name={profileName}
-        component={ProfileScreen}
-        options={{ headerShown: false }}
-      /> */}
       <Tab.Screen
         name={socialName}
         component={StoryScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={profileName}
+        component={ProfileScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

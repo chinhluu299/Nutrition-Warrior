@@ -8,7 +8,12 @@ import {
   ScrollView,
 } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
-import { FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import exerciseApi from "../../api/exerciseApi";
@@ -20,6 +25,8 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 const DiaryScreen = ({ route }) => {
+  const [caloriesRemain, setCaloriesRemain] = useState(0);
+  const [caloriesIntake, setCaloriesIntake] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const [exerciseData, setExerciseData] = useState(null);
@@ -57,13 +64,20 @@ const DiaryScreen = ({ route }) => {
   const fetchData = () => {
     const dailyLogs = userData.daily_logs;
     const selectedDateFirst10 = format(selectedDate, "yyyy-MM-dd");
-    
+
     const selectedDayLog = dailyLogs.find((log) => {
       const logDateFirst10 = log.date.substring(0, 10);
       // Compare using string representation
       return logDateFirst10 === selectedDateFirst10;
     });
 
+    setCaloriesIntake(selectedDayLog ? selectedDayLog.caloric_intake : 0);
+    console.log(userData);
+    setCaloriesRemain(
+      selectedDayLog
+        ? Math.floor(selectedDayLog.caloric_remain)
+        : Math.floor(userData.caloric_intake_goal)
+    );
     setExerciseData(selectedDayLog ? selectedDayLog.exercise_data : []);
     setFoodItems(selectedDayLog ? selectedDayLog : []);
   };
@@ -74,14 +88,18 @@ const DiaryScreen = ({ route }) => {
   }, [selectedDate, userData]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
       <View style={styles.header}>
         <TouchableOpacity onPress={goToPreviousDay}>
           <Ionicons name="chevron-back" style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setShowDatePicker(true)}>
           <Text
-            style={{ color: Colors.darker, fontWeight: "800", fontSize: 18 }}
+            style={{
+              color: Colors.secondary_2,
+              fontWeight: "800",
+              fontSize: 18,
+            }}
           >
             {format(selectedDate, "MMMM d, yyyy")}
           </Text>
@@ -99,86 +117,106 @@ const DiaryScreen = ({ route }) => {
           onChange={handleDateChange}
         />
       )}
-
+      <View style={styles.calories}>
+        <View>
+          <Text style={styles.calories_text_head}>{caloriesIntake}</Text>
+          <Text style={styles.calories_text}>Calories Intake</Text>
+        </View>
+        <View>
+          <Text style={styles.calories_text_head}>{caloriesRemain}</Text>
+          <Text style={styles.calories_text}>Calories Remaining</Text>
+        </View>
+      </View>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.sectionContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.sectionTitle}>Breakfast</Text>
-            <MaterialIcons
-              name="free-breakfast"
-              size={24}
-              style={{ marginLeft: 10, color: Colors.red }}
-            />
+          <MaterialIcons
+            name="free-breakfast"
+            size={35}
+            style={styles.section_icon}
+          />
+          <View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.sectionTitle}>Breakfast</Text>
+            </View>
+            {foodItems &&
+            foodItems.breakfast &&
+            foodItems.breakfast.length > 0 ? (
+              foodItems.breakfast.map((food, index) => (
+                <View key={index} style={styles.foodItem}>
+                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <Text style={styles.foodDetails}>
+                    {food.nutrients.ENERC_KCAL} kcal
+                  </Text>
+                </View>
+              ))
+            ) : (
+              <Text>No breakfast items</Text>
+            )}
           </View>
 
-          {foodItems &&
-          foodItems.breakfast &&
-          foodItems.breakfast.length > 0 ? (
-            foodItems.breakfast.map((food, index) => (
-              <View key={index} style={styles.foodItem}>
-                <Text style={styles.foodLabel}>{food.label}</Text>
-                <Text style={styles.foodDetails}>
-                  {food.nutrients.ENERC_KCAL} kcal
-                </Text>
-              </View>
-            ))
-          ) : (
-            <Text>No breakfast items</Text>
-          )}
           {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.sectionTitle}>Lunch</Text>
-            <MaterialIcons
-              name="lunch-dining"
-              size={24}
-              style={{ marginLeft: 10, color: Colors.orange }}
-            />
+          <MaterialIcons
+            name="lunch-dining"
+            size={35}
+            style={styles.section_icon}
+          />
+          <View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.sectionTitle}>Lunch</Text>
+            </View>
+
+            {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
+              foodItems.lunch.map((food, index) => (
+                <View key={index} style={styles.foodItem}>
+                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+                </View>
+              ))
+            ) : (
+              <Text>No lunch items</Text>
+            )}
           </View>
-          {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
-            foodItems.lunch.map((food, index) => (
-              <View key={index} style={styles.foodItem}>
-                <Text style={styles.foodLabel}>{food.label}</Text>
-                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
-              </View>
-            ))
-          ) : (
-            <Text>No lunch items</Text>
-          )}
+
           {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.sectionTitle}>Dinner</Text>
-            <MaterialCommunityIcons
-              name="food-apple"
-              size={24}
-              style={{ marginLeft: 10, color: Colors.green }}
-            />
+          <MaterialCommunityIcons
+            name="food-apple"
+            size={35}
+            style={styles.section_icon}
+          />
+          <View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.sectionTitle}>Dinner</Text>
+            </View>
+
+            {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
+              foodItems.dinner.map((food, index) => (
+                <View key={index} style={styles.foodItem}>
+                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
+                </View>
+              ))
+            ) : (
+              <Text>No dinner items</Text>
+            )}
           </View>
 
-          {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
-            foodItems.dinner.map((food, index) => (
-              <View key={index} style={styles.foodItem}>
-                <Text style={styles.foodLabel}>{food.label}</Text>
-                <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
-              </View>
-            ))
-          ) : (
-            <Text>No dinner items</Text>
-          )}
           {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
           </TouchableOpacity> */}
         </View>
-        {/* <View style={styles.sectionContainer}>
+      </ScrollView>
+
+      {/* <View style={styles.sectionContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.sectionTitle}>Exercises</Text>
             <FontAwesome5
@@ -224,7 +262,6 @@ const DiaryScreen = ({ route }) => {
             <Text style={styles.noItemsText}>No exercises available</Text>
           )}
         </View> */}
-      </ScrollView>
 
       {isLoading && <ActivityIndicatorLoadingPage />}
 

@@ -18,10 +18,16 @@ const initialState = {
   tdee: 0,
   height: 0,
   current_weight: 0,
+  push_token: "",
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case "UPDATE_PUSH_TOKEN":
+      return {
+        ...state,
+        push_token: action.payload.pushToken,
+      };
     case "UPDATE_USER_DAILY_LOG":
       return {
         ...state,
@@ -29,6 +35,12 @@ export default function userReducer(state = initialState, action) {
           ...state.user,
           daily_logs: action.payload.dailyLogs,
         },
+      };
+    case "UPDATE_HEIGHT_WEIGHT":
+      return {
+        ...state,
+        height: action.payload.height,
+        current_weight: action.payload.current_weight,
       };
     case "UPDATE_USER":
       return {
@@ -50,7 +62,7 @@ export default function userReducer(state = initialState, action) {
         goal: action.payload.goal,
         tdee: action.payload.tdee + "",
         height: action.payload.height + "",
-        current_weight: action.payload.current_weight + "",
+        // current_weight: action.payload.current_weight + "",
         first_login: action.payload.first_login,
         current_weight: action.payload.current_weight,
         caloric_remain: action.payload.caloric_remain,
@@ -68,6 +80,8 @@ export default function userReducer(state = initialState, action) {
         goal: action.payload.goal,
         tdee: action.payload.tdee,
         first_login: action.payload.first_login,
+        current_weight: action.payload.current_weight,
+        height: action.payload.height + "",
       };
     case "CLEAR_USER":
       return {

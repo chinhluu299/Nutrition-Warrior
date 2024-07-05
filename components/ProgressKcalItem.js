@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: "700",
-    color: Colors.text,
+    color: Colors.primary_3,
   },
   progress_bar: {
     marginTop: 5,

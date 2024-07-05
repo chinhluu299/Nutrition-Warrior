@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   icon: {
     padding: 16,
     fontSize: 18,
-    backgroundColor: "black",
+    backgroundColor: Colors.primary,
     borderRadius: 50,
     color: "white",
   },
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     top: 60,
   },
-  
+
   content_comment: {
     position: "absolute",
     bottom: 60,
@@ -50,11 +50,29 @@ export const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
   },
-  
+
   content_comment_icon: {
     top: 22,
     left: (width * 11) / 12 - 40,
     fontSize: 20,
     position: "absolute",
+    color: Colors.primary_3,
   },
+  upStory: {
+    display: "flex",
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    padding: 10,
+    paddingHorizontal: 20,
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: Colors.third,
+    textTransform: "uppercase",
+  },
+  upStory_text:{
+    textTransform: "uppercase",
+    fontWeight: '600',
+    color:Colors.primary_3
+  }
 });

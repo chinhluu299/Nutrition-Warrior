@@ -179,6 +179,8 @@ const MacroScreen = ({ route }) => {
         {
           tdee: tdee,
           goal: data.goal,
+          height: data.height,
+          current_weight: data.weight,
           caloric_intake_goal: value.caloric_intake_goal,
           daily_protein_goal: value.daily_protein_goal,
           daily_fat_goal: value.daily_fat_goal,

@@ -67,12 +67,14 @@ export const styles = StyleSheet.create({
     paddingBottom: 30,
     borderBottomWidth: 1,
     borderBottomColor: "rgb(185,186,190)",
-    height: screenHeight * 0.45
+    height: screenHeight * 0.45,
   },
   options_description_text: {
     fontWeight: "700",
     fontSize: 16,
-    marginBottom:10,
-    
+    marginBottom: 10,
   },
+  recipeForText:{
+    
+  }
 });

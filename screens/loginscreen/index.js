@@ -10,6 +10,9 @@ import Toast from "react-native-toast-message";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+
+// const userInfo = store.getState().rootReducer.user;
 
 const LoginScreen = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -19,8 +22,9 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
   const [isBusy, setIsBusy] = useState(false);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  
   const navigation = useNavigation();
 
   const loadFonts = async () => {
@@ -48,6 +52,7 @@ const LoginScreen = () => {
       });
       return;
     }
+    console.log("nhay vao day roi ma")
     try {
       dispatch({
         type: "LOGOUT",
@@ -69,6 +74,7 @@ const LoginScreen = () => {
             type: "UPDATE_USER",
             payload: res.data.data,
           });
+          
           console.log("====================================");
           console.log("fdasafsd");
           console.log("====================================");
@@ -79,7 +85,6 @@ const LoginScreen = () => {
             navigation.navigate("Survey", {}, { reset: true });
           }
         }
-        return;
       } else {
         Toast.show({
           type: "error",
@@ -117,6 +122,11 @@ const LoginScreen = () => {
   const goForgotPassword = () => {
     navigation.navigate("ForgotPassword", {}, { reset: true });
   };
+  
+  const logNotifyToken = async () => {
+   
+  }
+
   if (fontLoaded) {
     return (
       <View style={styles.container}>
@@ -158,13 +168,13 @@ const LoginScreen = () => {
             </View>
             <View style={styles.input_option}>
               <View style={styles.input_remember_me}>
-                <Checkbox
+                {/* <Checkbox
                   value={isRemember}
                   onValueChange={(newValue) => setIsRemember(newValue)}
                   color={isRemember ? Colors.primary : undefined}
                   style={styles.checkbox_remmeber_me}
                 />
-                <Text style={styles.text_remember_me}>Remember me</Text>
+                <Text style={styles.text_remember_me}>Remember me</Text> */}
               </View>
               <View>
                 <Text

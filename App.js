@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import ScanScreen from "./screens/scanscreen";
@@ -17,7 +17,7 @@ import ExerciseScreen from "./screens/exercisescreen";
 import ExerciseListScreen from "./screens/exerciselistscreen";
 import ExerciseDetailScreen from "./screens/exercisedetailscreen";
 import BottomNavigation from "./navigation/BottomNavigation";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "./app/store";
 import ProfileScreen from "./screens/profilescreen";
 import TdeeScreen from "./screens/tdeescreen";
@@ -29,14 +29,79 @@ import UpstoryScreen from "./screens/upstoryscreen";
 import EmptyScreen from "./screens/emptyscreen";
 import DoExerciseScreen from "./screens/doexercise";
 import RecipeScreen from "./screens/foodrecipe";
+import FollowScreen from "./screens/followscreen";
+import FriendScreen from "./screens/friendscreen";
+import { registerForPushNotificationsAsync } from "./utils/tokenRegister";
+import * as Notifications from "expo-notifications";
 
 const Stack = createNativeStackNavigator();
 
 const userInfo = store.getState().rootReducer.user;
 
-export default function App() {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+export default AppWrapper = () => {
   return (
     <Provider store={store}>
+      <App /> 
+    </Provider>
+  );
+};
+
+const App = () => {
+  const dispatch = useDispatch();
+  const [notification, setNotification] = useState(false);
+  const notificationListener = React.useRef();
+  const responseListener = React.useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      console.log("token: "+token)
+      dispatch({
+        type: "UPDATE_PUSH_TOKEN",
+        payload: {
+          pushToken: token,
+        },
+      });
+    }).catch((err) => console.log(err));
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        const {
+          notification: {
+            request: {
+              content: {
+                data: { screen },
+              },
+            },
+          },
+        } = response;
+
+        // When the user taps on the notification, this line checks if they //are suppose to be taken to a particular screen
+        if (screen) {
+          props.navigation.navigate(screen);
+        }
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+  return (
+    // <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           // initialRouteName={
@@ -59,12 +124,37 @@ export default function App() {
           <Stack.Screen
             name="UpStory"
             component={UpstoryScreen}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+              animationTypeForReplace: "push",
+              animation: "slide_from_right",
+            }}
+          />
+          {/* <Stack.Screen
+            name="Follow"
+            component={FollowScreen}
             options={{ headerShown: false }}
+          /> */}
+          <Stack.Screen
+            name="Friend"
+            component={FriendScreen}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+              animationTypeForReplace: "push",
+              animation: "slide_from_left",
+            }}
           />
           <Stack.Screen
             name="Chat"
             component={ChatScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+              animationTypeForReplace: "push",
+              animation: "slide_from_right",
+            }}
           />
           <Stack.Screen
             name="MessageScreen"
@@ -72,7 +162,7 @@ export default function App() {
             options={{ headerShown: false }}
           />
 
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Macro"
             component={MacroScreen}
             options={{ headerShown: false }}
@@ -158,10 +248,10 @@ export default function App() {
             name="Tdee"
             component={TdeeScreen}
             options={{ headerShown: false }}
-          /> */}
+          />
         </Stack.Navigator>
       </NavigationContainer>
-    </Provider>
+    // </Provider>
   );
 }
 

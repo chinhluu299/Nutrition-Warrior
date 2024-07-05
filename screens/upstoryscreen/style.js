@@ -41,6 +41,15 @@ export const styles = StyleSheet.create({
     height: 80,
     justifyContent: "center",
   },
+  controls_2: {
+    position:'absolute',
+    left: 0,
+    top: 50,
+    width: width,
+    height: 80,
+    justifyContent: "center",
+    zIndex:1000,
+  },
   back_control: {
     position: "absolute",
     width: 40,

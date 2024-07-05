@@ -194,8 +194,8 @@ const RegisterScreen = ({ navigation }) => {
               />
               <Text style={styles.text_remember_me}>
                 By checking the box you agree to our{" "}
-                <Text style={{ color: Colors.secondary }}>Terms</Text> and{" "}
-                <Text style={{ color: Colors.secondary }}>Conditions</Text>.
+                <Text style={{ color: Colors.primary_2 }}>Terms</Text> and{" "}
+                <Text style={{ color: Colors.primary_2 }}>Conditions</Text>.
               </Text>
             </View>
           </View>

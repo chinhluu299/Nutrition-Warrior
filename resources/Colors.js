@@ -1,8 +1,9 @@
 export const Colors = {
-  primary: "#000",
-  secondary: "#000",
-  dark: "#000",
-  darker: "#000",
+  // primary: "#000",
+  // secondary: "#000",
+  // dark: "#000",
+  // darker: "#000",
+
   //primary: "#19EA83",
   green: "#39B878",
   // dark: "#448564",
@@ -24,4 +25,11 @@ export const Colors = {
   pie_color3: "#1AEB80",
   pie_color4: "#1AEBC7",
   pie_color5: "#1ACAEB",
+
+  primary: "#87D1D2",
+  primary_2: "#00A299",
+  primary_3: "#054142",
+  secondary: "#F0DAD4",
+  secondary_2: "#CE9583",
+  third: "#DAE4EA",
 };

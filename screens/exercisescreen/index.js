@@ -23,7 +23,7 @@ import ExerciseCompact from "../../components/ExerciseCompact";
 
 const ExerciseScreen = () => {
   const isFocused = useIsFocused();
-  const [data, setData] = useState(ExerciseColletionsBodyPart);
+  const data = ExerciseColletionsBodyPart;
   const [myEx, setMyEx] = useState([]);
   const navigation = useNavigation();
   const [filteredData, setFilteredData] = useState([]);

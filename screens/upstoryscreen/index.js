@@ -18,6 +18,8 @@ import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
 import { styles } from "./style";
 import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+import LoadingLottie from "../../components/LoadingLottie";
 
 const UpstoryScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -25,6 +27,7 @@ const UpstoryScreen = ({ navigation }) => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [isText, setIsText] = useState(false);
   const [text, setText] = useState("");
+  const [busy, setBusy] = useState(false);
   const cameraRef = useRef(null);
   const messageRef = useRef(null);
   useEffect(() => {
@@ -66,10 +69,45 @@ const UpstoryScreen = ({ navigation }) => {
       if (source) {
         console.log("picture source", source);
         setCapturedImage(source);
+        console.log(source);
       }
     }
   };
-  const upload = async () => {};
+  const upload = async () => {
+    setBusy(true);
+    const frm = new FormData();
+    frm.append("author", "65841052d8cdd868451e9edb");
+    frm.append("content", text);
+    frm.append("media", {
+      uri: capturedImage,
+      type: "image/jpeg",
+      name: "story_image.jpg",
+    });
+    try {
+      const res = await axios.postForm(
+        "https://865d-115-79-219-34.ngrok-free.app/api/v1/story",
+        frm
+      );
+      if (res.status === 201) {
+        setTimeout(() => {
+          setBusy(false);
+           navigation.reset({
+             routes: [{ name: "Story" }],
+           });
+        }, 1000);
+      }else{
+        setBusy(false);
+      }
+    } catch (error) {
+      setBusy(false);
+      Toast.show({
+        type: "error",
+        text1: "Upload stories failed! Try again!",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
+  };
   const renderCameraButton = () => {
     return (
       <TouchableOpacity
@@ -80,6 +118,9 @@ const UpstoryScreen = ({ navigation }) => {
     );
   };
   const goBack = () => {
+    if (capturedImage == null) {
+      navigation.goBack();
+    }
     setCapturedImage(null);
     setIsText(false);
     setText("");
@@ -103,7 +144,7 @@ const UpstoryScreen = ({ navigation }) => {
   } else if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   } else {
-    return (
+    return !busy ? (
       <View
         style={
           isText == false
@@ -144,7 +185,11 @@ const UpstoryScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         ) : (
-          ""
+          <View style={styles.controls_2}>
+            <TouchableOpacity style={styles.back_control} onPress={goBack}>
+              <Ionicons name="arrow-back" style={styles.back_control_icon} />
+            </TouchableOpacity>
+          </View>
         )}
         {capturedImage != null ? (
           <Image source={{ uri: capturedImage }} />
@@ -162,6 +207,8 @@ const UpstoryScreen = ({ navigation }) => {
           ? renderUploadButton()
           : ""}
       </View>
+    ) : (
+      <LoadingLottie isBusy={busy} />
     );
   }
 };

@@ -82,11 +82,13 @@ const RecipeScreen = ({ route }) => {
           <View style={styles.options_description}>
             <Text style={styles.options_description_text}>Ingradients</Text>
             <ScrollView>
-              {Object.entries(data).map(([key, value]) => {
+              {Object.entries(data).map(([key, value], index, arr) => {
                 if (key.startsWith("strMeasure")) {
                   return (
                     <View>
-                      <Text>{value}</Text>
+                      <Text>
+                        {value} {data["strIngredient" + key.substring(10)]}
+                      </Text>
                     </View>
                   );
                 }
@@ -97,7 +99,7 @@ const RecipeScreen = ({ route }) => {
         {selected == 1 && (
           <View style={styles.options_description}>
             <Text style={styles.options_description_text}>Recipe For Text</Text>
-            <ScrollView>
+            <ScrollView style={styles.recipeForText}>
               <Text>{data.strInstructions}</Text>
             </ScrollView>
           </View>

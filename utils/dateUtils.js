@@ -33,4 +33,38 @@ export const CalculateDateAgo = (postDate) => {
 
   const yearsPast = Math.floor(monthsPast / 12);
   return `${yearsPast} years ago`;
+};
+
+export const thisWeek = () => {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const firstDayOfWeek = new Date(today);
+  firstDayOfWeek.setDate(today.getDate() - dayOfWeek);
+  firstDayOfWeek.setHours(0, 0, 0, 0); // Đặt thời gian là 00:00:00.000
+  return firstDayOfWeek;
+};
+
+export const thisMonth = () => {
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  return firstDayOfMonth;
+}
+
+export const lastSixMonths = () => {
+  const today = new Date();
+  const firstDayOfSixMonthsAgo = new Date(
+    today.getFullYear(),
+    today.getMonth() - 6,
+    today.getDate()
+  );
+  return firstDayOfSixMonthsAgo;
+}
+export const thisYear = () => {
+  const today = new Date();
+  const firstDayOfYear = new Date(
+    today.getFullYear() - 1,
+    today.getMonth(),
+    today.getDate()
+  ); // Tháng 0 là tháng 1
+  return firstDayOfYear;
 }

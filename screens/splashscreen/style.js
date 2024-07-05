@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   },
   button_next: {
     padding: 12,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.primary_2,
     borderRadius: 20,
     bottom: height / 15,
     alignItems: "center",

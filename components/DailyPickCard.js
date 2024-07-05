@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     flexDirection: "row",
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.third,
   },
   left_card: {
     flex: 1,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     margin: 5,
     fontWeight: "700",
     fontSize: 16,
-    color: Colors.text,
+    color: Colors.primary_3,
     opacity: 0.8,
   },
   kcal: {

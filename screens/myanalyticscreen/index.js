@@ -11,8 +11,15 @@ import {
 import { styles } from "./style";
 import * as Font from "expo-font";
 import KcalPieChart from "../../components/KcalPieChart";
+import { useSelector } from "react-redux";
+import { lastSixMonths, thisMonth, thisWeek, thisYear } from "../../utils/dateUtils";
 
 const MyAnalyticsScreen = () => {
+  const userInfo = useSelector((state) => state.rootReducer.user);
+  const [breakfast, setBreakfast] = useState(0);
+  const [dinner, setDinner] = useState(0);
+  const [lunch, setLunch] = useState(0);
+
   const [timestamp, setTimestamp] = useState("today");
   const [fontLoaded, setFontLoaded] = useState(false);
   const options = [
@@ -22,6 +29,56 @@ const MyAnalyticsScreen = () => {
     { key: "six-month", value: "6 months" },
     { key: "one-year", value: "1 year" },
   ];
+  const handleAnalytics = () => {
+    var minDate = new Date();
+    switch (timestamp) {
+      case "today":
+        break;
+      case "this-week":
+        minDate = thisWeek();
+        break;
+      case "last-month":
+        minDate = thisMonth();
+        break;
+      case "six-month":
+        minDate = lastSixMonths();
+        break;
+      case "one-year":
+        minDate = thisYear();
+        break;
+      default:
+        break;
+    }
+    handleAnalyticSelection(minDate);
+    console.log(minDate)
+  }
+  const handleAnalyticSelection = (minDate) => {
+    const dailogs = userInfo.daily_logs.filter(x => new Date(x.date) > minDate);
+    let countDate = 0;
+    let avgBreakfast = 0;
+    let avgLunch = 0;
+    let avgDinner = 0;
+
+    dailogs.forEach(element => {
+      countDate++;
+      element.breakfast.forEach(breakfast => {
+        avgBreakfast += breakfast.nutrients.ENERC_KCAL;
+      })
+      element.lunch.forEach((lunch) => {
+        avgLunch += lunch.nutrients.ENERC_KCAL;
+      });
+      element.dinner.forEach((dinner) => {
+        avgDinner += dinner.nutrients.ENERC_KCAL;
+      });
+    });
+    setBreakfast(Math.floor(avgBreakfast/ (countDate || 1)));
+    setLunch(Math.floor(avgLunch / (countDate || 1)));
+    setDinner(Math.floor(avgDinner / (countDate || 1)));
+
+  }
+  useEffect(()=> {
+    handleAnalytics();
+  },[timestamp])
   const loadFonts = async () => {
     await Font.loadAsync({
       "Inter-SemiBold": require("../../assets/fonts/Inter-SemiBold.ttf"),
@@ -66,7 +123,7 @@ const MyAnalyticsScreen = () => {
           </ScrollView>
         </View>
         <View style={{ flex: 1 }}>
-          <KcalPieChart breakfast={100} lunch={200} dinner={150} />
+          <KcalPieChart breakfast={breakfast} lunch={lunch} dinner={dinner} />
         </View>
       </View>
     );

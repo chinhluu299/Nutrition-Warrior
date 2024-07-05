@@ -8,7 +8,7 @@ const height = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
   tableHeader: {
     height: 40,
-    backgroundColor: "#f1f8ff",
+    backgroundColor: Colors.third,
   },
 
   tableHeaderText: {
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   foodLabel: {
     fontSize: 16,
     fontWeight: "400",
-    color: Colors.dark
+    color: Colors.dark,
   },
 
   foodDetails: {
@@ -103,22 +103,23 @@ export const styles = StyleSheet.create({
   },
   sectionContainer: {
     marginVertical: 16,
-    marginHorizontal: 16,
+    marginHorizontal: 8,
     padding: 16,
     backgroundColor: Colors.lightGray,
     borderRadius: 8,
+    display: "flex",
+    flexDirection: "row",
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
     color: Colors.darker,
-    
   },
   titleContainer: {
     display: "flex",
-    justifyContent:'flex-start',
-    flexDirection:'row'
+    justifyContent: "flex-start",
+    flexDirection: "row",
   },
   addButton: {
     backgroundColor: Colors.primary,
@@ -130,5 +131,48 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: Colors.light_gray,
     fontWeight: "bold",
+  },
+  calories: {
+    marginVertical: 16,
+    marginHorizontal: 16,
+    backgroundColor: Colors.primary,
+    display: "flex",
+    paddingHorizontal: 12,
+    paddingVertical: 24,
+    justifyContent: "space-around",
+    flexDirection: "row",
+    borderRadius: 15,
+  },
+  content: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 10,
+  },
+  calories_text_head: {
+    color: Colors.primary_3,
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 24,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+  calories_text: {
+    //color: "#FFF",
+    color: Colors.primary_3,
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+    lineHeight: 22,
+    textTransform: "uppercase",
+  },
+  section_icon: {
+    color: Colors.red,
+    padding: 15,
+    backgroundColor: Colors.third,
+    alignSelf: "center",
+    marginRight: 20,
+    borderRadius: 10,
   },
 });

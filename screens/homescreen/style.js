@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     //backgroundColor: Colors.primary,
     //backgroundColor: "#19EA83",
-    backgroundColor: "gray",
+    backgroundColor: Colors.primary,
   },
   timestamp: {
     top: 40,
@@ -20,10 +20,11 @@ export const styles = StyleSheet.create({
   timestamp_text: {
     fontWeight: "800",
     fontSize: 18,
-    color: Colors.darker,
+    color: Colors.primary_3,
   },
   container: {
     backgroundColor: "#FFFFFF",
+    // backgroundColor: Colors.third,
     marginTop: 120,
     marginLeft: -screenWidth / 2,
     borderRadius: screenWidth,
@@ -59,7 +60,7 @@ export const styles = StyleSheet.create({
   daily_action_item: {
     width: (screenWidth - 60) / 2,
     height: (screenWidth - 60) / 2,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.third,
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
@@ -67,7 +68,7 @@ export const styles = StyleSheet.create({
   daily_action_text: {
     marginTop: 15,
     fontWeight: "700",
-    color: Colors.text,
+    color: Colors.primary_3,
     opacity: 0.75,
   },
   daily_pick: {
