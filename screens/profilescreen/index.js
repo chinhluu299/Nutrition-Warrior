@@ -27,6 +27,7 @@ import Toast from "react-native-toast-message";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
   const userInfo = useSelector((state) => state.rootReducer.user);
@@ -34,6 +35,7 @@ const ProfileScreen = () => {
   const [height, setHeight] = useState(parseFloat(userInfo.height));
   const [weight, setWeight] = useState(parseFloat(userInfo.current_weight));
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [fontLoaded, setFontLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [showDate, setShowDate] = useState(false);
@@ -61,9 +63,9 @@ const ProfileScreen = () => {
     try {
       const res = await authApi.updateHeightWeight(userInfo.id, {
         height: height,
-        current_weight: weight
+        current_weight: weight,
       });
-      if(res.status == 200){
+      if (res.status == 200) {
         dispatch({
           type: "UPDATE_HEIGHT_WEIGHT",
           payload: res.data.data,
@@ -71,7 +73,7 @@ const ProfileScreen = () => {
         setModalVisible(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   const loadFonts = async () => {
@@ -124,6 +126,17 @@ const ProfileScreen = () => {
   };
   const handleEditBMI = async () => {
     setModalVisible(true);
+  };
+  const logOut = async () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    dispatch({
+      type: "CLEAR_USER",
+    });
+    navigation.reset({
+      routes: [{ name: "Login" }],
+    });
   };
   const saveUpdate = async () => {
     setIsBusy(true);
@@ -217,9 +230,13 @@ const ProfileScreen = () => {
         >
           <Ionicons name="pencil-sharp" size={20} style={styles.edit} />
         </TouchableOpacity>
-        {isEdit && (
+        {isEdit ? (
           <TouchableOpacity onPress={(e) => saveUpdate()}>
             <Text style={styles.save}>Save</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={(e) => logOut()}>
+            <Ionicons name="log-out" size={20} style={styles.logout} />
           </TouchableOpacity>
         )}
         <View style={styles.timestamp}>

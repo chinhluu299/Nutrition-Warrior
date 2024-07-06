@@ -18,7 +18,8 @@ import ExerciseListScreen from "./screens/exerciselistscreen";
 import ExerciseDetailScreen from "./screens/exercisedetailscreen";
 import BottomNavigation from "./navigation/BottomNavigation";
 import { Provider, useDispatch } from "react-redux";
-import store from "./app/store";
+import { persistor, store } from "./app/store";
+import { PersistGate } from "redux-persist/integration/react";
 import ProfileScreen from "./screens/profilescreen";
 import TdeeScreen from "./screens/tdeescreen";
 import MacroScreen from "./screens/macroscreen";
@@ -48,7 +49,9 @@ Notifications.setNotificationHandler({
 export default AppWrapper = () => {
   return (
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   );
 };
@@ -116,7 +119,7 @@ const App = () => {
       const url = handleUrl(event);
       if (userInfo.id) {
         navigationRef.current?.navigate("Friend", { url: url });
-      }else{
+      } else {
         navigationRef.current?.navigate("Login", { url: url });
       }
     };
@@ -142,7 +145,7 @@ const App = () => {
         //   "Exercise"
         // }
         initialRouteName={
-          userInfo.first_login == false ? "MainScreen" : "Splash"
+          userInfo && userInfo.first_login == false ? "MainScreen" : "Splash"
         }
       >
         {/* <Stack.Screen

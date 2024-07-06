@@ -125,6 +125,24 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     opacity: 0.75,
   },
+  edit: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: Colors.background,
+    opacity: 0.75,
+  },
+  logout: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: Colors.background,
+    opacity: 0.75,
+  },
   save: {
     position: "absolute",
     top: 35,
@@ -153,7 +171,7 @@ export const styles = StyleSheet.create({
     padding: 5,
     fontSize: 16,
     color: Colors.primary_3,
-    fontWeight: "600"
+    fontWeight: "600",
   },
   modalContainer: {
     flex: 1,
