@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Linking } from "react-native";
 import ScanScreen from "./screens/scanscreen";
@@ -54,6 +54,7 @@ export default AppWrapper = () => {
 };
 
 const App = () => {
+  const navigationRef = useRef();
   const dispatch = useDispatch();
   const [notification, setNotification] = useState(false);
   const notificationListener = React.useRef();
@@ -102,14 +103,21 @@ const App = () => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-
+  const handleUrl = (event) => {
+    const url = event.url;
+    const id = url.match(/\/links\/(\d+)/)?.[1]; // Lấy ID từ URL
+    if (id) {
+      setInitialUrl(url);
+      navigationRef.current?.navigate("Friend", { id });
+    }
+  };
   useEffect(() => {
     const handleDeepLink = (event) => {
-      const data = Linking.parse(event.url);
-      if (data) {
-        navigationRef.current?.navigate("Friend", { url: event.url });
-        console.log(data)
-        console.log(event.url)
+      const url = handleUrl(event);
+      if (userInfo.id) {
+        navigationRef.current?.navigate("Friend", { url: url });
+      }else{
+        navigationRef.current?.navigate("Login", { url: url });
       }
     };
 
@@ -128,7 +136,7 @@ const App = () => {
 
   return (
     // <Provider store={store}>
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         // initialRouteName={
         //   "Exercise"

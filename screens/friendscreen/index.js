@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Pressable,
+} from "react-native";
 import MessageList from "../../components/MessageList";
 import styles from "./style";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import FollowList from "../../components/FollowList";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -11,12 +18,15 @@ import Toast from "react-native-toast-message";
 
 const FriendScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { url } = route.params || {};
   const goBack = () => {
     navigation.goBack();
   };
   const userInfo = useSelector((state) => state.rootReducer.user);
-  const [users, setUsers] = useState([
-  ]);
+  const [users, setUsers] = useState([]);
+  const [isDeepLink, setIsDeepLink] = useState(false);
+  const [deepLink, setDeepLink] = useState(false);
 
   const fetchFollowing = async () => {
     try {
@@ -25,14 +35,16 @@ const FriendScreen = () => {
       );
       if (res.status == 200) {
         const data = res.data.data;
-        setUsers(data.map((value,idx) => {
-          return {
-            id: value._id,
-            name: value.name,
-            avatar: value.photo,
-            follow: true,
-          };
-        }))
+        setUsers(
+          data.map((value, idx) => {
+            return {
+              id: value._id,
+              name: value.name,
+              avatar: value.photo,
+              follow: true,
+            };
+          })
+        );
       }
     } catch (error) {
       console.log(error);
@@ -41,12 +53,37 @@ const FriendScreen = () => {
         text1: error.message,
       });
     }
-    
-  }
+  };
 
   useEffect(() => {
     fetchFollowing();
-  },[])
+  }, []);
+  useEffect(() => {
+    if (url) {
+      setIsDeepLink(true);
+    }
+  }, [url]);
+  const getUser = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://4.191.72.115:4007/api/v1/user/` + url
+      );
+      if (res.status == 200) {
+        const data = res.data.data;
+        setDeepLink({
+          id: data._id,
+          avatar: data.photo,
+          name: data.name,
+          follow: false,
+        });
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    if (isDeepLink && url) {
+      getUser(url);
+    }
+  }, [isDeepLink]);
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -66,6 +103,42 @@ const FriendScreen = () => {
         <FollowList users={users} setUsers={setUsers} />
       </View>
       <Toast position="top" bottomOffset={30} />
+      {deepLink && (
+        <Pressable
+          style={styles.deeplink}
+          onPress={() => {
+            setIsDeepLink(false);
+          }}
+        >
+          <View style={styles.deeplink_container}>
+            <View style={styles.messageAvatar}>
+              <Image
+                source={deepLink.avatar}
+                resizeMode="cover"
+                style={styles.content_author_image}
+              />
+              <View>
+                <Text style={styles.author_name}>{deepLink.name}</Text>
+              </View>
+            </View>
+            {deepLink.follow ? (
+              <TouchableOpacity
+                style={styles.unfollow_button}
+                onPress={() => UnfollowHandle(item)}
+              >
+                <Text style={styles.unfollow_text}>Unfollow</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.follow_button}
+                onPress={() => FollowHandle(item)}
+              >
+                <Text style={styles.follow_text}>Follow</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 };

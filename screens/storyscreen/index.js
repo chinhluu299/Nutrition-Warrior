@@ -88,13 +88,13 @@ const StoryScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.upStory} onPress={goToUpstory}>
           <Text style={styles.upStory_text}>Up story</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Ionicons name="chatbox" style={styles.icon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.content}>
         <StoryList stories={stories} LoadMoreItem={LoadMoreItem} />
-        {stories.length > 0 && (
+        {/* {stories.length > 0 && (
           <View style={styles.content_comment}>
             <TextInput
               style={styles.content_comment_input}
@@ -105,7 +105,7 @@ const StoryScreen = ({ navigation }) => {
             />
             <Ionicons name="send" style={styles.content_comment_icon} />
           </View>
-        )}
+        )} */}
       </View>
     </View>
   );

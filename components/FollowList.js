@@ -11,6 +11,7 @@ import {
 import { Colors } from "../resources/Colors";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 const FollowList = ({ users, setUsers }) => {
   const userInfo = useSelector((state) => state.rootReducer.user);
@@ -56,6 +57,9 @@ const FollowList = ({ users, setUsers }) => {
       console.log("Delete friend " + error);
     }
   };
+  const pingHandle = async () => {
+    //const res = await axios.post("/")
+  };
   return (
     <FlatList
       data={users}
@@ -72,21 +76,26 @@ const FollowList = ({ users, setUsers }) => {
               <Text style={styles.author_name}>{item.name}</Text>
             </View>
           </View>
-          {item.follow ? (
-            <TouchableOpacity
-              style={styles.unfollow_button}
-              onPress={() => UnfollowHandle(item)}
-            >
-              <Text style={styles.unfollow_text}>Unfollow</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.follow_button}
-              onPress={() => FollowHandle(item)}
-            >
-              <Text style={styles.follow_text}>Follow</Text>
-            </TouchableOpacity>
-          )}
+          <View>
+            {/* <TouchableOpacity style={styles.unfollow_button} onPress={pingHandle}>
+              <Text style={styles.unfollow_text}>Ping</Text>
+            </TouchableOpacity> */}
+            {item.follow ? (
+              <TouchableOpacity
+                style={styles.unfollow_button}
+                onPress={() => UnfollowHandle(item)}
+              >
+                <Text style={styles.unfollow_text}>Unfollow</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.follow_button}
+                onPress={() => FollowHandle(item)}
+              >
+                <Text style={styles.follow_text}>Follow</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       )}
       keyExtractor={(item) => item.id}

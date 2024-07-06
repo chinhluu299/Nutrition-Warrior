@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginLeft: 30,
-    color: Colors.primary_3
+    color: Colors.primary_3,
   },
   community: {
-    position:'absolute',
+    position: "absolute",
     fontSize: 16,
     top: 35 + 30,
     right: 0,
-    color: Colors.primary_3
+    color: Colors.primary_3,
   },
   controls: {
     left: 0,
@@ -45,6 +45,75 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "800",
     //color: "white",
+  },
+  deeplink: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: width,
+    height: height + 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  messageAvatar: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  messageText: {
+    fontSize: 16,
+    marginLeft: 12,
+  },
+  author_name: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 12,
+    color: Colors.primary_3,
+  },
+  content_author_image: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  deeplink_container: {
+    width: width * 0.9,
+    left: 0,
+    padding: 15,
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  follow_button: {
+    borderRadius: 30,
+    padding: 5,
+    paddingHorizontal: 20,
+    width: 110,
+    backgroundColor: Colors.primary_2,
+    borderWidth: 2,
+    borderColor: Colors.primary_2,
+  },
+  unfollow_button: {
+    width: 110,
+    borderRadius: 30,
+    padding: 5,
+    paddingHorizontal: 20,
+    borderWidth: 2,
+    borderColor: Colors.primary_2,
+  },
+  unfollow_text: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: Colors.primary_2,
+    textAlign: "center",
+  },
+  follow_text: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#FFF",
+    textAlign: "center",
   },
 });
 
