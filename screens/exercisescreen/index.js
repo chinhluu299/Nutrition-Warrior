@@ -20,6 +20,7 @@ import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoad
 import Toast from "react-native-toast-message";
 import { useSelector } from "react-redux";
 import ExerciseCompact from "../../components/ExerciseCompact";
+import { Colors } from "../../resources/Colors";
 
 const ExerciseScreen = () => {
   const isFocused = useIsFocused();
@@ -235,7 +236,13 @@ const ExerciseScreen = () => {
                 tabSelected === 0 ? styles.tabItemSelected : styles.tabItem
               }
             >
-              <Text style={tabSelected === 0 && { fontWeight: "600" }}>
+              <Text
+                style={
+                  tabSelected === 0
+                    ? { fontWeight: "600", color: Colors.primary_3 }
+                    : { color: Colors.primary_3 }
+                }
+              >
                 Exercises
               </Text>
             </Pressable>
@@ -245,7 +252,18 @@ const ExerciseScreen = () => {
                 tabSelected === 1 ? styles.tabItemSelected : styles.tabItem
               }
             >
-              <Text style={tabSelected === 1 && { fontWeight: "600" }}>
+              <Text
+                style={
+                  tabSelected === 1
+                    ? {
+                        fontWeight: "600",
+                        color: Colors.primary_3,
+                      }
+                    : {
+                        color: Colors.primary_3,
+                      }
+                }
+              >
                 My List
               </Text>
             </Pressable>

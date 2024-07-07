@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   floatingButtonIcon: {
     fontSize: 20,
     //color: "#FFF",
-    color: Colors.dark,
+    color: Colors.primary_3,
     fontWeight: "600",
   },
   searchContainer: {
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
-    borderColor: "gray",
+    borderColor: Colors.primary_2,
     borderWidth: 1,
     paddingHorizontal: 10,
     borderRadius: 20,
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 60,
     marginBottom: 30,
-    color: Colors.darker,
+    color: Colors.primary_3,
     fontWeight: "700",
   },
   list: {
@@ -126,12 +126,13 @@ export const styles = StyleSheet.create({
     width: 0.45 * width,
     alignItems: "center",
     borderBottomWidth: 2,
+    borderColor: Colors.primary
   },
   floatingButton_2: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: Colors.darker,
+    backgroundColor: Colors.primary_2,
     borderRadius: 50,
     display: "flex",
     flexDirection: "row",

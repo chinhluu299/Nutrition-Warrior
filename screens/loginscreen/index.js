@@ -68,6 +68,7 @@ const LoginScreen = () => {
 
       if (res.status == 200) {
         //save state
+        console.log("Login thanh cong roi");
         setIsBusy(false);
         if (res.data.success) {
           dispatch({

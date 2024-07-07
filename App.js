@@ -17,7 +17,7 @@ import ExerciseScreen from "./screens/exercisescreen";
 import ExerciseListScreen from "./screens/exerciselistscreen";
 import ExerciseDetailScreen from "./screens/exercisedetailscreen";
 import BottomNavigation from "./navigation/BottomNavigation";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { persistor, store } from "./app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import ProfileScreen from "./screens/profilescreen";
@@ -62,6 +62,7 @@ const App = () => {
   const [notification, setNotification] = useState(false);
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
+  //const userInfo = useSelector((state) => state.rootReducer.user);
 
   useEffect(() => {
     registerForPushNotificationsAsync()
@@ -97,9 +98,29 @@ const App = () => {
         if (screen) {
           props.navigation.navigate(screen);
         }
-      });
 
+        ///console.log("handle deep link")
+      });
+    const handleDeepLink = (event) => {
+      const url = handleUrl(event);
+      if (url) {
+        if (userInfo.id) {
+          navigationRef.current?.navigate("Friend", { url: url });
+        } else {
+          navigationRef.current?.navigate("Login", { url: url });
+        }
+      }
+    };
+
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleDeepLink({ url });
+      }
+    });
+
+    const subcription = Linking.addEventListener("url", handleDeepLink);
     return () => {
+      // subcription.remove();
       Notifications.removeNotificationSubscription(
         notificationListener.current
       );
@@ -114,28 +135,11 @@ const App = () => {
       navigationRef.current?.navigate("Friend", { id });
     }
   };
-  useEffect(() => {
-    const handleDeepLink = (event) => {
-      const url = handleUrl(event);
-      if (userInfo.id) {
-        navigationRef.current?.navigate("Friend", { url: url });
-      } else {
-        navigationRef.current?.navigate("Login", { url: url });
-      }
-    };
+  // useEffect(() => {
 
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        handleDeepLink({ url });
-      }
-    });
-
-    Linking.addEventListener("url", handleDeepLink);
-
-    return () => {
-      Linking.removeEventListener("url", handleDeepLink);
-    };
-  }, []);
+  //   return () => {
+  //   };
+  // }, []);
 
   return (
     // <Provider store={store}>

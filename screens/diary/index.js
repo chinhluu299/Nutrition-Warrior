@@ -96,7 +96,7 @@ const DiaryScreen = ({ route }) => {
         <TouchableOpacity onPress={() => setShowDatePicker(true)}>
           <Text
             style={{
-              color: Colors.secondary_2,
+              color: Colors.primary_2,
               fontWeight: "800",
               fontSize: 18,
             }}
@@ -134,7 +134,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View>
+          <View style={{ flex: 1 }}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Breakfast</Text>
             </View>
@@ -165,7 +165,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View>
+          <View style={{ flex: 1 }}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Lunch</Text>
             </View>
@@ -193,7 +193,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View>
+          <View style={{ flex: 1 }}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Dinner</Text>
             </View>

@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { Colors } from "../resources/Colors";
 
 const Back = ({backEvent}) => {
   return (
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 40,
     height: 40,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    //backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: Colors.third,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,

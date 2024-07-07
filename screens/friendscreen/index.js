@@ -15,6 +15,8 @@ import FollowList from "../../components/FollowList";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
+import { Colors } from "../../resources/Colors";
+import * as Clipboard from "expo-clipboard";
 
 const FriendScreen = () => {
   const navigation = useNavigation();
@@ -54,7 +56,11 @@ const FriendScreen = () => {
       });
     }
   };
-
+  const copyLink = async () => {
+    await Clipboard.setStringAsync(
+      "https://nw-service-linked.vercel.app/links/" + userInfo.id
+    );
+  };
   useEffect(() => {
     fetchFollowing();
   }, []);
@@ -86,13 +92,13 @@ const FriendScreen = () => {
   }, [isDeepLink]);
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           navigation.navigate("Follow", {}, { reset: true });
         }}
       >
-        {/* <Text style={styles.community}>More</Text> */}
-      </TouchableOpacity>
+        <Text style={styles.community}>More</Text>
+      </TouchableOpacity> */}
       <View style={styles.controls}>
         <TouchableOpacity style={styles.back_control} onPress={goBack}>
           <Ionicons name="arrow-back" style={styles.back_control_icon} />
@@ -101,6 +107,16 @@ const FriendScreen = () => {
       </View>
       <View>
         <FollowList users={users} setUsers={setUsers} />
+      </View>
+      <View style={styles.friend_refer}>
+        <View style={styles.friend_refer_url}>
+          <Text>
+            {"https://nw-service-linked.vercel.app/links/" + userInfo.id}
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.copy} onPress={copyLink}>
+          <Ionicons name="copy" size={30} color={Colors.primary_3} />
+        </TouchableOpacity>
       </View>
       <Toast position="top" bottomOffset={30} />
       {deepLink && (

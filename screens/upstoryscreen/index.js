@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   TextInput,
   Keyboard,
+  ImageBackground,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
@@ -47,9 +48,9 @@ const UpstoryScreen = ({ navigation }) => {
     getPermissionAsync();
   }, []);
   const onCameraReady = () => {
-    setTimeout(async () => {
-      await takePicture();
-    }, 2000);
+    // setTimeout(async () => {
+    //   await takePicture();
+    // }, 2000);
   };
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
@@ -68,7 +69,7 @@ const UpstoryScreen = ({ navigation }) => {
       const source = data.uri;
       if (source) {
         console.log("picture source", source);
-        setCapturedImage(source);
+        setCapturedImage(data);
         console.log(source);
       }
     }
@@ -91,11 +92,11 @@ const UpstoryScreen = ({ navigation }) => {
       if (res.status === 201) {
         setTimeout(() => {
           setBusy(false);
-           navigation.reset({
-             routes: [{ name: "Story" }],
-           });
+          navigation.reset({
+            routes: [{ name: "Story" }],
+          });
         }, 1000);
-      }else{
+      } else {
         setBusy(false);
       }
     } catch (error) {
@@ -192,7 +193,10 @@ const UpstoryScreen = ({ navigation }) => {
           </View>
         )}
         {capturedImage != null ? (
-          <Image source={{ uri: capturedImage }} />
+          <ImageBackground
+            source={{ uri: capturedImage.uri }}
+            style={{ flex: 1 }}
+          />
         ) : (
           <Camera
             style={styles.camera}

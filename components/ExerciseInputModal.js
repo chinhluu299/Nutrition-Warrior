@@ -13,7 +13,7 @@ import exerciseApi from "../api/exerciseApi";
 import Toast from "react-native-toast-message";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-const ExerciseInputModal = ({ visible, onClose, data }) => {
+const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
   const dispatch = useDispatch();
 
   const [exerciseSets, setExerciseSets] = useState([
@@ -62,6 +62,7 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
         visibilityTime: 3000,
         autoHide: true,
       });
+      setVisible(false);
     } catch (error) {
       console.error("Error while adding exercise:", error.message);
     }
@@ -200,6 +201,7 @@ const ExerciseInputModal = ({ visible, onClose, data }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
     </Modal>
   );
 };

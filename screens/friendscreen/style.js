@@ -115,6 +115,26 @@ const styles = StyleSheet.create({
     color: "#FFF",
     textAlign: "center",
   },
+  friend_refer: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    position:"absolute",
+    bottom:20,
+  },
+  friend_refer_url: {
+    padding: 10,
+    paddingHorizontal: 20,
+    backgroundColor: Colors.third,
+    borderRadius: 10,
+  },
+  copy: {
+    padding: 10,
+    paddingHorizontal: 15,
+    backgroundColor: Colors.third,
+    borderRadius: 10,
+    marginLeft: 5,
+  },
 });
 
 export default styles;

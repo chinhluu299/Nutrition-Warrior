@@ -164,7 +164,10 @@ const ExerciseDetailScreen = ({ route }) => {
         <Ionicons name="add" style={styles.floatingButtonIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.instructButton} onPress={!busy ? speak : stopSpeaking}>
+      <TouchableOpacity
+        style={styles.instructButton}
+        onPress={!busy ? speak : stopSpeaking}
+      >
         {!busy ? (
           <FontAwesome name="play" style={styles.floatingButtonIcon} />
         ) : (
@@ -176,6 +179,7 @@ const ExerciseDetailScreen = ({ route }) => {
       {/* Exercise Input Modal */}
       <ExerciseInputModal
         visible={isModalVisible}
+        setVisible={setModalVisible}
         onClose={() => setModalVisible(false)}
         data={content}
       />

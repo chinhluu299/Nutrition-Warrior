@@ -15,10 +15,10 @@ const DailyPickCard = ({ image, title, kcal }) => {
           <Text style={styles.label_text}>Daily pick</Text>
         </View>
         <Text style={styles.title}>{title}</Text>
-        <View style={styles.kcal}>
+        {/* <View style={styles.kcal}>
           <FontAwesome5 name="fire-alt" size={18} color={Colors.red} />
           <Text style={styles.kcal_text}>{kcal} Kcal</Text>
-        </View>
+        </View> */}
       </View>
       <View style={styles.right_card}>
         <Image
