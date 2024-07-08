@@ -31,6 +31,8 @@ import DoExerciseScreen from "./screens/doexercise";
 import RecipeScreen from "./screens/foodrecipe";
 import FollowScreen from "./screens/followscreen";
 import FriendScreen from "./screens/friendscreen";
+import MealAnalyzeScreen from "./screens/MealAnalyzeScreen";
+import ResultScreen from "./screens/ResultScreen";
 import { registerForPushNotificationsAsync } from "./utils/tokenRegister";
 import * as Notifications from "expo-notifications";
 
@@ -213,6 +215,16 @@ const App = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MealAnalyzeScreen"
+          component={MealAnalyzeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ResultScreen"
+          component={ResultScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
