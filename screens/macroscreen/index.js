@@ -14,11 +14,12 @@ import macroApi from "../../api/macroApi";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
 import { Colors } from "../../resources/Colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store from "../../app/store";
 
 const MacroScreen = ({ route }) => {
   const { data, tdee } = route.params;
+  const userInfo = useSelector((state) => state.rootReducer.user);
   const surveys_1 = [
     {
       type: 1,
@@ -186,7 +187,7 @@ const MacroScreen = ({ route }) => {
           daily_fat_goal: value.daily_fat_goal,
           daily_carb_goal: value.daily_carb_goal,
         },
-        store.getState().rootReducer.user.id
+        userInfo.id
       );
       if (res.status == 200) {
         setIsBusy(false);
