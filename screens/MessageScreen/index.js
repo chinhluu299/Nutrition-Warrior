@@ -48,7 +48,7 @@ const MessageScreen = () => {
       }
 
       const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       let contents = updatedChats.map((item) => {
         return {
           role: item.role,
@@ -132,7 +132,7 @@ const MessageScreen = () => {
         messages={messages}
         onSendPress={handleSendPress}
         user={user}
-        onAttachmentPress={handleImageSelection}
+        // onAttachmentPress={handleImageSelection}
       />
       <Back backEvent={() => navigation.goBack()} />
     </View>

@@ -34,6 +34,7 @@ import FollowScreen from "./screens/followscreen";
 import FriendScreen from "./screens/friendscreen";
 import MealAnalyzeScreen from "./screens/MealAnalyzeScreen";
 import ResultScreen from "./screens/ResultScreen";
+import FeedbackScreen from "./screens/FeedbackScreen";
 import { registerForPushNotificationsAsync } from "./utils/tokenRegister";
 import * as Notifications from "expo-notifications";
 
@@ -151,7 +152,8 @@ const App = () => {
         //   "Exercise"
         // }
         initialRouteName={
-          userInfo && userInfo.first_login == false ? "MainScreen" : "Splash"
+          // userInfo && userInfo.first_login == false ? "MainScreen" : "Splash"
+          "FeedbackScreen"
         }
       >
         {/* <Stack.Screen
@@ -259,6 +261,11 @@ const App = () => {
         <Stack.Screen
           name="MealAnalyzeScreen"
           component={MealAnalyzeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FeedbackScreen"
+          component={FeedbackScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
