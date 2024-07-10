@@ -152,8 +152,8 @@ const App = () => {
         //   "Exercise"
         // }
         initialRouteName={
-          // userInfo && userInfo.first_login == false ? "MainScreen" : "Splash"
-          "FeedbackScreen"
+          userInfo && userInfo.first_login == false ? "MainScreen" : "Splash",
+          // "FeedbackScreen"
         }
       >
         {/* <Stack.Screen
