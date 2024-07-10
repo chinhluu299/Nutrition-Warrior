@@ -267,6 +267,11 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="Exercise"
           component={ExerciseScreen}
           options={{

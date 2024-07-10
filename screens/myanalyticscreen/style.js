@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     paddingTop: width + 400,
     marginStart: -250,
     marginTop: -width - 380,
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.primary,
     borderRadius: (width + 500) / 2,
   },
   background_title_text: {
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   timestamp_element_active: {
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.primary,
     
   },
   timestamp_text: {

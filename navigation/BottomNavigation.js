@@ -14,6 +14,9 @@ import { View, TouchableOpacity } from "react-native";
 import ProfileScreen from "../screens/profilescreen";
 import DiaryScreen from "../screens/diary";
 import StoryScreen from "../screens/storyscreen";
+import MessageScreen from "../screens/MessageScreen";
+import MealAnalyzeScreen from "../screens/MealAnalyzeScreen";
+import EmptyScreen from "../screens/emptyscreen";
 //Screen names
 const homeName = "Home";
 const analyticName = "Analytics";
@@ -23,6 +26,9 @@ const profileName = "Profile";
 const diaryName = "Diary";
 const searchName = "Search";
 const socialName = "Social";
+const adviceName = "Advice";
+const settingName = "Setting";
+
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress }) => (
@@ -77,10 +83,14 @@ function BottomNavigation() {
             iconName = focused ? "scan" : "scan-outline";
           } else if (rn === socialName) {
             iconName = focused ? "people" : "people-outline";
+          } else if (rn === adviceName) {
+            iconName = focused ? "people" : "people-outline";
+          } else if (rn === settingName) {
+            iconName = focused ? "options" : "options-outline";
           }
-
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
+          
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: "grey",
@@ -137,10 +147,15 @@ function BottomNavigation() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
+        name={settingName}
+        component={EmptyScreen}
+        options={{ headerShown: false }}
+      />
+      {/* <Tab.Screen
         name={profileName}
         component={ProfileScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

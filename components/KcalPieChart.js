@@ -46,7 +46,7 @@ const KcalPieChart = ({ breakfast, lunch, dinner }) => {
         <View style={styles.circle_content}>
           <Ionicons name="fast-food" style={styles.circle_content_line_1} />
           <Text style={styles.circle_content_line_2}>{total == 1 ? 0 : total}</Text>
-          <Text style={styles.circle_content_line_3}>Kcal gained</Text>
+          <Text style={styles.circle_content_line_3}>Kcal gained / day</Text>
         </View>
       </View>
       <View style={styles.figure}>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   circle_content_line_3: {
     color: Colors.darker,
-    fontSize: 16,
+    fontSize: 14,
     opacity: 0.5,
     fontWeight: "600",
   },

@@ -86,7 +86,9 @@ const DiaryScreen = ({ route }) => {
     fetchData();
     // console.log(userData);
   }, [selectedDate, userData]);
-
+  const goToAnalytics = () => {
+    navigation.navigate("Analytic");
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
       <View style={styles.header}>
@@ -117,7 +119,7 @@ const DiaryScreen = ({ route }) => {
           onChange={handleDateChange}
         />
       )}
-      <View style={styles.calories}>
+      <TouchableOpacity style={styles.calories} onPress={goToAnalytics}>
         <View>
           <Text style={styles.calories_text_head}>{caloriesIntake}</Text>
           <Text style={styles.calories_text}>Calories Intake</Text>
@@ -126,7 +128,7 @@ const DiaryScreen = ({ route }) => {
           <Text style={styles.calories_text_head}>{caloriesRemain}</Text>
           <Text style={styles.calories_text}>Calories Remaining</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.sectionContainer}>
           <MaterialIcons
@@ -154,9 +156,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          {/* <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
 
         <View style={styles.sectionContainer}>
@@ -182,9 +184,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          {/* <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
 
         <View style={styles.sectionContainer}>
@@ -210,9 +212,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          {/* <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </ScrollView>
 

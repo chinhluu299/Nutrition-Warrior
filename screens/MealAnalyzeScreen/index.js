@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Colors } from "../../resources/Colors";
+import Back from "../../components/Back";
 
 const { width } = Dimensions.get("window");
 
@@ -165,13 +167,15 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
             <Button
               title="Select from Gallery"
               onPress={handleImagePicker}
-              color="#6200EE"
+              // color="#6200EE"
+              color={Colors.primary}
             />
             <View style={styles.space} />
             <Button
               title="Take a Picture"
               onPress={handleCamera}
-              color="#6200EE"
+              // color="#6200EE"
+              color={Colors.primary}
             />
             <View style={styles.space} />
             {imageUris.length > 0 ? (
@@ -210,6 +214,7 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
           </View>
         )}
       </View>
+      <Back backEvent={() => navigation.goBack()} />
     </ScrollView>
   );
 };

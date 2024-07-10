@@ -31,7 +31,9 @@ const StoryScreen = ({ navigation }) => {
       new Date().getTime() - StoryColletions[current].timestamp.getTime()
     );
   };
-
+  const onPerson = () => {
+    navigation.navigate("Profile", {}, { reset: true });
+  }
   const LoadMoreItem = () => {
     setOffset(offset + fetch);
   };
@@ -88,9 +90,9 @@ const StoryScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.upStory} onPress={goToUpstory}>
           <Text style={styles.upStory_text}>Up story</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity>
-          <Ionicons name="chatbox" style={styles.icon} />
-        </TouchableOpacity> */}
+        <TouchableOpacity onPress={onPerson}>
+          <Ionicons name="person" style={styles.icon} />
+        </TouchableOpacity>
       </View>
       <View style={styles.content}>
         <StoryList stories={stories} LoadMoreItem={LoadMoreItem} />

@@ -23,13 +23,10 @@ export const styles = StyleSheet.create({
     color: Colors.primary_3,
   },
   container: {
-    backgroundColor: "#FFFFFF",
+    flex:1,
+    top: 20,
     // backgroundColor: Colors.third,
-    marginTop: 120,
-    marginLeft: -screenWidth / 2,
-    borderRadius: screenWidth,
-    height: screenHeight * 2,
-    width: screenWidth * 2,
+  
   },
   daily_kcal_left: {
     width: 160,
@@ -56,12 +53,13 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   daily_action_item: {
-    width: (screenWidth - 60) / 2,
-    height: (screenWidth - 60) / 2,
+    width: (screenWidth - 80) / 2,
+    height: (screenWidth - 80) / 2,
     backgroundColor: Colors.third,
+    margin:10,
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",

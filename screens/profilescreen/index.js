@@ -28,6 +28,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import { useNavigation } from "@react-navigation/native";
+import Back from "../../components/Back";
 
 const ProfileScreen = () => {
   const userInfo = useSelector((state) => state.rootReducer.user);
@@ -235,9 +236,10 @@ const ProfileScreen = () => {
             <Text style={styles.save}>Save</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={(e) => logOut()}>
-            <Ionicons name="log-out" size={20} style={styles.logout} />
-          </TouchableOpacity>
+          // <TouchableOpacity onPress={(e) => logOut()}>
+          //   <Ionicons name="log-out" size={20} style={styles.logout} />
+          // </TouchableOpacity>
+          <Back backEvent={() => navigation.goBack()} />
         )}
         <View style={styles.timestamp}>
           <Text style={styles.timestamp_text}>Profile</Text>

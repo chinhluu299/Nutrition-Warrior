@@ -13,12 +13,15 @@ import * as Font from "expo-font";
 import KcalPieChart from "../../components/KcalPieChart";
 import { useSelector } from "react-redux";
 import { lastSixMonths, thisMonth, thisWeek, thisYear } from "../../utils/dateUtils";
+import Back from "../../components/Back";
+import { useNavigation } from "@react-navigation/native";
 
 const MyAnalyticsScreen = () => {
   const userInfo = useSelector((state) => state.rootReducer.user);
   const [breakfast, setBreakfast] = useState(0);
   const [dinner, setDinner] = useState(0);
   const [lunch, setLunch] = useState(0);
+  const navigation = useNavigation();
 
   const [timestamp, setTimestamp] = useState("today");
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -125,6 +128,7 @@ const MyAnalyticsScreen = () => {
         <View style={{ flex: 1 }}>
           <KcalPieChart breakfast={breakfast} lunch={lunch} dinner={dinner} />
         </View>
+        <Back backEvent={() => navigation.goBack()} />
       </View>
     );
   } else {

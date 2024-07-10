@@ -186,6 +186,7 @@ const HomeScreen = () => {
                 />
                 <Text style={styles.daily_action_text}>ADD ACTIVITY</Text>
               </TouchableOpacity>
+              
             </View>
             <TouchableOpacity style={styles.daily_pick} onPress={goToRecipe}>
               <DailyPickCard

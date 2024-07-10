@@ -4,6 +4,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { launchImageLibrary } from "react-native-image-picker";
+import { View } from "react-native";
+import Back from "../../components/Back";
+import { useNavigation } from "@react-navigation/native";
 
 const user = {
   id: "user",
@@ -16,7 +19,7 @@ const MessageScreen = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-
+  const navigation = useNavigation();
   const addMessage = (message) => {
     setMessages((prevMessages) => [message, ...prevMessages]);
   };
@@ -124,12 +127,15 @@ const MessageScreen = () => {
     );
   };
   return (
-    <Chat
-      messages={messages}
-      onSendPress={handleSendPress}
-      user={user}
-      onAttachmentPress={handleImageSelection}
-    />
+    <View style={{ flex: 1 }}>
+      <Chat
+        messages={messages}
+        onSendPress={handleSendPress}
+        user={user}
+        onAttachmentPress={handleImageSelection}
+      />
+      <Back backEvent={() => navigation.goBack()} />
+    </View>
   );
 };
 
