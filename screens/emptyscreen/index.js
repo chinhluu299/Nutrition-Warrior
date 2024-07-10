@@ -14,12 +14,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "./style";
 import { Colors } from "../../resources/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 const EmptyScreen = () => {
   const navigation = useNavigation();
   const image = require("../../assets/instructor/present-unscreen.gif")
   const contents = ["Hey, I'm Chinh. I am your instructor.", "Let's me give you some instructions"]
   const [status, setStatus] = useState("");
+  const dispatch = useDispatch();
   const logOut = async () => {
     dispatch({
       type: "LOGOUT",
@@ -45,7 +47,7 @@ const EmptyScreen = () => {
           <MaterialCommunityIcons
             size={50}
             name="message"
-            color={Colors.pie_color5}
+            color={Colors.primary_2}
           />
           <Text style={styles.daily_action_text}>Advice</Text>
         </TouchableOpacity>
@@ -58,7 +60,7 @@ const EmptyScreen = () => {
           <MaterialCommunityIcons
             size={50}
             name="food"
-            color={Colors.pie_color5}
+            color={Colors.primary_2}
           />
           <Text style={styles.daily_action_text}>Analyze Meal</Text>
         </TouchableOpacity>
@@ -71,7 +73,7 @@ const EmptyScreen = () => {
           <MaterialCommunityIcons
             size={50}
             name="account"
-            color={Colors.pie_color5}
+            color={Colors.primary_2}
           />
           <Text style={styles.daily_action_text}>Profile</Text>
         </TouchableOpacity>
@@ -79,7 +81,7 @@ const EmptyScreen = () => {
           <MaterialCommunityIcons
             size={50}
             name="logout"
-            color={Colors.pie_color5}
+            color={Colors.primary_2}
           />
           <Text style={styles.daily_action_text}>Logout</Text>
         </TouchableOpacity>
