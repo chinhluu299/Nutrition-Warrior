@@ -16,7 +16,7 @@ const StoryScreen = ({ navigation }) => {
   const [stories, setStories] = useState([]);
   const [offset, setOffset] = useState(0);
   const [busy, setBusy] = useState(false);
-  const baseUrl = "http://4.191.72.115:4007/api/v1/image/";
+  const baseUrl = "http://20.247.46.179:4007/api/v1/image/";
   const fetch = 10;
   const time = new Date();
   const userInfo = useSelector((state) => state.rootReducer.user);
@@ -48,7 +48,7 @@ const StoryScreen = ({ navigation }) => {
   const fetchStories = async () => {
     try {
       const res = await axios.post(
-        "http://4.191.72.115:4007/api/v1/story/seek",
+        "http://20.247.46.179:4007/api/v1/story/seek",
         {
           userId: userInfo.id,
           limit: fetch,

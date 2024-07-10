@@ -3,7 +3,7 @@ import store from "../app/store";
 
 const axiosClient = axios.create({
   // baseURL: "https://0fdb-171-252-153-122.ngrok-free.app/api", //host
-  baseURL: "https://0fdb-171-252-153-122.ngrok-free.app/api", //host
+  baseURL: "http://4.144.47.234:8000/api", //host
 
   headers: {
     "Content-Type": "application/json",

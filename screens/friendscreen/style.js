@@ -117,10 +117,11 @@ const styles = StyleSheet.create({
   },
   friend_refer: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
     flexDirection: "row",
     position:"absolute",
     bottom:20,
+    width: width,
   },
   friend_refer_url: {
     padding: 10,
