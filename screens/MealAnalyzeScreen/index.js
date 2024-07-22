@@ -161,7 +161,7 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color={Colors.primary} />
         ) : (
           <View style={styles.innerContainer}>
             <Button
@@ -205,7 +205,7 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
                 <Button
                   title="Analyze"
                   onPress={handleAnalyze}
-                  color="#6200EE"
+                  color={Colors.primary}
                 />
               </View>
             ) : (
@@ -280,7 +280,8 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 5,
-    backgroundColor: "#6200EE",
+    // backgroundColor: "#6200EE",
+    backgroundColor: Colors.secondary_2,
     margin: 5,
   },
   text: {

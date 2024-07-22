@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 10,
     zIndex: 10,
+    backgroundColor: Colors.third,
     //opacity: 0.8,
   },
   floatingButtonIcon: {

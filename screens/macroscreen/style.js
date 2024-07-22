@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   step_active: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     height: 5,
     flex: 1,
     borderRadius: 50,
@@ -48,19 +48,34 @@ export const styles = StyleSheet.create({
   value: {
     fontSize: 46,
     textAlign: "center",
-    color: Colors.secondary,
+    color: Colors.secondary_2,
     fontWeight: "600",
+  },
+  value_container: {
+    backgroundColor:Colors.third,
     marginBottom: 10,
+    display:"flex",
+    justifyContent:'center',
+    alignItems:'center',
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    alignSelf:'center',
+  },
+  slider_container:{
   },
   slider: {
     width: width - 40,
     height: 100,
   },
-  description:{
+  description: {
     fontSize: 16,
-    color:"gray",
+    color: "gray",
     lineHeight: 30,
-    textAlign: "justify"
+    textAlign: "justify",
+    padding: 15,
+    backgroundColor:Colors.third,
+    borderRadius:10,
   },
   question_detail_choose: {
     marginTop: 10,
@@ -101,7 +116,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 59,
     opacity: 0.8,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
   },
   back_button_icon: {
     fontSize: 20,
@@ -114,7 +129,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     opacity: 0.8,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
     borderRadius: 50,
   },
   next_step: {

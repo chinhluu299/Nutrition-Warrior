@@ -67,7 +67,7 @@ const MacroScreen = ({ route }) => {
 
   const [isBusy, setIsBusy] = useState(false);
 
-  const setStateReturn = (type,value) => {
+  const setStateReturn = (type, value) => {
     switch (type) {
       case 1:
         setProteinPerKg(value);
@@ -295,21 +295,25 @@ const MacroScreen = ({ route }) => {
               {surveys[step].question}
             </Text>
             <View style={styles.result}>
-              <Text style={styles.value}>{value.toFixed(1)}</Text>
-              <Slider
-                style={styles.slider}
-                minimumValue={surveys[step].range[0]}
-                maximumValue={surveys[step].range[1]}
-                minimumTrackTintColor={Colors.primary}
-                maximumTrackTintColor={Colors.light_gray_2}
-                trackStyle={{ height: 20 }}
-                value={value}
-                onValueChange={(value) => {
-                  setValue(value);
-                  setStateReturn(surveys[step].type,value);
-                }}
-                
-              />
+              <View style={styles.value_container}>
+                <Text style={styles.value}>{value.toFixed(1)}</Text>
+              </View>
+              <View style={styles.slider_container}>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={surveys[step].range[0]}
+                  maximumValue={surveys[step].range[1]}
+                  minimumTrackTintColor={Colors.primary}
+                  maximumTrackTintColor={Colors.light_gray_2}
+                  trackStyle={{ height: 20 }}
+                  value={value}
+                  onValueChange={(value) => {
+                    setValue(value);
+                    setStateReturn(surveys[step].type, value);
+                  }}
+                />
+              </View>
+
               <Text style={styles.description}>
                 {surveys[step].description}
               </Text>

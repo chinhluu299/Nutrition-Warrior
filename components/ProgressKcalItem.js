@@ -25,7 +25,7 @@ export const ProgressKcalItem = ({ title, target, current }) => {
         width={widthScreen / 6}
         backgroundColor={Colors.background}
         borderWidth={0}
-        color={Colors.secondary}
+        color={Colors.primary}
         height={3}
         style={styles.progress_bar}
       />

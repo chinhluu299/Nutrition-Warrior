@@ -21,7 +21,7 @@ const ProgressKcal = ({ target, current }) => {
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 1,
     //  color: (opacity = 1) => `rgba(57, 184, 120, 0.7)`,
-    color: (opacity = 1) => `rgba(0,162,153,0.7)`,
+    color: (opacity = 1) => `rgba(0,162,153,0.6)`,
   };
 
   return (

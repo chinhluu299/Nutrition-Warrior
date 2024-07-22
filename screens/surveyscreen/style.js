@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   step_active: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     height: 5,
     flex: 1,
     borderRadius: 50,
@@ -58,7 +58,8 @@ export const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     borderWidth: 3,
-
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary_3,
     borderRadius: 5,
   },
   question_detail_input: {
@@ -82,7 +83,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 59,
     opacity: 0.8,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
   },
   back_button_icon: {
     fontSize: 20,
@@ -95,7 +96,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     opacity: 0.8,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
     borderRadius: 50,
   },
   next_step: {

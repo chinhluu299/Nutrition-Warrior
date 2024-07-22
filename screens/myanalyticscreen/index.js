@@ -52,11 +52,12 @@ const MyAnalyticsScreen = () => {
       default:
         break;
     }
+    minDate.setHours(0,0,0,0);
     handleAnalyticSelection(minDate);
     console.log(minDate)
   }
   const handleAnalyticSelection = (minDate) => {
-    const dailogs = userInfo.daily_logs.filter(x => new Date(x.date) > minDate);
+    const dailogs = userInfo.daily_logs.filter(x => new Date(x.date) >= minDate);
     let countDate = 0;
     let avgBreakfast = 0;
     let avgLunch = 0;

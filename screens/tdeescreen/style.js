@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     lineHeight: 50,
     textAlign: "center",
     fontFamily: "Inter-ExtraBold",
-    color: Colors.secondary,
+    color: Colors.primary,
   },
   text_input: {
     fontSize: 30,
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     lineHeight: 50,
     textAlign: "center",
     fontFamily: "Inter-ExtraBold",
-    color: Colors.secondary,
+    color: Colors.primary,
     backgroundColor: Colors.light_gray,
   },
   description: {
@@ -69,6 +69,6 @@ export const styles = StyleSheet.create({
   text_next: {
     fontWeight: "700",
     fontFamily: "Inter-Black",
-    color:"#FFF"
+    color: "#FFF",
   },
 });

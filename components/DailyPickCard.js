@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    margin: 5,
+    marginHorizontal: 10,
+    flexWrap:"wrap",
     fontWeight: "700",
     fontSize: 16,
     color: Colors.primary_3,

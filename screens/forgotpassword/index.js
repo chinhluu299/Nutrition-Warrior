@@ -121,6 +121,8 @@ const ForgotPasswordScreen = () => {
 
   const sendOtpHandle = async () => {
     setIsBusy(true);
+    // setStep(2);
+    // countDown();
     try {
       const res = await authApi.sendOtp({
         email: email,

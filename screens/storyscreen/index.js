@@ -66,7 +66,7 @@ const StoryScreen = ({ navigation }) => {
           for (var val of data) {
             const media = val.media;
             val.mediaLoaded = baseUrl + media;
-            val.author.photo = baseUrl + val.author.photo;
+            // val.author.photo = baseUrl + val.author.photo;
           }
           setStories([...stories, ...data]);
         }

@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 8,
     //borderBottomWidth: 1,
     //borderBottomColor: Colors.lighter,
   },
@@ -175,4 +174,8 @@ export const styles = StyleSheet.create({
     marginRight: 20,
     borderRadius: 10,
   },
+  food_container:{
+    flex:1,
+    marginRight:10
+  }
 });

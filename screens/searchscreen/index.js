@@ -262,7 +262,7 @@ const SearchScreen = ({ navigation, route }) => {
           <MaterialCommunityIcons
             size={30}
             name="magnify"
-            color={Colors.secondary}
+            color={Colors.primary}
             onPress={(e) => searchAction()}
           ></MaterialCommunityIcons>
           <TextInput

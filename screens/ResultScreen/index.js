@@ -8,6 +8,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import { Colors } from "../../resources/Colors";
 
 const { width } = Dimensions.get("window");
 
@@ -90,16 +91,19 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 5,
-    backgroundColor: "#6200EE",
+    // backgroundColor: "#6200EE",
+    backgroundColor: Colors.secondary_2,
     margin: 5,
   },
   resultContainer: {
     width: width * 0.8,
     padding: 20,
-    backgroundColor: "#f0f0f0",
+    //backgroundColor: "#f0f0f0",
+    backgroundColor: Colors.third,
+
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#6200EE",
+    borderColor: Colors.secondary_2,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,

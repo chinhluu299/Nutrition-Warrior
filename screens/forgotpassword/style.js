@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
   },
 
   button_submit: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary_2,
     padding: 14,
     borderRadius: 10,
   },
@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
   },
   register_text_2: {
     fontWeight: "600",
-    color: Colors.secondary,
+    color: Colors.primary_2,
   },
   resend: {
     color: Colors.dark,

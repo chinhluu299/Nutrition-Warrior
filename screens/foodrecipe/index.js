@@ -85,7 +85,7 @@ const RecipeScreen = ({ route }) => {
               {Object.entries(data).map(([key, value], index, arr) => {
                 if (key.startsWith("strMeasure")) {
                   return (
-                    <View>
+                    <View key={key}>
                       <Text>
                         {value} {data["strIngredient" + key.substring(10)]}
                       </Text>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import exerciseApi from "../api/exerciseApi";
 import Toast from "react-native-toast-message";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Colors } from "../resources/Colors";
 
 const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
       fontSize: 20,
       fontWeight: "bold",
       marginBottom: 16,
+      color: Colors.primary_3,
     },
     input: {
       height: 40,
@@ -94,7 +96,7 @@ const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
       padding: 10,
     },
     addButton: {
-      backgroundColor: "#000",
+      backgroundColor: Colors.secondary_2,
       padding: 10,
       marginBottom: 5,
       alignItems: "center",
@@ -127,7 +129,7 @@ const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
     },
     addRowButton: {
       //backgroundColor: "#27ae60",
-      backgroundColor: "gray",
+      backgroundColor:  Colors.primary,
       padding: 10,
       marginBottom: 5,
       alignItems: "center",
@@ -139,7 +141,7 @@ const ExerciseInputModal = ({ visible, onClose, data, setVisible }) => {
     },
     icon: {
       fontSize: 16,
-
+      color: Colors.primary_2,
       verticalAlign: "middle",
     },
   });

@@ -136,7 +136,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View style={{ flex: 1 }}>
+          <View style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Breakfast</Text>
             </View>
@@ -156,9 +156,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
@@ -167,7 +167,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View style={{ flex: 1 }}>
+          <View style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Lunch</Text>
             </View>
@@ -184,9 +184,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.sectionContainer}>
@@ -195,7 +195,7 @@ const DiaryScreen = ({ route }) => {
             size={35}
             style={styles.section_icon}
           />
-          <View style={{ flex: 1 }}>
+          <View style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Dinner</Text>
             </View>
@@ -212,9 +212,9 @@ const DiaryScreen = ({ route }) => {
             )}
           </View>
 
-          <TouchableOpacity style={styles.addButton}>
+          {/* <TouchableOpacity style={styles.addButton}>
             <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
 

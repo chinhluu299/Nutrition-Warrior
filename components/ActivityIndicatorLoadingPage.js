@@ -20,7 +20,7 @@ const ActivityIndicatorLoadingPage = ({ isBusy, type }) => {
         <View style={styles.background}></View>
         <ActivityIndicator
           size="larger"
-          color={Colors.secondary}
+          color={Colors.primary}
           animating={isBusy}
           fontSize="20"
         />
@@ -30,7 +30,7 @@ const ActivityIndicatorLoadingPage = ({ isBusy, type }) => {
         <View style={styles.background_2}></View>
         <ActivityIndicator
           size="larger"
-          color={Colors.secondary}
+          color={Colors.primary}
           animating={isBusy}
           fontSize="20"
         />
