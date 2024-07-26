@@ -16,7 +16,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { styles } from "./style";
@@ -36,8 +35,28 @@ import { Colors } from "../../resources/Colors";
 import FoodScanComponent from "../../components/FoodScanComponent";
 import ActivityIndicatorLoadingPage from "../../components/ActivityIndicatorLoadingPage";
 import detectionApi from "../../api/detectionApi";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import { ImageManipulator } from "expo-image-manipulator";
 const setTimeout = global.setTimeout;
+
+function base64ToGenerativePart(base64, mimeType) {
+  return {
+    inlineData: {
+      data: base64,
+      mimeType,
+    },
+  };
+}
+
+const blobToBase64 = (blob) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
 
 export default ScanScreen = ({ navigation }) => {
   const [animation] = useState(new Animated.Value(0));
@@ -67,7 +86,6 @@ export default ScanScreen = ({ navigation }) => {
         await callObjectDetectionApi(data);
       }
     }
-    
   };
 
   function handlePresentModal() {
@@ -86,17 +104,82 @@ export default ScanScreen = ({ navigation }) => {
         },
       });
       if (response.data.success) {
-        console.log(response.data);
+        console.log("🚀 ~ callObjectDetectionApi ~ data:", response.data);
+        const detectedObjects = response.data.detected_objects;
+        let containsUnderscore = false;
         if (
           response.data.detected_objects &&
           response.data.detected_objects.length > 0
         ) {
+          detectedObjects.forEach((object) => {
+            if (object[1].includes("_")) {
+              containsUnderscore = true;
+            }
+          });
+        }
+        if (
+          !containsUnderscore &&
+          response.data.detected_objects &&
+          response.data.detected_objects.length > 0 &&
+          detectedObjects.some((object) => object[2] > 0.75)
+        ) {
           navigation.navigate("Search", {
             detectedObjects: response.data.detected_objects,
           });
+          console.log(
+            "🚀 ~ callObjectDetectionApi ~ detected_objects:",
+            response.data.detected_objects
+          );
         } else {
-          console.log("No objects detected.");
-          handlePresentModal();
+          console.log("No objects detected, using gemini instead");
+          const prompt = `
+Analyze the given image and identify all the food items present. Return the results in the following JSON format:
+- If no food items are detected:
+{
+  "detected_objects": [],
+  "message": "Object detection successful",
+  "success": true
+}
+- If food items are detected, use this format:
+{
+  "detected_objects": [
+    [null, "Name of the food item", null]
+    ...
+  ],
+  "message": "Object detection successful",
+  "success": true
+}
+Ensure that each detected food item appears only once in the "detected_objects" array, even if it is detected multiple times in the image. Replace "Name of the food item" with the actual detected food item name. The first and third values in the "detected_objects" array can be null.
+`;
+
+          try {
+            const API_KEY = "AIzaSyB-ZAPGcMZfqZPUHSi6oszgvWCiOAVWBsg";
+            const genAI = new GoogleGenerativeAI(API_KEY);
+            const model = genAI.getGenerativeModel({
+              model: "gemini-1.5-flash",
+            });
+            const response = await fetch(imageData.uri);
+            const blob = await response.blob();
+            const base64 = await blobToBase64(blob);
+            const imagePart = base64ToGenerativePart(base64, blob.type);
+
+            const result = await model.generateContent([prompt, imagePart]);
+            const analysisResponse = JSON.parse(await result.response.text());
+            console.log(
+              "🚀 ~ handleAnalyze ~ detected_objects:",
+              analysisResponse.detected_objects
+            );
+
+            if (analysisResponse.detected_objects.length <= 0) {
+              handlePresentModal();
+            } else {
+              navigation.navigate("Search", {
+                detectedObjects: analysisResponse.detected_objects,
+              });
+            }
+          } catch (error) {
+            handlePresentModal();
+          }
         }
       } else {
         console.error(response.data.message);
@@ -121,12 +204,13 @@ export default ScanScreen = ({ navigation }) => {
   };
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         alert("Sorry, we need camera roll permissions to make this work!");
       }
     }
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === "granted");
   };
 
