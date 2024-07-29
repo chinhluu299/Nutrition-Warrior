@@ -199,11 +199,11 @@ Ensure that each detected food item appears only once in the "detected_objects" 
     startAnimation();
     console.log("Start animation");
   });
-  const onCameraReady = () => {
-    setTimeout(async () => {
-      await takePicture();
-    }, 2000);
-  };
+  // const onCameraReady = () => {
+  //   setTimeout(async () => {
+  //     await takePicture();
+  //   }, 2000);
+  // };
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
       const { status } =
@@ -266,7 +266,7 @@ Ensure that each detected food item appears only once in the "detected_objects" 
               style={styles.camera}
               type={cameraType}
               ref={cameraRef}
-              onCameraReady={onCameraReady}
+              // onCameraReady={onCameraReady}
             >
               {/* <View style={styles.controls}>
                 <TouchableOpacity style={styles.back_control}>
