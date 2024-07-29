@@ -7,6 +7,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import { View } from "react-native";
 import Back from "../../components/Back";
 import { useNavigation } from "@react-navigation/native";
+import keyApi from "../../api/keyApi";
 
 const user = {
   id: "user",
@@ -23,8 +24,6 @@ const MessageScreen = () => {
   const addMessage = (message) => {
     setMessages((prevMessages) => [message, ...prevMessages]);
   };
-
-  const API_KEY = "AIzaSyB-ZAPGcMZfqZPUHSi6oszgvWCiOAVWBsg";
 
   const createTrainPrompt = (userPrompt) => {
     let prompt =
@@ -58,9 +57,17 @@ const MessageScreen = () => {
         updatedChats = [...chats, { role: "user", parts: [{ text: prompt }] }];
         setChats(updatedChats);
       }
-
+      let keyResponse = await keyApi.getKey();
+      if (keyResponse.data.success) {
+        console.log("🚀 ~ handleAnalyze ~ key:", keyResponse.data.key);
+        var API_KEY = keyResponse.data.key;
+      } else {
+        alert("There was an error sending the message. Please try again.");
+        setLoading(false);
+        return;
+      }
       const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       let contents = updatedChats.map((item) => {
         return {
           role: item.role,
