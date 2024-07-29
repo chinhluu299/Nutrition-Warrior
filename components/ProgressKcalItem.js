@@ -1,40 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Dimensions, View, Text } from "react-native";
 import * as Progress from "react-native-progress";
 import { Colors } from "../resources/Colors";
 
 const widthScreen = Dimensions.get("window").width;
-const heightSreen = Dimensions.get("window").height;
 
 export const ProgressKcalItem = ({ title, target, current }) => {
-  //   const [targetNum, setTargetNum] = useState(0);
-  //   const [currentNum, setCurrentNum] = useState(0);
-  //   const [left, setLeft] = useState(0);
+  const progress =
+    parseFloat(target) === 0 ? 1 : parseFloat(current) / parseFloat(target);
+  const isOverGoal = parseFloat(current) > parseFloat(target);
+  const left = (parseFloat(target) - parseFloat(current)).toFixed(1);
 
-  //   useEffect(() => {
-  //     setTargetNum(parseFloat(target).toFixed(1));
-  //     setCurrentNum(parseFloat(current).toFixed(1));
-  //   }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{title}</Text>
       <Progress.Bar
-        progress={
-          parseFloat(target) == 0 ? 1 : parseFloat(current) / parseFloat(target)
-        }
+        progress={isOverGoal ? 1 : progress}
         width={widthScreen / 6}
         backgroundColor={Colors.background}
         borderWidth={0}
-        color={Colors.primary}
+        color={isOverGoal ? Colors.error : Colors.primary}
         height={3}
         style={styles.progress_bar}
       />
-      <Text style={styles.detail}>
-        {(parseFloat(target) - parseFloat(current)).toFixed(1) < 0
-          ? 0
-          : (parseFloat(target) - parseFloat(current)).toFixed(1)}
-        g left
-      </Text>
+      <View style={styles.detailContainer}>
+        <Text style={[styles.detail, isOverGoal && styles.overGoal]}>
+          {isOverGoal ? `${Math.abs(left)}g over` : `${left}g left`}
+        </Text>
+        <Text style={styles.goalText}>
+          {`${parseFloat(current).toFixed(1)}/${parseFloat(target).toFixed(
+            1
+          )}g`}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -51,12 +49,22 @@ const styles = StyleSheet.create({
   },
   progress_bar: {
     marginTop: 5,
-    //color: Colors.primary
+  },
+  detailContainer: {
+    marginTop: 5,
+    alignItems: "center",
   },
   detail: {
-    marginTop: 5,
     fontWeight: "600",
+    opacity: 0.6,
+  },
+  overGoal: {
+    color: Colors.error,
+  },
+  goalText: {
+    fontSize: 12,
     opacity: 0.4,
+    marginTop: 2,
   },
 });
 
