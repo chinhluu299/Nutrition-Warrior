@@ -33,7 +33,7 @@ const FriendScreen = () => {
   const fetchFollowing = async () => {
     try {
       const res = await axios.get(
-        "http://20.247.46.179:4007/api/v1/user/follow/" + userInfo.id
+        "http://4.144.36.62:4007/api/v1/user/follow/" + userInfo.id
       );
       if (res.status == 200) {
         const data = res.data.data;
@@ -71,9 +71,7 @@ const FriendScreen = () => {
   }, [url]);
   const getUser = async (id) => {
     try {
-      const res = await axios.get(
-        `http://20.247.46.179:4007/api/v1/user/` + url
-      );
+      const res = await axios.get(`http://4.144.36.62:4007/api/v1/user/` + url);
       if (res.status == 200) {
         const data = res.data.data;
         setDeepLink({

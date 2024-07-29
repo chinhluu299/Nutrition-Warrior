@@ -29,6 +29,7 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const SearchScreen = ({ navigation, route }) => {
+  const {meal, date} = route.params;
   const [keyword, setKeyword] = useState("");
   const [result, setResult] = useState(null);
   //const [hints, setHints] = useState("");
@@ -36,7 +37,7 @@ const SearchScreen = ({ navigation, route }) => {
   const [isBusy, setIsBusy] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedFood, setSelectedFood] = useState(null);
-  const [timeEat, setTimeEat] = useState("breakfast");
+  const [timeEat, setTimeEat] = useState(meal ? meal : "breakfast");
   const [numberServing, setNumberServing] = useState(0);
   const userInfo = useSelector((state) => state.rootReducer.user);
   const [isOpen, setIsOpen] = useState(false);
@@ -218,7 +219,7 @@ const SearchScreen = ({ navigation, route }) => {
       console.log(dataReq);
       const res = await dialyLogApi.addFood(
         userInfo.id,
-        format(new Date(), 'yyyy-MM-dd'),
+        (date ? format(date, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')),
         dataReq
       );
       if (res.status == 201) {

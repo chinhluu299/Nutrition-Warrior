@@ -256,7 +256,7 @@ const ProfileScreen = () => {
             )}
             {picture == null || picture == "" ? (
               <Image
-                source={require("../../static/story-1.jpeg")}
+                source={require("../../assets/default-user.jpg")}
                 style={styles.avatar}
               />
             ) : (

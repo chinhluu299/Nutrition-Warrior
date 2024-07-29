@@ -63,11 +63,9 @@ export const styles = StyleSheet.create({
     alignSelf:'center',
   },
   slider_container:{
+    marginBottom: 10,
   },
-  slider: {
-    width: width - 40,
-    height: 100,
-  },
+  
   description: {
     fontSize: 16,
     color: "gray",

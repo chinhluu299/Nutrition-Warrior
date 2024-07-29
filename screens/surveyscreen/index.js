@@ -120,6 +120,12 @@ const SurveyScreen = () => {
         weight: weight,
         activity_level: active,
       });
+      console.log({
+        gender: sex,
+        height: height,
+        weight: weight,
+        activity_level: active,
+      });
       if (res.status == 200) {
         const data = res.data;
         setIsBusy(false);

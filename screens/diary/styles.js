@@ -42,6 +42,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     color: Colors.dark,
+    alignSelf:'center',
+    marginLeft: 10,
   },
 
   foodDetails: {
@@ -100,14 +102,35 @@ export const styles = StyleSheet.create({
     color: Colors.darker,
     fontWeight: "800",
   },
-  sectionContainer: {
-    marginVertical: 16,
-    marginHorizontal: 8,
-    padding: 16,
-    backgroundColor: Colors.lightGray,
-    borderRadius: 8,
-    display: "flex",
+  sectionTab: {
+    width: width - 32,
     flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 16,
+  },
+  sectionContainer: {
+    // padding: 16,
+    borderRadius: 8,
+    width: width * 0.28,
+    height: width * 0.28,
+    backgroundColor: Colors.third,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sectionContainer_select: {
+    padding: 16,
+    borderRadius: 8,
+    width: width * 0.28,
+    height: width * 0.28,
+    backgroundColor: Colors.primary,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  meal_icon: {
+    width: 40,
+    height: 40,
   },
   sectionTitle: {
     fontSize: 18,
@@ -122,14 +145,16 @@ export const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: Colors.primary,
+
     paddingVertical: 8,
     paddingHorizontal: 12, // Adjusted padding
     borderRadius: 4,
-    marginTop: 8,
+    marginTop: 16,
   },
   buttonText: {
-    color: Colors.light_gray,
+    textAlign:'center',
     fontWeight: "bold",
+    color: Colors.primary_3
   },
   calories: {
     marginVertical: 16,
@@ -141,6 +166,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "row",
     borderRadius: 15,
+    height: width * 0.28,
   },
   content: {
     flex: 1,
@@ -166,16 +192,19 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
     textTransform: "uppercase",
   },
-  section_icon: {
-    color: Colors.red,
-    padding: 15,
-    backgroundColor: Colors.third,
-    alignSelf: "center",
-    marginRight: 20,
-    borderRadius: 10,
+  // section_icon: {
+  //   color: Colors.red,
+  //   padding: 15,
+  //   backgroundColor: Colors.third,
+  //   alignSelf: "center",
+  //   borderRadius: 10,
+  //   width: width * 0.3,
+  //   height: width * 0.3,
+  // },
+  food_container: {
+    flex: 1,
+    marginHorizontal: 16,
+    width: width - 32,
+    marginVertical: 16,
   },
-  food_container:{
-    flex:1,
-    marginRight:10
-  }
 });

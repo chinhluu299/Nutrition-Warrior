@@ -16,6 +16,7 @@ import Slider from "@react-native-community/slider";
 import { Colors } from "../../resources/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import store from "../../app/store";
+import MotionSlider from "react-native-motion-slider";
 
 const MacroScreen = ({ route }) => {
   const { data, tdee } = route.params;
@@ -67,8 +68,8 @@ const MacroScreen = ({ route }) => {
 
   const [isBusy, setIsBusy] = useState(false);
 
-  const setStateReturn = (type, value) => {
-    switch (type) {
+  const setStateReturn = (step,value) => {
+    switch (step) {
       case 1:
         setProteinPerKg(value);
         break;
@@ -198,12 +199,14 @@ const MacroScreen = ({ route }) => {
         dispatch({
           type: "UPDATE_USER_MACRO",
           payload: {
-            tdee: tdee,
+            tdee: tdee.toFixed(2),
             goal: data.goal,
             caloric_intake_goal: value.caloric_intake_goal,
             daily_protein_goal: value.daily_protein_goal,
             daily_fat_goal: value.daily_fat_goal,
             daily_carb_goal: value.daily_carb_goal,
+            height: data.height,
+            current_weight: data.weight,
             first_login: true,
           },
         });
@@ -237,7 +240,7 @@ const MacroScreen = ({ route }) => {
         deficit_percentage: deficitPercent,
         surplus_percentage: surplusPercent,
         daily_fat_percentage: dailyFat,
-        tdee: tdee,
+        tdee: tdee.toFixed(2),
       };
       console.log(dataObj);
       const res = await macroApi.getMacro(dataObj);

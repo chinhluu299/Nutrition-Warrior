@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Platform,
   ScrollView,
+  Image,
 } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
 import {
@@ -32,6 +33,7 @@ const DiaryScreen = ({ route }) => {
   const [exerciseData, setExerciseData] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [foodItems, setFoodItems] = useState([]);
+  const [meal, setMeal] = useState(0);
   const navigation = useNavigation();
 
   const handleExerciseItemPress = (exerciseEntry) => {
@@ -88,7 +90,10 @@ const DiaryScreen = ({ route }) => {
   }, [selectedDate, userData]);
   const goToAnalytics = () => {
     navigation.navigate("Analytic");
-  }
+  };
+  const addFoodHistory = async (meal) => {
+    navigation.navigate("Search", {meal: meal, date: selectedDate});
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
       <View style={styles.header}>
@@ -129,14 +134,58 @@ const DiaryScreen = ({ route }) => {
           <Text style={styles.calories_text}>Calories Remaining</Text>
         </View>
       </TouchableOpacity>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.sectionContainer}>
-          <MaterialIcons
-            name="free-breakfast"
-            size={35}
-            style={styles.section_icon}
-          />
-          <View style={styles.food_container}>
+      <View style={{ flex: 1 }}>
+        <View style={styles.sectionTab}>
+          <TouchableOpacity
+            style={
+              meal == 0
+                ? styles.sectionContainer_select
+                : styles.sectionContainer
+            }
+            onPress={() => {
+              setMeal(0);
+            }}
+          >
+            <Image
+              source={require("../../assets/breakfast.png")}
+              style={styles.meal_icon}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={
+              meal == 1
+                ? styles.sectionContainer_select
+                : styles.sectionContainer
+            }
+            onPress={() => {
+              setMeal(1);
+            }}
+          >
+            <Image
+              source={require("../../assets/lunch.png")}
+              style={styles.meal_icon}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={
+              meal == 2
+                ? styles.sectionContainer_select
+                : styles.sectionContainer
+            }
+            onPress={() => {
+              setMeal(2);
+            }}
+          >
+            <Image
+              source={require("../../assets/dinner.png")}
+              style={styles.meal_icon}
+            />
+          </TouchableOpacity>
+        </View>
+        {meal == 0 ? (
+          <ScrollView style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Breakfast</Text>
             </View>
@@ -145,7 +194,13 @@ const DiaryScreen = ({ route }) => {
             foodItems.breakfast.length > 0 ? (
               foodItems.breakfast.map((food, index) => (
                 <View key={index} style={styles.foodItem}>
-                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      style={{ width: 60, height: 60 }}
+                      source={{ uri: food.image }}
+                    />
+                    <Text style={styles.foodLabel}>{food.label}</Text>
+                  </View>
                   <Text style={styles.foodDetails}>
                     {food.nutrients.ENERC_KCAL} kcal
                   </Text>
@@ -154,20 +209,15 @@ const DiaryScreen = ({ route }) => {
             ) : (
               <Text>No breakfast items</Text>
             )}
-          </View>
-
-          {/* <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <MaterialIcons
-            name="lunch-dining"
-            size={35}
-            style={styles.section_icon}
-          />
-          <View style={styles.food_container}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => addFoodHistory("breakfast")}
+            >
+              <Text style={styles.buttonText}>Add Food</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        ) : meal == 1 ? (
+          <ScrollView style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Lunch</Text>
             </View>
@@ -175,27 +225,29 @@ const DiaryScreen = ({ route }) => {
             {foodItems && foodItems.lunch && foodItems.lunch.length > 0 ? (
               foodItems.lunch.map((food, index) => (
                 <View key={index} style={styles.foodItem}>
-                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      style={{ width: 60, height: 60 }}
+                      source={{ uri: food.image }}
+                    />
+                    <Text style={styles.foodLabel}>{food.label}</Text>
+                  </View>
+
                   <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
                 </View>
               ))
             ) : (
               <Text>No lunch items</Text>
             )}
-          </View>
-
-          {/* <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <MaterialCommunityIcons
-            name="food-apple"
-            size={35}
-            style={styles.section_icon}
-          />
-          <View style={styles.food_container}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => addFoodHistory("lunch")}
+            >
+              <Text style={styles.buttonText}>Add Food</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        ) : (
+          <ScrollView style={styles.food_container}>
             <View style={styles.titleContainer}>
               <Text style={styles.sectionTitle}>Dinner</Text>
             </View>
@@ -203,20 +255,28 @@ const DiaryScreen = ({ route }) => {
             {foodItems && foodItems.dinner && foodItems.dinner.length > 0 ? (
               foodItems.dinner.map((food, index) => (
                 <View key={index} style={styles.foodItem}>
-                  <Text style={styles.foodLabel}>{food.label}</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      style={{ width: 60, height: 60 }}
+                      source={{ uri: food.image }}
+                    />
+                    <Text style={styles.foodLabel}>{food.label}</Text>
+                  </View>
                   <Text>{food.nutrients.ENERC_KCAL} kcal</Text>
                 </View>
               ))
             ) : (
               <Text>No dinner items</Text>
             )}
-          </View>
-
-          {/* <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.buttonText}>Add Food</Text>
-          </TouchableOpacity> */}
-        </View>
-      </ScrollView>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => addFoodHistory("dinner")}
+            >
+              <Text style={styles.buttonText}>Add Food</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        )}
+      </View>
 
       {/* <View style={styles.sectionContainer}>
           <View style={styles.titleContainer}>

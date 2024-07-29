@@ -24,6 +24,15 @@ const ProgressKcal = ({ target, current }) => {
     color: (opacity = 1) => `rgba(0,162,153,0.6)`,
   };
 
+  const chartConfig2 = {
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientFromOpacity: 1,
+    backgroundGradientTo: "#FFFFFF",
+    backgroundGradientToOpacity: 1,
+    //  color: (opacity = 1) => `rgba(57, 184, 120, 0.7)`,
+    color: (opacity = 1) => `rgba(255,69,0,1)`,
+  };
+
   return (
     <View style={styles.container}>
       <ProgressChart
@@ -33,16 +42,14 @@ const ProgressKcal = ({ target, current }) => {
         height={160}
         strokeWidth={16}
         radius={71.9}
-        chartConfig={chartConfig}
+        chartConfig={target - current >= 0 ? chartConfig : chartConfig2}
         hideLegend={true}
       ></ProgressChart>
       <View style={styles.content}>
         <Text style={styles.content_number}>
-          {(target - current).toFixed(2) < 0
-            ? 0
-            : (target - current).toFixed(2)}
+          {Math.abs((target - current).toFixed(2))}
         </Text>
-        <Text style={styles.content_text}>Kcal Left</Text>
+        <Text style={styles.content_text}>{target - current >= 0 ? "Kcal Left" : "Excess Kcal"}</Text>
       </View>
     </View>
   );
