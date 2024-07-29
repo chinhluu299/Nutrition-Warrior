@@ -15,7 +15,7 @@ export const Colors = {
   text_white: "#FFF",
   light_gray: "#E8E9EB",
   light_gray_2: "#CCCDC6",
-  red: "#DC143C",
+  error: "#DC143C",
   orange: "#F28322",
   brown: "#CE8B54",
   yellow: "#FFDB00",
