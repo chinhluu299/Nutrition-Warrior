@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   View,
-  Button,
+  TouchableOpacity,
   Image,
   ActivityIndicator,
   StyleSheet,
@@ -9,12 +9,12 @@ import {
   Text,
   FlatList,
   Dimensions,
-  TouchableOpacity,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Colors } from "../../resources/Colors";
 import Back from "../../components/Back";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const { width } = Dimensions.get("window");
 
@@ -40,6 +40,8 @@ const MealAnalyzeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [imageUris, setImageUris] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [analysis, setAnalysis] = useState("");
+  const [advice, setAdvice] = useState("");
 
   const handleImagePicker = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -74,42 +76,33 @@ const MealAnalyzeScreen = ({ navigation }) => {
     }
   };
 
-  const API_KEY = "AIzaSyB-ZAPGcMZfqZPUHSi6oszgvWCiOAVWBsg";
+  const API_KEY = "AIzaSyBcDJy5RSggu9Y-_w76AD2raqOP6kavYCw";
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const handleAnalyze = async () => {
     setLoading(true);
-    const prompt = `**Analyze the image:**
+    const analysisPrompt = `Analyze the image and provide a detailed breakdown of the food items:
 
-* Identify all food items present in the image.
-* For each food item:
-  * Estimate the portion size.
-  * Provide a general nutritional breakdown (calories, carbohydrates, protein, fat, fiber).
-  * Indicate if the food is a good source of any specific vitamins or minerals.
-* If the image does not  contain any food, state "The image does not contain any food items."
+1. Identify all food items in the image.
+2. For each food item:
+   - Estimate the portion size
+   - Provide nutritional information (calories, carbs, protein, fat, fiber)
+   - List key vitamins and minerals
 
-**Example output:**
+Format the response clearly with bullet points and sections for each food item.
+If no food is present, state "No food items detected in the image."`;
 
-The image shows a plate with a medium-sized grilled salmon fillet (approximately 150g), a side of roasted broccoli (approximately 1 cup), and a small bowl of brown rice (approximately 1/2 cup).
+    const advicePrompt = `Based on the food items identified, provide nutritional advice:
 
-- Salmon (150g): Calories: 250, Protein: 30g, Fat: 12g, Carbohydrates: 0g, Fiber: 0g. Salmon is a good source of omega-3 fatty acids, vitamin D, and selenium.
-- Broccoli (1 cup): Calories: 50, Protein: 4g, Fat: 0.5g, Carbohydrates: 10g, Fiber: 2.5g. Broccoli is a good source of vitamin C, vitamin K, and folate.
-- Brown rice (1/2 cup): Calories: 100, Protein: 5g, Fat: 1g, Carbohydrates: 20g, Fiber: 2g. Brown rice is a good source of fiber and complex carbohydrates.
+1. Evaluate if the meal is balanced and nutritionally complete.
+2. Suggest improvements or additions if needed.
+3. Highlight any potential health benefits or concerns.
+4. Provide 2-3 quick tips for making the meal healthier.
 
-Overall, this meal provides a good balance of protein, healthy fats, carbohydrates, and fiber. It is also a good source of omega-3 fatty acids, vitamin C, vitamin D, vitamin K, selenium, and folate.**`;
-    const advicePrompt = `Based on the identified food items in the image and their nutritional content, analyze whether the meal provides a balanced and complete nutritional intake.
+Format the response with clear headings and bullet points for easy readability.
+Note: This advice is for informational purposes and does not replace professional dietary guidance.`;
 
-* If the meal is adequate, state that it provides a good balance of nutrients.
-* If the meal lacks some essential vitamins or minerals, identify the missing nutrients and suggest specific food sources rich in those nutrients.
-
-**Example output:**
-
-This meal appears to be a well-balanced and nutritious choice. However, it might be beneficial to include a source of vitamin A, such as carrots, oranges, or leafy greens.
-
-- Additional tips:
-
-* Consider adding a disclaimer that the provided information is for general informational purposes and should not substitute professional dietary advice. Remember to response with readable formatting`;
     try {
       const imageParts = await Promise.all(
         imageUris.map(async (uri) => {
@@ -120,14 +113,24 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
         })
       );
 
-      const result = await model.generateContent([prompt, ...imageParts]);
-      const response = await result.response.text();
-      console.log("🚀 ~ handleAnalyze ~ response:", response);
+      const analysisResult = await model.generateContent([
+        analysisPrompt,
+        ...imageParts,
+      ]);
+      let analysisResponse = await analysisResult.response.text();
+      analysisResponse = analysisResponse.replace(/[*#]/g, "");
+      setAnalysis(analysisResponse);
 
-      setTimeout(() => {
-        setLoading(false);
-        navigation.navigate("ResultScreen", { response, imageUris });
-      }, 2000);
+      const adviceResult = await model.generateContent([
+        advicePrompt,
+        analysisResponse,
+      ]);
+      let adviceResponse = await adviceResult.response.text();
+      adviceResponse = adviceResponse.replace(/[*#]/g, "");
+      setAdvice(adviceResponse);
+      console.log("🚀 ~ handleAnalyze ~ adviceResponse:", adviceResponse);
+      console.log("🚀 ~ handleAnalyze ~ analysisResponse:", analysisResponse);
+      setLoading(false);
     } catch (error) {
       console.error("Error analyzing images:", error);
       setLoading(false);
@@ -152,32 +155,35 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
         style={styles.removeButton}
         onPress={() => removeImage(index)}
       >
-        <Text style={styles.removeButtonText}>X</Text>
+        <Icon name="close" size={20} color="white" />
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView
+      style={styles.scrollContainer}
+      contentContainerStyle={styles.scrollContentContainer}
+    >
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color={Colors.primary} />
         ) : (
-          <View style={styles.innerContainer}>
-            <Button
-              title="Select from Gallery"
-              onPress={handleImagePicker}
-              // color="#6200EE"
-              color={Colors.primary}
-            />
-            <View style={styles.space} />
-            <Button
-              title="Take a Picture"
-              onPress={handleCamera}
-              // color="#6200EE"
-              color={Colors.primary}
-            />
-            <View style={styles.space} />
+          <>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleImagePicker}
+              >
+                <Icon name="photo-library" size={24} color="white" />
+                <Text style={styles.buttonText}>Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleCamera}>
+                <Icon name="camera-alt" size={24} color="white" />
+                <Text style={styles.buttonText}>Camera</Text>
+              </TouchableOpacity>
+            </View>
+
             {imageUris.length > 0 ? (
               <View style={styles.carouselContainer}>
                 <FlatList
@@ -201,47 +207,73 @@ This meal appears to be a well-balanced and nutritious choice. However, it might
                     />
                   ))}
                 </View>
-                <View style={styles.space} />
-                <Button
-                  title="Analyze"
+                <TouchableOpacity
+                  style={styles.analyzeButton}
                   onPress={handleAnalyze}
-                  color={Colors.primary}
-                />
+                >
+                  <Text style={styles.analyzeButtonText}>Analyze</Text>
+                </TouchableOpacity>
               </View>
             ) : (
               <Text style={styles.text}>No image selected</Text>
             )}
-          </View>
+
+            {analysis && (
+              <View style={styles.resultSection}>
+                <Text style={styles.sectionTitle}>Analysis</Text>
+                <Text style={styles.resultText}>{analysis}</Text>
+              </View>
+            )}
+
+            {advice && (
+              <View style={styles.resultSection}>
+                <Text style={styles.sectionTitle}>Advice</Text>
+                <Text style={styles.resultText}>{advice}</Text>
+              </View>
+            )}
+          </>
         )}
       </View>
-      <Back backEvent={() => navigation.goBack()} />
+      {/* <Back backEvent={() => navigation.goBack()} /> */}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   scrollContainer: {
+    marginTop: "10%",
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  scrollContentContainer: {
     flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
   },
   container: {
     flex: 1,
+    padding: 20,
     justifyContent: "center",
-    alignItems: "center",
   },
-  innerContainer: {
-    alignItems: "center",
-    width: "100%",
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 20,
   },
-  space: {
-    height: 10,
+  button: {
+    backgroundColor: Colors.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "white",
+    marginLeft: 8,
+    fontSize: 16,
   },
   carouselContainer: {
-    height: "70%",
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 20,
   },
   flatList: {
     height: 220,
@@ -260,35 +292,58 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    backgroundColor: "rgba(255, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     borderRadius: 15,
     width: 30,
     height: 30,
     justifyContent: "center",
     alignItems: "center",
   },
-  removeButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   dotsContainer: {
     flexDirection: "row",
     marginTop: 10,
   },
   dot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    // backgroundColor: "#6200EE",
+    height: 8,
+    width: 8,
+    borderRadius: 4,
     backgroundColor: Colors.secondary_2,
-    margin: 5,
+    margin: 4,
+  },
+  analyzeButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  analyzeButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   text: {
     marginTop: 20,
     fontSize: 16,
     color: "#666",
+    textAlign: "center",
+  },
+  resultSection: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    elevation: 2,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+    color: Colors.primary,
+  },
+  resultText: {
+    fontSize: 16,
+    lineHeight: 24,
   },
 });
-
 export default MealAnalyzeScreen;
