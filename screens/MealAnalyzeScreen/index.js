@@ -15,6 +15,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Colors } from "../../resources/Colors";
 import Back from "../../components/Back";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import keyApi from "../../api/keyApi";
 
 const { width } = Dimensions.get("window");
 
@@ -82,7 +83,21 @@ const MealAnalyzeScreen = ({ navigation }) => {
 
   const handleAnalyze = async () => {
     setLoading(true);
-    const analysisPrompt = `Analyze the image and provide a detailed breakdown of the food items:
+    try {
+      let keyResponse = await keyApi.getKey();
+      console.log("🚀 ~ handleAnalyze ~ keyResponse:", keyResponse);
+      if (keyResponse.data.success) {
+        console.log("🚀 ~ handleAnalyze ~ key:", keyResponse.data.key);
+        var API_KEY = keyResponse.data.key;
+        var genAI = new GoogleGenerativeAI(API_KEY);
+        var model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      } else {
+        alert("There was an error analyzing the images. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      const analysisPrompt = `Analyze the image and provide a detailed breakdown of the food items:
 
 1. Identify all food items in the image.
 2. For each food item:
@@ -93,7 +108,7 @@ const MealAnalyzeScreen = ({ navigation }) => {
 Format the response clearly with bullet points and sections for each food item.
 If no food is present, state "No food items detected in the image."`;
 
-    const advicePrompt = `Based on the food items identified, provide nutritional advice:
+      const advicePrompt = `Based on the food items identified, provide nutritional advice:
 
 1. Evaluate if the meal is balanced and nutritionally complete.
 2. Suggest improvements or additions if needed.
@@ -103,7 +118,6 @@ If no food is present, state "No food items detected in the image."`;
 Format the response with clear headings and bullet points for easy readability.
 Note: This advice is for informational purposes and does not replace professional dietary guidance.`;
 
-    try {
       const imageParts = await Promise.all(
         imageUris.map(async (uri) => {
           const response = await fetch(uri);
