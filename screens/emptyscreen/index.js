@@ -77,6 +77,19 @@ const EmptyScreen = () => {
           />
           <Text style={styles.daily_action_text}>Profile</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.daily_action_item}
+          onPress={() => {
+            navigation.navigate("Feedback");
+          }}
+        >
+          <MaterialCommunityIcons
+            size={50}
+            name="speaker"
+            color={Colors.primary_2}
+          />
+          <Text style={styles.daily_action_text}>Feedback</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.daily_action_item} onPress={logOut}>
           <MaterialCommunityIcons
             size={50}

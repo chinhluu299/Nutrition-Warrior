@@ -37,6 +37,7 @@ import ResultScreen from "./screens/ResultScreen";
 // import FeedbackScreen from "./screens/FeedbackScreen";
 import { registerForPushNotificationsAsync } from "./utils/tokenRegister";
 import * as Notifications from "expo-notifications";
+import FeedbackScreen from "./screens/FeedbackScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -175,6 +176,7 @@ const App = () => {
             animation: "slide_from_right",
           }}
         />
+
         {/* <Stack.Screen
             name="Follow"
             component={FollowScreen}
@@ -260,6 +262,11 @@ const App = () => {
         <Stack.Screen
           name="MealAnalyzeScreen"
           component={MealAnalyzeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Feedback"
+          component={FeedbackScreen}
           options={{ headerShown: false }}
         />
         {/* <Stack.Screen

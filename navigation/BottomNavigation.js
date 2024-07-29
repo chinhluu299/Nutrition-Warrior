@@ -27,7 +27,7 @@ const diaryName = "Diary";
 const searchName = "Search";
 const socialName = "Social";
 const adviceName = "Advice";
-const settingName = "Setting";
+const settingName = "Advance";
 
 const Tab = createBottomTabNavigator();
 

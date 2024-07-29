@@ -22,7 +22,7 @@ const FeedbackScreen = () => {
   useEffect(() => {
     axios
       .get(
-        `https://73c5-113-185-94-184.ngrok-free.app/api/analysis/analyze/${userId}`
+        `https://a048-171-252-153-193.ngrok-free.app/api/analysis/analyze/${userId}`
       )
       .then((response) => {
         setData(response.data.data);
