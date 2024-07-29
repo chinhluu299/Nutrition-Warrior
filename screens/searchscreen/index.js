@@ -166,7 +166,7 @@ const SearchScreen = ({ navigation, route }) => {
   const handleChange = (text) => {
     // Allow only numbers
     const numericValue = text.replace(/[^0-9]/g, "");
-    setNumberServing(parseInt(numericValue));
+    setNumberServing(parseFloat(numericValue));
   };
   const getCurrentDate = () => {
     const currentDate = new Date();

@@ -160,11 +160,11 @@ const App = () => {
             component={EmptyScreen}
             options={{ headerShown: false }}
           />  */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Story"
           component={StoryScreen}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
           name="UpStory"
           component={UpstoryScreen}

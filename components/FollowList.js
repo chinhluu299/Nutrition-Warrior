@@ -68,7 +68,7 @@ const FollowList = ({ users, setUsers }) => {
         <View style={styles.messageItem}>
           <View style={styles.messageAvatar}>
             <Image
-              source={{ uri: item.avatar }}
+              source={item.avatar ? { uri: item.avatar } : require("../assets/default-user.jpg")}
               resizeMode="cover"
               style={styles.content_author_image}
             />

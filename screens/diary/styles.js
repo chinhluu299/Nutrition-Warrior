@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginVertical: 2,
     //borderBottomWidth: 1,
     //borderBottomColor: Colors.lighter,
   },

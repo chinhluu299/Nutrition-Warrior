@@ -45,7 +45,7 @@ const ProfileScreen = () => {
     userInfo.email == null ? "" : userInfo.email
   );
   const [phone, setPhone] = useState(
-    userInfo.phone == null ? "" : userInfo.phone
+    userInfo.phone_number == null ? "" : userInfo.phone_number
   );
   const [gender, setGender] = useState(
     userInfo.gender == null ? "" : userInfo.gender
@@ -161,6 +161,10 @@ const ProfileScreen = () => {
       if (res.status == 200) {
         const data = res.data;
         if (data.success) {
+          dispatch({
+            type: "UPDATE_USER",
+            payload: data.data,
+          });
           setIsEdit(false);
           Toast.show({
             type: "success",

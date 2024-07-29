@@ -58,10 +58,11 @@ const CustomTabBarButton = ({ children, onPress }) => (
   </TouchableOpacity>
 );
 
-function BottomNavigation() {
+function BottomNavigation({route}) {
+  const { screen } = route.params ? route.params : { screen: null };
   return (
     <Tab.Navigator
-      initialRouteName={homeName}
+      initialRouteName={screen == "social" ? socialName : homeName }
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -90,7 +91,6 @@ function BottomNavigation() {
           }
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
-          
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: "grey",

@@ -21,8 +21,11 @@ import { styles } from "./style";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import LoadingLottie from "../../components/LoadingLottie";
+import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
 
 const UpstoryScreen = ({ navigation }) => {
+  const userInfo = useSelector((state) => state.rootReducer.user);
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -77,23 +80,26 @@ const UpstoryScreen = ({ navigation }) => {
   const upload = async () => {
     setBusy(true);
     const frm = new FormData();
-    frm.append("author", "65841052d8cdd868451e9edb");
+    frm.append("author", userInfo.id);
     frm.append("content", text);
     frm.append("media", {
-      uri: capturedImage,
+      uri: capturedImage.uri,
       type: "image/jpeg",
       name: "story_image.jpg",
     });
     try {
+      console.log(frm);
       const res = await axios.postForm(
-        "https://865d-115-79-219-34.ngrok-free.app/api/v1/story",
+        "http://4.144.36.62:4007/api/v1/story",
         frm
       );
       if (res.status === 201) {
         setTimeout(() => {
           setBusy(false);
           navigation.reset({
-            routes: [{ name: "Story" }],
+            routes: [
+              { name: "MainScreen", params: {screen: "social" }},
+            ],
           });
         }, 1000);
       } else {
@@ -101,6 +107,7 @@ const UpstoryScreen = ({ navigation }) => {
       }
     } catch (error) {
       setBusy(false);
+      console.log(error)
       Toast.show({
         type: "error",
         text1: "Upload stories failed! Try again!",
@@ -136,7 +143,7 @@ const UpstoryScreen = ({ navigation }) => {
         onPress={upload}
         disabled={false}
       >
-        <Ionicons name="arrow-forward-circle" size={60} />
+        <Ionicons name="arrow-forward" size={40} color={"#FFF"} />
       </TouchableOpacity>
     );
   };
@@ -195,7 +202,7 @@ const UpstoryScreen = ({ navigation }) => {
         {capturedImage != null ? (
           <ImageBackground
             source={{ uri: capturedImage.uri }}
-            style={{ flex: 1 }}
+            style={styles.image_captured}
           />
         ) : (
           <Camera
@@ -210,6 +217,7 @@ const UpstoryScreen = ({ navigation }) => {
           : isText == false
           ? renderUploadButton()
           : ""}
+        <Toast position="top" topOffset={30} style={{ zIndex: 1000 }} />
       </View>
     ) : (
       <LoadingLottie isBusy={busy} />

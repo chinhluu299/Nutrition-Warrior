@@ -4,15 +4,14 @@
     "slug": "nutrition-warrior",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "com.nutriwarrior",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -22,9 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.nutriwarrior",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "intentFilters": [
         {
           "action": "VIEW",
@@ -36,10 +33,7 @@
               "pathPrefix": "/links/"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ]
     },

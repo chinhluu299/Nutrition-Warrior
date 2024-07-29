@@ -2,8 +2,8 @@ import axios from "axios";
 import store from "../app/store";
 
 const axiosClient = axios.create({
-  //baseURL: "http://20.6.160.193:8000/api", //host
-  baseURL: "https://8fb7-171-252-153-193.ngrok-free.app/api", //host
+  //baseURL: "http://20.255.203.16:8000/api", //host
+  baseURL: "https://a048-171-252-153-193.ngrok-free.app/api", //host
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,6 +23,15 @@ axiosClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+// axiosClient.interceptors.response.use(
+//   (res) => {
+//     return res;
+//   },
+//   async (err) => {
+//     const originalConfig = err.config;
+//     console.log(err)
+//   }
+// );
 
 // axiosClient.interceptors.response.use(
 //   (res) => {

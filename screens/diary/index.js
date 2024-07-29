@@ -74,7 +74,7 @@ const DiaryScreen = ({ route }) => {
     });
 
     setCaloriesIntake(selectedDayLog ? selectedDayLog.caloric_intake : 0);
-    console.log(userData);
+    // console.log(userData);
     setCaloriesRemain(
       selectedDayLog
         ? Math.floor(selectedDayLog.caloric_remain)

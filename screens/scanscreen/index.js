@@ -179,8 +179,10 @@ Ensure that each detected food item appears only once in the "detected_objects" 
             }
           } catch (error) {
             handlePresentModal();
+            setIsScanning(false);
           }
         }
+        setIsScanning(false);
       } else {
         console.error(response.data.message);
       }

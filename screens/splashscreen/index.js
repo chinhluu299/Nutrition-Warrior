@@ -33,7 +33,7 @@ const SplashScreen = ({ navigation }) => {
     loadFonts();
   }, []);
   const OnNextStep = () => {
-    console.log(userInfo)
+    // console.log(userInfo)
     if(userInfo.id)
       if(!userInfo.first_login)
         navigation.navigate("MainScreen", {}, { reset: true });

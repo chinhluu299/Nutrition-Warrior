@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 const TdeeScreen = ({ route }) => {
   const { data, tdee } = route.params;
   const navigation = useNavigation();
-  const [tdeeEdit, setTdeeEdit] = useState(0);
+  const [tdeeEdit, setTdeeEdit] = useState(tdee);
   const [isEdit, setIsEdit] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -71,7 +71,8 @@ const TdeeScreen = ({ route }) => {
               <TextInput
                 style={styles.text_input}
                 value={tdeeEdit}
-                onChange={(text) => setTdeeEdit(text)}
+                keyboardType="numeric"
+                onChange={(text) => setTdeeEdit(parseFloat(text))}
               />
               <Text
                 style={styles.description}
