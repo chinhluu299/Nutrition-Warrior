@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { LineChart } from "react-native-chart-kit";
+import feedbackApi from "../../api/feedbackApi";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -20,12 +21,26 @@ const FeedbackScreen = () => {
   const userId = useSelector((state) => state.rootReducer.user.id);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://17d3-171-250-122-141.ngrok-free.app/api/analysis/analyze/${userId}`
-      )
+    // axios
+    //   .get(
+    //     `https://17d3-171-250-122-141.ngrok-free.app/api/analysis/analyze/${userId}`
+    //   )
+    //   .then((response) => {
+    //     setData(response.data.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     setLoading(false);
+    //   });
+    feedbackApi
+      .getFeedback(userId)
       .then((response) => {
-        setData(response.data.data);
+        const sortedLogs = response.data.data.logs.sort(
+          (a, b) => new Date(a.date) - new Date(b.date)
+        );
+        setData({ ...response.data.data, logs: sortedLogs });
+        console.log("kkk: ", response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -83,7 +98,7 @@ const FeedbackScreen = () => {
 
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Weight Progress</Text>
-            <Text style={styles.cardContent}>{data.weight_progress}</Text>
+            {/* <Text style={styles.cardContent}>{data.weight_progress}</Text> */}
             <View style={styles.chartContainer}>
               <LineChart
                 data={weightChartData}
