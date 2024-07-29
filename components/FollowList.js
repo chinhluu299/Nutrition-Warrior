@@ -26,7 +26,7 @@ const FollowList = ({ users, setUsers }) => {
         userId: userInfo.id,
         targetId: val.id,
       });
-      await axios.post("http://4.144.36.62:4007/api/v1/user/follow", {
+      await axios.post("http://20.6.147.90:4007/api/v1/user/follow", {
         userId: userInfo.id,
         targetId: val.id,
       });
@@ -47,7 +47,7 @@ const FollowList = ({ users, setUsers }) => {
     try {
       await axios.request({
         method: "delete",
-        url: "http://4.144.36.62:4007/api/v1/user/follow",
+        url: "http://20.6.147.90:4007/api/v1/user/follow",
         data: {
           userId: userInfo.id,
           targetId: val.id,

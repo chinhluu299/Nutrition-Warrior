@@ -20,7 +20,6 @@ const ForgotPasswordScreen = () => {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isBusy, setIsBusy] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -113,9 +112,37 @@ const ForgotPasswordScreen = () => {
   const toLogin = () => {
     navigation.navigate("Login", {}, { reset: true });
   };
-  const submitHandle = () => {
-    if (step <= 3) {
-      setStep(step + 1);
+  const submitHandle = async () => {
+    if (step == 2) {
+      await confirmOtpHandle();
+    } else if (step == 3) {
+      try {
+        const res = await authApi.changePassword({
+          email: email,
+          password: password
+        });
+        if (res.status == 200) {
+          Toast.show({
+            type: "success",
+            text1: "Reset successfully!",
+          });
+          setTimeout(() => {
+            navigation.navigate("Login", {}, { reset: true });
+          }, 1000);
+        } else {
+          Toast.show({
+            type: "error",
+            text1: res.data.message,
+          });
+        }
+        setIsBusy(false);
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: error.message,
+        });
+        setIsBusy(false);
+      }
     }
   };
 
@@ -323,6 +350,7 @@ const ForgotPasswordScreen = () => {
               <TextInput
                 style={styles.input_text}
                 placeholder="Enter new password"
+                secureTextEntry={true}
                 value={password}
                 onChangeText={(text) => setPassword(text)}
               />
@@ -332,6 +360,7 @@ const ForgotPasswordScreen = () => {
                 style={styles.input_text}
                 placeholder="Confirm your password"
                 value={confirmPassword}
+                secureTextEntry={true}
                 onChangeText={(text) => setConfirmPassword(text)}
               />
             </View>

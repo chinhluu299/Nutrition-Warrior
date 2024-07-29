@@ -90,7 +90,7 @@ const UpstoryScreen = ({ navigation }) => {
     try {
       console.log(frm);
       const res = await axios.postForm(
-        "http://4.144.36.62:4007/api/v1/story",
+        "http://20.6.147.90:4007/api/v1/story",
         frm
       );
       if (res.status === 201) {
