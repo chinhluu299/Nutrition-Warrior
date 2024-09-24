@@ -74,6 +74,30 @@
 **Social Service:** *(status is private, will update soon)*
 
 ### Demo:
-Scan Food:
+*Scan Food:*
+
 https://github.com/user-attachments/assets/d3a9d22f-ac13-4405-91e2-a58005d59b95
+
+
+*FeedBack:*
+
+https://github.com/user-attachments/assets/285b84e0-0a1a-45f7-8e43-810607134513
+
+
+*Survey:*
+
+https://github.com/user-attachments/assets/5193f8d0-fbe2-44d0-bf17-b00afa06be08
+
+
+*Fitness:*
+
+https://github.com/user-attachments/assets/580c3722-375e-44eb-b9dd-df2c7b864d89
+
+
+*Diary:*
+
+https://github.com/user-attachments/assets/598ccba4-f01a-47f8-8322-f85a00c613f4
+
+
+
 
