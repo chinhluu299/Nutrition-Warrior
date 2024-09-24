@@ -69,6 +69,11 @@
 
 **Main Service:** https://github.com/huynnq02/nutrition-warrior-backend
 
-**Notification Service:** 
+**Notification Service:** *(status is private, will update soon)*
 
-**Social Service:**
+**Social Service:** *(status is private, will update soon)*
+
+### Demo:
+Scan Food:
+https://github.com/user-attachments/assets/d3a9d22f-ac13-4405-91e2-a58005d59b95
+
